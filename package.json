@@ -1,0 +1,8 @@
+{
+  "name": "elite-football-academy",
+  "version": "1.0.0",
+  "description": "Site Elite Football Academy — vitrine + inscriptions + espace admin",
+  "private": true,
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
+}
