@@ -132,6 +132,10 @@ a{color:inherit;text-decoration:none}
 .ins-form input,.ins-form select,.ins-form textarea{width:100%;margin-top:.3rem;padding:.7rem .8rem;border:1px solid #d4d9d3;border-radius:9px;font-family:inherit;font-size:.92rem;font-weight:500;background:#fcfdfb}
 .ins-form input:focus,.ins-form select:focus,.ins-form textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,175,55,.2)}
 .ins-hint{font-size:.78rem;color:var(--muted);text-align:center;margin-top:.7rem;font-weight:500}
+.ins-confirm{margin-top:1rem;padding:1rem;border-radius:12px;background:#eaf7ef;border:1px solid #bfe6cd}
+.ins-confirm p{font-size:.9rem;color:var(--green);margin-bottom:.8rem;text-align:center}
+.btn-wa{background:#25D366;color:#fff;box-shadow:0 8px 22px rgba(37,211,102,.32)}
+.btn-wa:hover{transform:translateY(-2px);filter:brightness(1.05)}
 
 /* footer */
 .footer{background:#070a08;color:#cfd6d0;padding:3.4rem 0 0;border-top:3px solid var(--gold)}

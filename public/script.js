@@ -55,17 +55,27 @@ document.addEventListener("DOMContentLoaded",()=>{
     // sinon : garde le message d'accueil défini par loadSettings()
   });
 
-  // soumission inscription -> ouvre WhatsApp pré-rempli vers l'académie + enregistre dans l'admin
-  $("insForm").addEventListener("submit",e=>{
+  // soumission inscription -> ENREGISTRE sur le site (pour tous) + propose WhatsApp en option
+  $("insForm").addEventListener("submit",async e=>{
     e.preventDefault();
     const payload=readForm();
     if(!payload.enfant.nom||!payload.parent.nom||!payload.parent.tel){ showToast("Renseignez l'enfant, le parent et le téléphone."); return; }
-    const btn=$("insSubmit"); const old=btn.textContent; btn.disabled=true; btn.textContent="Ouverture de WhatsApp…";
-    // 1) enregistrement dans l'espace admin (sans bloquer l'ouverture de WhatsApp)
-    fetch("/api/inscriptions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)}).catch(()=>{});
-    // 2) ouverture de WhatsApp avec la pré-inscription complète pré-remplie
-    window.open(waInscriptionURL(payload),"_blank");
-    showToast("✅ WhatsApp s'ouvre : envoyez le message pour finaliser la pré-inscription.");
-    setTimeout(()=>{ btn.disabled=false; btn.textContent=old; },1000);
+    const btn=$("insSubmit"); const old=btn.textContent; btn.disabled=true; btn.textContent="Envoi…";
+    const waUrl=waInscriptionURL(payload);
+    try{
+      const r=await fetch("/api/inscriptions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+      const d=await r.json().catch(()=>({}));
+      if(r.ok){
+        if($("waAfter")) $("waAfter").href=waUrl;          // option WhatsApp (facultative)
+        if($("insConfirm")) $("insConfirm").hidden=false;   // message de confirmation sur le site
+        showToast("✅ Demande enregistrée ! L'académie vous recontacte.");
+        e.target.reset();
+      } else { showToast(d.error||"Erreur lors de l'envoi."); }
+    }catch{
+      // site momentanément injoignable -> repli WhatsApp
+      window.open(waUrl,"_blank");
+      showToast("Connexion indisponible : envoi via WhatsApp.");
+    }
+    btn.disabled=false; btn.textContent=old;
   });
 });

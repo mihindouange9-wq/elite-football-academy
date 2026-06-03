@@ -192,8 +192,12 @@
         <label>Quartier<input type="text" name="parQuartier" placeholder="Akanda, Libreville…" /></label>
       </div>
       <label>Message (facultatif)<textarea name="message" rows="2" placeholder="Disponibilités, questions…"></textarea></label>
-      <button type="submit" class="btn btn-gold btn-block" id="insSubmit">💬 Envoyer ma pré-inscription sur WhatsApp</button>
-      <p class="ins-hint">En validant, WhatsApp s'ouvre avec votre demande pré-remplie : il ne reste qu'à l'envoyer à l'académie. Aucun paiement n'est demandé en ligne.</p>
+      <button type="submit" class="btn btn-gold btn-block" id="insSubmit">Envoyer ma demande d'inscription</button>
+      <p class="ins-hint">Votre demande est enregistrée directement auprès de l'académie, qui vous recontacte. Aucun compte WhatsApp n'est nécessaire — et aucun paiement n'est demandé en ligne.</p>
+      <div class="ins-confirm" id="insConfirm" hidden>
+        <p>✅ <b>Demande bien enregistrée !</b> L'académie vous recontacte très vite au numéro indiqué.</p>
+        <a href="#" id="waAfter" class="btn btn-wa btn-block" target="_blank">💬 Envoyer aussi sur WhatsApp (facultatif)</a>
+      </div>
     </form>
   </div>
 </section>
