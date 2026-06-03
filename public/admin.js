@@ -73,6 +73,16 @@ async function viewDashboard(){
   const maxC=Math.max(1,...d.parCategorie.map(c=>c.n));
   const catBars=d.parCategorie.length? d.parCategorie.map(c=>`<div class="barrow"><div class="t"><span>${esc(c.name)}</span><b>${c.n} joueur(s)</b></div><div class="bartrack"><div class="barfill green" style="width:${Math.round(c.n/maxC*100)}%"></div></div></div>`).join("") : '<p class="empty">Aucun joueur enregistré.</p>';
   const alertes=d.alertes.length? d.alertes.map(a=>`<div class="alert">⚠️ <b>${esc(a.nom)}</b> — ${esc(a.categorie)} · cotisation ${fmt(a.cotisation)} <b>en retard</b></div>`).join("") : '<p style="color:#1e7a45;font-size:.88rem">✓ Aucun retard de paiement.</p>';
+  const dern=d.dernieres||[];
+  const derniRows=dern.length? dern.map(x=>{ const w=waNum(x.tel);
+    const dt=new Date(x.createdAt).toLocaleString("fr-FR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+    return `<tr>
+      <td><b>${esc(x.enfant)}</b> <small>${esc(x.age)} ans</small><br/><small>${esc(x.filiere)||"—"}</small></td>
+      <td>${esc(x.parent)}<br/><small>${esc(x.tel)}</small></td>
+      <td><small>${dt}</small></td>
+      <td><span class="badge b-${x.status}">${x.status}</span></td>
+      <td><a class="mini call" href="tel:+${w}">📞</a> <a class="mini wa" target="_blank" href="https://wa.me/${w}">💬</a></td>
+    </tr>`; }).join("") : '<tr><td colspan="5" class="empty">Aucune demande pour le moment.</td></tr>';
   $("content").innerHTML=`
     <div class="kpis">
       <div class="kpi"><div class="l">Demandes reçues</div><div class="n">${k.demandes}</div></div>
@@ -99,8 +109,15 @@ async function viewDashboard(){
         </div>
         <h3 style="margin-top:1rem">⚠️ Alertes paiement</h3>${alertes}
       </div>
+    </div>
+    <div class="panel">
+      <h3>📝 Dernières demandes d'inscription <a href="#inscriptions" id="goIns" style="margin-left:auto;font-size:.78rem;color:var(--gold2);text-decoration:none;font-family:Barlow;font-weight:700">Tout voir →</a></h3>
+      <div class="tablewrap" style="box-shadow:none">
+        <table><tr><th>Enfant</th><th>Parent</th><th>Reçu</th><th>Statut</th><th></th></tr>${derniRows}</table>
+      </div>
     </div>`;
   drawBarChart("cv7", d.ins7.map(x=>x.jour), d.ins7.map(x=>x.n));
+  if($("goIns")) $("goIns").addEventListener("click",e=>{ e.preventDefault(); setView("inscriptions"); });
 }
 function drawBarChart(id, labels, values){
   const cv=$(id); if(!cv) return;

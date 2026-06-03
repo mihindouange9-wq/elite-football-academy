@@ -99,10 +99,15 @@ function dashboard(){
   const depenses=E.reduce((s,e)=>s+(+e.amount||0),0);
   // détections à venir
   const detAvenir=D.filter(d=>d.statut!=="passée").length;
+  // 6 dernières demandes (les plus récentes en premier)
+  const dernieres=INS.slice().sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt))).slice(0,6)
+    .map(i=>({ id:i.id, createdAt:i.createdAt, status:i.status,
+      enfant:i.enfant.nom, age:i.enfant.age, filiere:i.enfant.filiere,
+      parent:i.parent.nom, tel:i.parent.tel }));
   return {
     kpis:{ demandes:INS.length, nouvelles:parStatut.nouveau, joueurs:actifs.length, sportEtudes,
       cotisations, enRetard:enRetardList.length, detections:detAvenir },
-    parStatut, ins7, parFiliere, parCategorie,
+    parStatut, ins7, parFiliere, parCategorie, dernieres,
     finances:{ cotisations, encaisse, depenses, solde:encaisse-depenses },
     alertes:enRetardList.map(j=>({nom:j.nom,categorie:j.categorie||"—",cotisation:+j.cotisation||0}))
   };
