@@ -16,7 +16,7 @@ const F = {
   settings:     path.join(DATA_DIR, "settings.json"),
 };
 const DEFAULT_SETTINGS = {
-  whatsapp: "24100000000",                 // ← numéro WhatsApp de l'académie (à régler)
+  whatsapp: "24166802521",                 // ← numéro WhatsApp de l'académie
   facebook: "https://www.facebook.com/",
   instagram: "https://www.instagram.com/",
   adminPassword: process.env.ADMIN_PASSWORD || "Elite2026",

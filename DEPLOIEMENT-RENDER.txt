@@ -1,0 +1,70 @@
+================================================================
+  METTRE LE SITE EN LIGNE — Elite Football Academy (Render.com)
+================================================================
+Le code est DÉJÀ sur GitHub :
+   https://github.com/mihindouange9-oss/elite-football-academy
+
+Il reste UNE seule chose à faire : créer le service sur Render
+(c'est ton compte, donc à faire depuis ton navigateur). 2 minutes.
+
+----------------------------------------------------------------
+ÉTAPE 1 — CRÉER LE SERVICE (le plus simple : Blueprint)
+----------------------------------------------------------------
+1. Va sur  https://dashboard.render.com  et connecte-toi
+   (avec ton compte GitHub mihindouange9-oss, comme pour la Poule
+    aux Œufs d'Or).
+2. Clique  "New +"  (en haut à droite)  →  "Blueprint".
+3. Sélectionne le dépôt  "elite-football-academy".
+   (Si Render ne le voit pas : "Configure account" → autorise
+    l'accès à ce dépôt, puis reviens.)
+4. Render lit tout seul le fichier render.yaml et propose le
+   service "elite-football-academy". Clique  "Apply".
+5. Attends 1 à 2 minutes : le déploiement se fait automatiquement.
+
+   >> Si "Blueprint" ne marche pas, fais à la place :
+      "New +" → "Web Service" → choisis le dépôt
+      elite-football-academy → réglages :
+         Name          : elite-football-academy
+         Region        : Frankfurt (EU)
+         Branch        : main
+         Runtime       : Node
+         Build Command : (vide)
+         Start Command : node server.js
+         Instance Type : FREE
+      → "Create Web Service".
+
+----------------------------------------------------------------
+ÉTAPE 2 — MOT DE PASSE ADMIN
+----------------------------------------------------------------
+6. Dans Render → ton service → onglet  "Environment"  →
+   "Add Environment Variable" :
+        Key   : ADMIN_PASSWORD
+        Value : (le mot de passe que TU choisis — simple à retenir)
+   → "Save changes" (le service redémarre tout seul).
+   C'est ce mot de passe qui ouvrira l'espace  .../admin
+
+----------------------------------------------------------------
+RÉSULTAT
+----------------------------------------------------------------
+Render te donne une adresse du type :
+   https://elite-football-academy.onrender.com
+   → site public, et l'admin sur  .../admin
+À partager partout (WhatsApp, Facebook, flyers).
+
+----------------------------------------------------------------
+BON À SAVOIR (offre gratuite Render)
+----------------------------------------------------------------
+- Le site "s'endort" après 15 min sans visite ; la 1re visite
+  suivante prend ~30-50 s à le réveiller (normal sur le plan FREE).
+- Les inscriptions reçues dans l'admin peuvent se réinitialiser
+  après une mise en veille. MAIS chaque parent te laisse son
+  téléphone, et le repli WhatsApp t'avertit aussi → aucun contact
+  perdu. (Pour un historique permanent, on pourra brancher une
+  base de données gratuite plus tard.)
+
+----------------------------------------------------------------
+METTRE À JOUR LE SITE PLUS TARD
+----------------------------------------------------------------
+Quand on modifie le site, il suffit de "pousser" la nouvelle
+version sur GitHub : Render se redéploie tout seul. (Je m'en charge.)
+================================================================

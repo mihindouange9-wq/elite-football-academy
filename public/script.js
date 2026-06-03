@@ -1,5 +1,5 @@
 /* Elite Football Academy — front */
-let WHATSAPP="24100000000", FACEBOOK="https://www.facebook.com/", INSTAGRAM="https://www.instagram.com/";
+let WHATSAPP="24166802521", FACEBOOK="https://www.facebook.com/", INSTAGRAM="https://www.instagram.com/";
 const $=id=>document.getElementById(id);
 
 async function loadSettings(){
