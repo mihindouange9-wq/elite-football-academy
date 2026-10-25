@@ -1,102 +1,108 @@
 ==========================================================
-   ELITE FOOTBALL ACADEMY — SITE WEB
+   ELITE FOOTBALL ACADEMY — SITE ET PLATEFORME (v2)
    Académie Sport-Études de football — Akanda, Libreville (Gabon)
 ==========================================================
 
 -----------------------------------------------
-1) LANCER LE SITE EN LOCAL (sur ce PC)
+1) LANCER EN LOCAL
 -----------------------------------------------
-Double-cliquez sur :  Lancer-Elite.cmd
-Le serveur démarre et le site s'ouvre sur :  http://localhost:5600
-Espace admin :  http://localhost:5600/admin
+Prérequis : Node.js 22.5 ou plus (la base SQLite est intégrée à
+Node, il n'y a aucune dépendance à installer).
 
-Pour arrêter : fermez la fenêtre noire « Elite - Serveur ».
+  node --no-warnings server.js        →  http://localhost:5600
+  (ou double-clic sur Lancer-Elite.cmd)
 
+Variables d'environnement (toutes facultatives en local) :
+  PORT             port d'écoute (5600)
+  DATA_DIR         dossier de la base elite.db (./data)
+  ADMIN_PASSWORD   mot de passe initial du compte "direction"
+  SECURE_COOKIES=1 cookies Secure (derrière HTTPS)
 
------------------------------------------------
-2) LE SITE PUBLIC (ce que voient les parents)
------------------------------------------------
-Couleurs dominantes : NOIR + VERT FORÊT (+ touches dorées).
-Sections :
-  • Accueil (slogan « Révéler les talents, bâtir des parcours »)
-  • L'académie (vision / mission)
-  • Nos valeurs (Excellence, Respect, Discipline, Dépassement,
-    Solidarité, Réussite scolaire)
-  • Le programme : 2 formules
-        - Sport-Études  : 50 000 FCFA / mois
-        - Loisirs       : 25 000 FCFA / mois
-  • Les acquis (ce que l'enfant développe — 6 points)
-  • Le processus de recrutement (6 étapes, de la candidature
-    à l'inscription définitive)
-  • Formulaire d'inscription (les parents inscrivent leur enfant)
-  • Bouton WhatsApp flottant + repli WhatsApp automatique
+Première connexion : …/connexion, identifiant "direction",
+mot de passe ADMIN_PASSWORD, ou "Elite2026" si la variable est
+absente (changement obligatoire au premier accès).
 
+Au premier démarrage, les anciens fichiers JSON de la v1 présents
+dans data/ (catégories, séances, inscriptions, joueurs, dépenses,
+détections, réglages) sont importés dans la base.
 
 -----------------------------------------------
-3) LE TABLEAU DE BORD ADMIN (pilotage de l'académie)
+2) LES ESPACES
 -----------------------------------------------
-Adresse  :  /admin
-Mot de passe par défaut (local) :  Elite2026
-
-Un vrai tableau de bord opérationnel avec 8 modules :
-  • 📊 Tableau de bord : indicateurs clés (demandes, joueurs,
-    cotisations, paiements en retard, détections), graphique des
-    demandes reçues, répartition par statut et par catégorie,
-    finances du mois, alertes de paiement.
-  • 📝 Inscriptions : toutes les demandes des parents (enfant +
-    parent + téléphone), recherche, filtre par statut, changement
-    de statut, appel / WhatsApp en 1 clic, export CSV, et bouton
-    « ➕ Joueur » pour convertir une demande en joueur inscrit.
-  • 🧒 Joueurs : la liste des élèves inscrits (catégorie, filière,
-    poste, parent, cotisation, statut de paiement), ajout / édition
-    / suppression, recherche et filtres.
-  • 🗂️ Catégories : les équipes par tranche d'âge (U7-U9 … U16-U18),
-    coach et jours d'entraînement (4 catégories par défaut).
-  • 📅 Planning : la semaine d'entraînement (lundi → dimanche) ;
-    ajout / suppression de séances (horaire, catégorie, type, lieu).
-  • 🎯 Détections : programmation des journées de détection (date,
-    lieu, candidats attendus, statut).
-  • 💰 Finances : cotisations attendues vs encaissées, dépenses par
-    catégorie, solde, enregistrement des dépenses.
-  • ⚙️ Paramètres : numéro WhatsApp, Facebook, Instagram,
-    localisation, et changement du mot de passe administrateur.
-
+  /              site public : hero, académie, cinq axes, parcours,
+                 Sport-Études, détection (inscription en ligne),
+                 équipe, formulaire d'inscription avec consentement
+  /connexion     connexion unique, redirection selon le rôle
+  /admin         DIRECTION : tableau de bord, demandes, joueurs
+                 (fiche, passeport, compte parent, lien de partage),
+                 groupes et planning, détections (dossards, grille
+                 de notation, conversion en joueur), cotisations et
+                 paiements (échéancier, validation des déclarations,
+                 reçus, relances WhatsApp, dépenses), rapport mensuel
+                 imprimable, actualités et convocations, comptes
+                 coachs/parents, paramètres, journal, sauvegarde
+  /coach         COACHS : ma semaine, feuille de présence, mes
+                 joueurs (évaluation 5 axes, observations, moyennes),
+                 absences récentes, notation des candidats
+  /parents       PARENTS : résumé de l'enfant, planning et
+                 présences, passeport (radar, impression PDF,
+                 partage à un club), cotisations (déclaration
+                 Mobile Money, reçus)
+  /passeport/<lien>   passeport partagé en lecture seule
+  /mentions-legales, /confidentialite
 
 -----------------------------------------------
-4) À PERSONNALISER (important)
+3) SÉCURITÉ
 -----------------------------------------------
-  • NUMÉRO WHATSAPP : actuellement un numéro de test
-    (241 00 00 00 00). À remplacer par le vrai numéro de
-    l'académie dans :  data/settings.json  (champ "whatsapp")
-    -> format : 24177XXXXXX  (sans + ni espaces)
-  • Liens Facebook / Instagram : dans le même fichier.
-  • Mot de passe admin : changez "adminPassword" dans
-    data/settings.json (en local) ou la variable ADMIN_PASSWORD
-    (en ligne sur Render).
-
+  • Mots de passe hachés (scrypt + sel), jamais stockés en clair.
+  • Sessions en base, cookie HttpOnly SameSite=Strict, 7 jours.
+  • Trois rôles vérifiés côté serveur sur chaque route.
+  • Limitation des tentatives de connexion (5 par 10 minutes).
+  • Journal des actions sensibles (espace direction → Journal).
+  • Aucun secret dans le dépôt : le mot de passe de la direction
+    vient de l'environnement ; data/ est ignoré par git.
 
 -----------------------------------------------
-5) MISE EN LIGNE GRATUITE (Render.com)
+4) VÉRIFICATION
 -----------------------------------------------
-Le projet est prêt pour un déploiement gratuit sur Render
-(render.yaml inclus), comme le site de la Poule aux Œufs d'Or.
-Demandez-le et je m'en occupe (création du dépôt GitHub +
-service Render + variable ADMIN_PASSWORD).
-Note : sur l'offre gratuite, le site « s'endort » après 15 min
-d'inactivité et se réveille en ~30 s à la 1re visite.
+  node --no-warnings tools/test-api.mjs
+      44 contrôles de bout en bout (rôles, neuf piliers,
+      persistance et sessions après redémarrage, restauration).
+  node --no-warnings tools/shoot-espaces.mjs
+      captures de toutes les vues des trois espaces (ordinateur
+      et mobile) sur des données de démonstration temporaires.
+  node tools/shoot.mjs
+      captures du site public section par section.
 
+-----------------------------------------------
+5) À RENSEIGNER PAR L'ACADÉMIE (Paramètres de l'espace direction)
+-----------------------------------------------
+  • WhatsApp, e-mail, Facebook, Instagram (vides = non affichés)
+  • Tarifs, moyenne minimale, seuil de présence, règle des tournois
+  • Charges fixes mensuelles (calcul du point mort)
+  • Consigne Mobile Money affichée aux parents
+  • Comptes coachs, puis affectation aux groupes
 
 -----------------------------------------------
-6) STRUCTURE DES FICHIERS
+6) MISE EN LIGNE
 -----------------------------------------------
-  server.js .............. serveur Node (zéro dépendance)
-  package.json / render.yaml  configuration
-  Lancer-Elite.cmd ....... lanceur local
-  public/index.html ...... page publique
-  public/styles.css ...... thème noir + vert forêt
-  public/script.js ....... formulaire + interactions
-  public/admin.html/.js .. espace administrateur
-  public/assets/ ......... logo + photos
-  data/ .................. inscriptions.json + settings.json
-                           (créé automatiquement)
+Voir DEPLOIEMENT-RENDER.txt (service, mot de passe, et surtout le
+disque persistant sans lequel la base est effacée par Render).
+
+-----------------------------------------------
+7) STRUCTURE
+-----------------------------------------------
+  server.js ............ serveur HTTP + API (Node natif)
+  lib/db.js ............ schéma SQLite, reprise v1, export/import
+  lib/auth.js .......... hachage, sessions, cookies
+  public/index.html, site.css, site.js ... site public
+  public/design.css .... jetons, typographies (Sora, Manrope)
+  public/ui.js, app.js . socle des espaces connectés
+  public/admin/, coach/, parents/ ... les trois espaces
+  public/passeport.* ... passeport (espaces + lien partagé)
+  public/vendor/ ....... GSAP + ScrollTrigger (local)
+  public/icons.svg ..... pictogrammes SVG
+  public/assets/ ....... logo et photos (WebP + JPEG)
+  tools/ ............... tests et captures
+  data/ ................ base elite.db (ignorée par git)
 ==========================================================

@@ -2,9 +2,21 @@ services:
   - type: web
     name: elite-football-academy
     runtime: node
-    plan: free
+    plan: free            # passer à "starter" pour attacher le disque persistant ci-dessous
     buildCommand: ""
-    startCommand: node server.js
+    startCommand: node --no-warnings server.js
+    healthCheckPath: /api/public
     envVars:
+      - key: NODE_VERSION
+        value: "22.12.0"
       - key: ADMIN_PASSWORD
-        sync: false
+        sync: false       # à saisir dans le tableau de bord Render, jamais dans le dépôt
+      - key: DATA_DIR
+        value: /var/data  # dossier de la base SQLite (voir DEPLOIEMENT-RENDER.txt)
+    # Sans disque persistant (plan gratuit), le système de fichiers est effacé à chaque
+    # redéploiement ou mise en veille : la base SQLite repart de zéro. Pour conserver les
+    # données, décommenter le bloc suivant (plan payant) :
+    # disk:
+    #   name: elite-data
+    #   mountPath: /var/data
+    #   sizeGB: 1

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passeport du joueur — Elite Football Academy</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/assets/logo_elite.png">
+<link rel="stylesheet" href="/design.css">
+<link rel="stylesheet" href="/espaces.css">
+</head>
+<body class="app">
+<main class="passeport" id="passeport"><p class="etat-vide">Chargement du passeport…</p></main>
+<script src="/ui.js"></script>
+<script src="/passeport.js"></script>
+<script>
+(() => {
+  const token = location.pathname.split("/").pop();
+  const cible = document.getElementById("passeport");
+  window.EFA.get("/api/passeport/" + encodeURIComponent(token)).then((p) => { cible.innerHTML = window.PASSEPORT.html(p, { partage: true }); })
+    .catch((e) => { cible.innerHTML = `<div class="etat-vide"><h3>Lien indisponible</h3><p>${window.EFA.esc(e.message)} Le responsable légal peut générer un nouveau lien depuis son espace.</p><a href="/" class="btn btn--sm">Retour au site</a></div>`; });
+})();
+</script>
+</body>
+</html>

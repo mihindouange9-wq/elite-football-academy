@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Espace coachs — Elite Football Academy</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/logo_elite.png">
+<link rel="stylesheet" href="/design.css">
+<link rel="stylesheet" href="/espaces.css">
+</head>
+<body class="app">
+<div class="appli">
+  <aside class="lat" id="lat" aria-label="Navigation de l'espace coachs">
+    <a class="lat__marque" href="/"><img src="/assets/logo_elite.png" alt=""><span><b>Elite Football</b><small>Coachs</small></span></a>
+    <nav class="lat__nav" id="latNav"></nav>
+    <div class="lat__pied"><div class="lat__utilisateur" id="latUtilisateur"></div><button class="btn btn--fantome-clair btn--sm" id="btnDeconnexion">Déconnexion</button></div>
+  </aside>
+  <div class="voile" id="voile" hidden></div>
+  <main class="principal">
+    <div class="barre"><div style="display:flex;align-items:center;gap:.8rem"><button class="burger-app" id="burgerApp" aria-label="Menu" aria-expanded="false"><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-menu"/></svg></button><h1 id="titreVue">Ma semaine</h1></div><div class="barre__actions" id="barreActions"></div></div>
+    <section id="vue" tabindex="-1" aria-live="polite"></section>
+  </main>
+</div>
+<script src="/ui.js"></script>
+<script src="/app.js"></script>
+<script src="/passeport.js"></script>
+<script src="/coach/coach.js"></script>
+</body>
+</html>

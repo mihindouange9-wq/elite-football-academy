@@ -7,7 +7,7 @@ if not exist "%NODE%\node.exe" ( echo [ERREUR] Node introuvable dans %NODE% & pa
 powershell -NoProfile -Command "try{$null=Invoke-WebRequest 'http://localhost:5600' -UseBasicParsing -TimeoutSec 2;exit 0}catch{exit 1}"
 if %errorlevel%==0 ( start "" "http://localhost:5600" & exit /b 0 )
 echo Demarrage du serveur Elite Football Academy...
-start "Elite - Serveur" cmd /k "set PATH=%NODE%;%PATH% && cd /d "%HERE%" && node server.js"
+start "Elite - Serveur" cmd /k "set PATH=%NODE%;%PATH% && cd /d "%HERE%" && node --no-warnings server.js"
 :wait
 timeout /t 1 /nobreak >nul
 powershell -NoProfile -Command "try{$null=Invoke-WebRequest 'http://localhost:5600' -UseBasicParsing -TimeoutSec 2;exit 0}catch{exit 1}"

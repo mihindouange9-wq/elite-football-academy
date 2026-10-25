@@ -104,7 +104,7 @@ input, select, textarea { font: inherit; }
 .section--vert { background: var(--vert); color: var(--creme); }
 .section--vert .chapeau, .section--vert .corps { color: rgba(246, 243, 236, .82); }
 .section--vert .sur-titre { color: var(--or); }
-.etiquette { display: inline-flex; align-items: center; gap: .4rem; padding: .3rem .7rem; border-radius: var(--r-pill); font-size: var(--t-xs); font-weight: 800; letter-spacing: .06em; text-transform: uppercase; background: var(--vert-tendre); color: var(--vert); }
+.etiquette { white-space: nowrap; display: inline-flex; align-items: center; gap: .4rem; padding: .3rem .7rem; border-radius: var(--r-pill); font-size: var(--t-xs); font-weight: 800; letter-spacing: .06em; text-transform: uppercase; background: var(--vert-tendre); color: var(--vert); }
 .etiquette--or { background: var(--or-tendre); color: var(--or-2); }
 .etiquette--succes { background: var(--succes-fond); color: var(--succes); }
 .etiquette--alerte { background: var(--alerte-fond); color: var(--alerte); }
