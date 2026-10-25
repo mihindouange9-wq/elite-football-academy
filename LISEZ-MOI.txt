@@ -1,0 +1,102 @@
+==========================================================
+   ELITE FOOTBALL ACADEMY — SITE WEB
+   Académie Sport-Études de football — Akanda, Libreville (Gabon)
+==========================================================
+
+-----------------------------------------------
+1) LANCER LE SITE EN LOCAL (sur ce PC)
+-----------------------------------------------
+Double-cliquez sur :  Lancer-Elite.cmd
+Le serveur démarre et le site s'ouvre sur :  http://localhost:5600
+Espace admin :  http://localhost:5600/admin
+
+Pour arrêter : fermez la fenêtre noire « Elite - Serveur ».
+
+
+-----------------------------------------------
+2) LE SITE PUBLIC (ce que voient les parents)
+-----------------------------------------------
+Couleurs dominantes : NOIR + VERT FORÊT (+ touches dorées).
+Sections :
+  • Accueil (slogan « Révéler les talents, bâtir des parcours »)
+  • L'académie (vision / mission)
+  • Nos valeurs (Excellence, Respect, Discipline, Dépassement,
+    Solidarité, Réussite scolaire)
+  • Le programme : 2 formules
+        - Sport-Études  : 50 000 FCFA / mois
+        - Loisirs       : 25 000 FCFA / mois
+  • Les acquis (ce que l'enfant développe — 6 points)
+  • Le processus de recrutement (6 étapes, de la candidature
+    à l'inscription définitive)
+  • Formulaire d'inscription (les parents inscrivent leur enfant)
+  • Bouton WhatsApp flottant + repli WhatsApp automatique
+
+
+-----------------------------------------------
+3) LE TABLEAU DE BORD ADMIN (pilotage de l'académie)
+-----------------------------------------------
+Adresse  :  /admin
+Mot de passe par défaut (local) :  Elite2026
+
+Un vrai tableau de bord opérationnel avec 8 modules :
+  • 📊 Tableau de bord : indicateurs clés (demandes, joueurs,
+    cotisations, paiements en retard, détections), graphique des
+    demandes reçues, répartition par statut et par catégorie,
+    finances du mois, alertes de paiement.
+  • 📝 Inscriptions : toutes les demandes des parents (enfant +
+    parent + téléphone), recherche, filtre par statut, changement
+    de statut, appel / WhatsApp en 1 clic, export CSV, et bouton
+    « ➕ Joueur » pour convertir une demande en joueur inscrit.
+  • 🧒 Joueurs : la liste des élèves inscrits (catégorie, filière,
+    poste, parent, cotisation, statut de paiement), ajout / édition
+    / suppression, recherche et filtres.
+  • 🗂️ Catégories : les équipes par tranche d'âge (U7-U9 … U16-U18),
+    coach et jours d'entraînement (4 catégories par défaut).
+  • 📅 Planning : la semaine d'entraînement (lundi → dimanche) ;
+    ajout / suppression de séances (horaire, catégorie, type, lieu).
+  • 🎯 Détections : programmation des journées de détection (date,
+    lieu, candidats attendus, statut).
+  • 💰 Finances : cotisations attendues vs encaissées, dépenses par
+    catégorie, solde, enregistrement des dépenses.
+  • ⚙️ Paramètres : numéro WhatsApp, Facebook, Instagram,
+    localisation, et changement du mot de passe administrateur.
+
+
+-----------------------------------------------
+4) À PERSONNALISER (important)
+-----------------------------------------------
+  • NUMÉRO WHATSAPP : actuellement un numéro de test
+    (241 00 00 00 00). À remplacer par le vrai numéro de
+    l'académie dans :  data/settings.json  (champ "whatsapp")
+    -> format : 24177XXXXXX  (sans + ni espaces)
+  • Liens Facebook / Instagram : dans le même fichier.
+  • Mot de passe admin : changez "adminPassword" dans
+    data/settings.json (en local) ou la variable ADMIN_PASSWORD
+    (en ligne sur Render).
+
+
+-----------------------------------------------
+5) MISE EN LIGNE GRATUITE (Render.com)
+-----------------------------------------------
+Le projet est prêt pour un déploiement gratuit sur Render
+(render.yaml inclus), comme le site de la Poule aux Œufs d'Or.
+Demandez-le et je m'en occupe (création du dépôt GitHub +
+service Render + variable ADMIN_PASSWORD).
+Note : sur l'offre gratuite, le site « s'endort » après 15 min
+d'inactivité et se réveille en ~30 s à la 1re visite.
+
+
+-----------------------------------------------
+6) STRUCTURE DES FICHIERS
+-----------------------------------------------
+  server.js .............. serveur Node (zéro dépendance)
+  package.json / render.yaml  configuration
+  Lancer-Elite.cmd ....... lanceur local
+  public/index.html ...... page publique
+  public/styles.css ...... thème noir + vert forêt
+  public/script.js ....... formulaire + interactions
+  public/admin.html/.js .. espace administrateur
+  public/assets/ ......... logo + photos
+  data/ .................. inscriptions.json + settings.json
+                           (créé automatiquement)
+==========================================================

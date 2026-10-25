@@ -2,7 +2,6 @@ data/
 node_modules/
 *.log
 *.ps1
-LISEZ-MOI.txt
-Lancer-Elite.cmd
 .DS_Store
 Thumbs.db
+.impeccable/review/
