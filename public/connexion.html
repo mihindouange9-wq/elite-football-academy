@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connexion — Elite Football Academy</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/logo_elite.png">
+<link rel="stylesheet" href="/design.css">
+<link rel="stylesheet" href="/espaces.css">
+</head>
+<body class="page-connexion">
+<main class="connexion">
+  <a href="/" class="connexion__retour"><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-fleche"/></svg>Retour au site</a>
+  <section class="connexion__carte" aria-labelledby="cx-titre">
+    <img src="/assets/logo_elite.png" alt="" width="72" height="72">
+    <h1 id="cx-titre" class="titre titre--sm">Mon espace</h1>
+    <p class="connexion__intro">Parents, coachs et direction : connectez-vous avec l'identifiant remis par l'académie.</p>
+    <form id="cxForm" novalidate>
+      <label class="champ"><span>Identifiant <small>téléphone ou « direction »</small></span><input name="login" required autocomplete="username" inputmode="tel" placeholder="077 00 00 00"></label>
+      <label class="champ"><span>Mot de passe</span><input name="password" type="password" required autocomplete="current-password"></label>
+      <button type="submit" class="btn btn--or btn--bloc" id="cxBtn">Se connecter<svg class="ico" aria-hidden="true"><use href="/icons.svg#i-fleche"/></svg></button>
+      <p class="formulaire__statut" id="cxStatut" role="alert"></p>
+    </form>
+    <p class="connexion__aide">Mot de passe oublié ? La direction peut le réinitialiser depuis son espace et vous communiquer le nouveau.</p>
+    <p class="connexion__aide">Pas encore membre ? <a href="/#inscription">Inscrire mon enfant</a></p>
+  </section>
+</main>
+<script src="/ui.js"></script>
+<script>
+(() => {
+  const { post, get, lire } = window.EFA;
+  const dest = { direction: "/admin", coach: "/coach", parent: "/parents" };
+  get("/api/auth/me").then((r) => { if (r && r.user) location.replace(dest[r.user.role] || "/"); }).catch(() => {});
+  const f = document.getElementById("cxForm"), st = document.getElementById("cxStatut"), btn = document.getElementById("cxBtn");
+  f.addEventListener("submit", async (e) => {
+    e.preventDefault(); st.textContent = ""; st.classList.remove("erreur");
+    const d = lire(f);
+    if (!d.login || !d.password) { st.classList.add("erreur"); st.textContent = "Identifiant et mot de passe requis."; return; }
+    btn.disabled = true;
+    try { const r = await post("/api/auth/login", d); location.href = dest[r.user.role] || "/"; }
+    catch (err) { st.classList.add("erreur"); st.textContent = err.message; btn.disabled = false; f.password.focus(); }
+  });
+})();
+</script>
+</body>
+</html>

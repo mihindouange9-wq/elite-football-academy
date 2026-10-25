@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mentions légales — Elite Football Academy</title>
+<link rel="icon" href="/assets/logo_elite.png">
+<link rel="stylesheet" href="/design.css">
+<link rel="stylesheet" href="/espaces.css">
+</head>
+<body>
+<main class="page-texte">
+  <a href="/" class="connexion__retour"><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-fleche"/></svg>Retour au site</a>
+  <h1 class="titre titre--md">Mentions légales</h1>
+  <p class="corps">Ce site présente Elite Football Academy, académie Sport-Études de football située à Akanda (Libreville, Gabon), et donne accès à des espaces réservés aux familles, aux éducateurs et à la direction.</p>
+  <h2 class="titre titre--sm">Éditeur</h2>
+  <p class="corps">Elite Football Academy, représentée par son gérant, <span data-param="fondateur">Thomas Serge Lanchais</span>. Localisation : <span data-param="lieu">Akanda, proche du stade de l'Amitié, Libreville (Gabon)</span>. Contact : WhatsApp au <span data-param="whatsapp"></span><span data-param="email-bloc" hidden>, e-mail <span data-param="email"></span></span>.</p>
+  <p class="corps"><em>Les informations juridiques complémentaires (forme sociale, numéro d'immatriculation, siège) seront publiées ici dès que la direction les aura renseignées. Elles ne sont pas inventées.</em></p>
+  <h2 class="titre titre--sm">Hébergement</h2>
+  <p class="corps">Le site est hébergé par le prestataire choisi par l'académie (voir la documentation de déploiement). Les données sont stockées dans une base de données sous le contrôle de l'académie.</p>
+  <h2 class="titre titre--sm">Propriété intellectuelle</h2>
+  <p class="corps">Le logo, les textes et la structure du site appartiennent à Elite Football Academy. Les photographies actuellement affichées sont des images d'illustration ; elles ne représentent pas les joueurs ni les éducateurs de l'académie et seront remplacées par les images de l'académie, avec l'accord des familles concernées.</p>
+  <h2 class="titre titre--sm">Données personnelles</h2>
+  <p class="corps">Les traitements de données sont décrits dans la <a href="/confidentialite">politique de confidentialité</a>.</p>
+</main>
+<script src="/ui.js"></script>
+<script>window.EFA.get("/api/public").then((p) => { document.querySelectorAll("[data-param]").forEach((el) => { const k = el.dataset.param; if (k === "whatsapp") el.textContent = window.EFA.telAffiche(p.whatsapp); else if (k === "email-bloc") el.hidden = !p.email; else if (p[k]) el.textContent = p[k]; }); }).catch(() => {});</script>
+</body>
+</html>

@@ -1,239 +1,340 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Elite Football Academy — Académie Sport-Études | Akanda, Libreville</title>
-<meta name="description" content="Elite Football Academy : académie Sport-Études de football pour les 8-18 ans à Akanda (Libreville, Gabon). Formation de haut niveau, réussite scolaire et valeurs humaines. Inscrivez votre enfant." />
-<link rel="icon" href="assets/logo_elite.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elite Football Academy — Académie Sport-Études, Akanda · Libreville</title>
+<meta name="description" content="Elite Football Academy, académie Sport-Études de football à Akanda (Libreville, Gabon) : formation sportive, suivi scolaire et accompagnement humain des jeunes de 8 à 18 ans. Détection, inscription, espaces parents et coachs.">
+<meta name="theme-color" content="#0b1410">
+<link rel="icon" href="/assets/logo_elite.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Elite Football Academy — Révéler les talents, bâtir des parcours">
+<meta property="og:description" content="Académie Sport-Études de football à Akanda, Libreville. Formation, école et valeurs humaines pour les 8-18 ans.">
+<meta property="og:image" content="/assets/hero-1600.webp">
+<meta property="og:locale" content="fr_GA">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/sora-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/manrope-latin-wght-normal.woff2" crossorigin>
+<link rel="stylesheet" href="/design.css">
+<link rel="stylesheet" href="/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SportsOrganization","name":"Elite Football Academy","sport":"Football","address":{"@type":"PostalAddress","addressLocality":"Akanda","addressRegion":"Libreville","addressCountry":"GA"},"url":"/"}</script>
 </head>
 <body>
+<a class="skip" href="#contenu">Aller au contenu</a>
 
-<!-- ===== HEADER ===== -->
-<header class="hdr" id="top">
-  <div class="container hdr-in">
-    <a href="#top" class="brand">
-      <img src="assets/logo_elite.png" alt="Elite Football Academy" />
-      <span><b>ELITE</b> FOOTBALL ACADEMY</span>
+<header class="entete" id="entete">
+  <div class="conteneur entete__in">
+    <a href="#haut" class="marque" aria-label="Elite Football Academy — accueil">
+      <img src="/assets/logo_elite.png" alt="" width="46" height="46">
+      <span><b>Elite</b> Football Academy</span>
     </a>
-    <nav class="nav" id="nav">
+    <nav class="nav" id="nav" aria-label="Principale">
       <a href="#academie">L'académie</a>
-      <a href="#valeurs">Valeurs</a>
-      <a href="#programme">Programme</a>
-      <a href="#acquis">Les acquis</a>
-      <a href="#recrutement">Recrutement</a>
+      <a href="#axes">Les 5 axes</a>
+      <a href="#parcours">Parcours</a>
+      <a href="#sport-etudes">Sport-Études</a>
+      <a href="#detection">Détection</a>
+      <a href="#equipe">Équipe</a>
       <a href="#contact">Contact</a>
-      <a href="#inscription" class="nav-cta">Inscrire mon enfant</a>
     </nav>
-    <button class="burger" id="burger" aria-label="Menu">☰</button>
+    <div class="entete__actions">
+      <a href="/connexion" class="btn btn--fantome btn--sm entete__espace"><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-utilisateur"/></svg>Mon espace</a>
+      <a href="#inscription" class="btn btn--or btn--sm">Inscrire mon enfant</a>
+      <button class="entete__burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menuMobile"><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-menu"/></svg></button>
+    </div>
   </div>
 </header>
+<div class="menu" id="menuMobile" aria-hidden="true">
+  <div class="menu__tete"><span class="marque"><img src="/assets/logo_elite.png" alt="" width="40" height="40"><span><b>Elite</b> Football Academy</span></span><button class="menu__fermer" id="menuFermer" aria-label="Fermer le menu"><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-fermer"/></svg></button></div>
+  <nav class="menu__liens" aria-label="Menu mobile">
+    <a href="#academie">L'académie</a><a href="#axes">Les 5 axes</a><a href="#parcours">Parcours</a><a href="#sport-etudes">Sport-Études</a><a href="#detection">Détection</a><a href="#equipe">Équipe</a><a href="#contact">Contact</a>
+  </nav>
+  <div class="menu__pied"><a href="#inscription" class="btn btn--or btn--bloc">Inscrire mon enfant</a><a href="/connexion" class="btn btn--fantome-clair btn--bloc">Espaces parents, coachs, direction</a></div>
+</div>
 
+<main id="contenu">
 <!-- ===== HERO ===== -->
-<section class="hero">
-  <div class="hero-media"></div>
-  <div class="hero-overlay"></div>
-  <div class="container hero-in">
-    <span class="kicker">★ Académie Sport-Études · Akanda — Libreville</span>
-    <h1>Révéler les talents,<br/><span class="gold">bâtir des parcours</span></h1>
-    <p class="hero-sub">L'académie de football qui forme les jeunes de <b>8 à 18 ans</b> au plus haut niveau, tout en garantissant leur <b>réussite scolaire</b> et la transmission de véritables <b>valeurs humaines</b>.</p>
-    <div class="hero-cta">
-      <a href="#inscription" class="btn btn-gold">Inscrire mon enfant</a>
-      <a href="#programme" class="btn btn-outline">Découvrir le programme</a>
+<section class="hero" id="haut" aria-labelledby="hero-titre">
+  <div class="hero__fond" aria-hidden="true">
+    <svg class="hero__trajectoire" viewBox="0 0 1440 900" preserveAspectRatio="none"><path d="M-40 760 C 300 700, 560 380, 900 300 S 1300 180, 1500 60" pathLength="1"/></svg>
+    <svg class="hero__rond" viewBox="0 0 400 400"><circle cx="200" cy="200" r="190" pathLength="1"/><circle cx="200" cy="200" r="6"/></svg>
+  </div>
+  <div class="conteneur hero__in">
+    <div class="hero__texte">
+      <p class="sur-titre">Académie Sport-Études · Akanda, Libreville</p>
+      <h1 id="hero-titre" class="titre titre--xl hero__titre">
+        <span class="ligne"><span>Révéler</span></span>
+        <span class="ligne"><span>les talents,</span></span>
+        <span class="ligne"><span class="hero__accent">bâtir</span></span>
+        <span class="ligne"><span>des parcours.</span></span>
+      </h1>
+      <p class="chapeau hero__chapeau">Une académie de football qui forme les jeunes de 8 à 18 ans sur le terrain, les accompagne à l'école et leur transmet des valeurs qui durent.</p>
+      <div class="hero__actions">
+        <a href="#academie" class="btn btn--or">Découvrir l'académie<svg class="ico" aria-hidden="true"><use href="/icons.svg#i-bas"/></svg></a>
+        <a href="#detection" class="btn btn--fantome-clair">Journée de détection</a>
+        <a href="/connexion" class="btn btn--fantome-clair">Espaces connectés</a>
+      </div>
+      <dl class="hero__faits" id="heroFaits" aria-label="Repères">
+        <div><dt>Âges</dt><dd class="chiffre">8–18 <small>ans</small></dd></div>
+        <div><dt>Filières</dt><dd class="chiffre">2 <small>Sport-Études · Loisirs</small></dd></div>
+        <div id="faitGroupes" hidden><dt>Groupes</dt><dd class="chiffre"><span data-compteur="0">0</span> <small>par tranche d'âge</small></dd></div>
+        <div id="faitDetection" hidden><dt>Prochaine détection</dt><dd class="chiffre chiffre--date"></dd></div>
+      </dl>
     </div>
-    <div class="hero-stats">
-      <div><b>8-18</b><span>ans</span></div>
-      <div><b>2</b><span>filières</span></div>
-      <div><b>36</b><span>semaines / an</span></div>
-      <div><b>100%</b><span>Sport + Études</span></div>
+    <figure class="hero__photo">
+      <div class="masque masque--hero"><picture><source type="image/webp" srcset="/assets/hero-800.webp 800w, /assets/hero-1600.webp 1600w" sizes="(max-width: 60em) 92vw, 46vw"><img src="/assets/hero.jpg" alt="Deux jeunes joueurs se disputent le ballon sur un terrain synthétique" width="1600" height="1035" fetchpriority="high"></picture></div>
+      <figcaption class="hero__legende"><span class="etiquette etiquette--or">Terrain d'Akanda</span><span>Entraînements du lundi au samedi, proche du stade de l'Amitié</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ===== PHILOSOPHIE ===== -->
+<section class="section academie" id="academie" aria-labelledby="academie-titre">
+  <div class="conteneur academie__grille">
+    <div class="academie__texte">
+      <p class="sur-titre">L'académie</p>
+      <h2 id="academie-titre" class="titre titre--lg rev-lignes"><span class="ligne"><span>Le football</span></span><span class="ligne"><span>comme école</span></span><span class="ligne"><span>de la vie.</span></span></h2>
+      <p class="corps rev">Basée à Akanda, à proximité immédiate du stade de l'Amitié, Elite Football Academy combine des entraînements de haut niveau, un suivi scolaire structuré et un accompagnement individuel. Notre ambition : permettre à chaque jeune de révéler son potentiel, sur le terrain comme à l'école.</p>
+      <div class="academie__piliers rev">
+        <div><h3>Notre vision</h3><p>Devenir, d'ici 2029, l'académie de référence au Gabon pour la formation Sport-Études des jeunes footballeurs.</p></div>
+        <div><h3>Notre mission</h3><p>Permettre à chaque jeune joueur, quels que soient ses moyens, de révéler son potentiel sportif et personnel.</p></div>
+      </div>
+      <blockquote class="citation rev"><p>« Le sport ne se construit pas contre l'école : il se construit avec elle. »</p><footer><span id="fondateurNom">Thomas Serge Lanchais</span>, fondateur et gérant</footer></blockquote>
+    </div>
+    <div class="academie__visuel">
+      <div class="masque masque--portrait" data-parallaxe><picture><source type="image/webp" srcset="/assets/training-800.webp 800w, /assets/training-1600.webp 1600w" sizes="(max-width: 60em) 92vw, 40vw"><img src="/assets/training.jpg" alt="Jeunes joueurs en match d'entraînement, un ballon en l'air" width="1100" height="800" loading="lazy"></picture></div>
+      <ul class="valeurs" aria-label="Nos valeurs">
+        <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-etoile"/></svg>Excellence</li>
+        <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-coeur"/></svg>Respect</li>
+        <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-bouclier"/></svg>Discipline</li>
+        <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-eclair"/></svg>Dépassement</li>
+        <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-groupe"/></svg>Solidarité</li>
+        <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-livre"/></svg>Réussite scolaire</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<!-- ===== ACADEMIE ===== -->
-<section class="section" id="academie">
-  <div class="container grid-2">
-    <div class="ph-frame"><img src="assets/training.jpg" alt="Entraînement à l'académie" /></div>
+<!-- ===== LES CINQ AXES ===== -->
+<section class="section section--nuit axes" id="axes" aria-labelledby="axes-titre">
+  <div class="conteneur">
+    <div class="axes__tete">
+      <p class="sur-titre">Le passeport du joueur</p>
+      <h2 id="axes-titre" class="titre titre--lg rev-lignes"><span class="ligne"><span>Cinq axes,</span></span><span class="ligne"><span>un seul joueur.</span></span></h2>
+      <p class="chapeau rev">Chaque trimestre, les éducateurs évaluent chaque joueur sur cinq dimensions. Le résultat se lit d'un coup d'œil sur son passeport, et se partage avec la famille.</p>
+    </div>
+    <div class="axes__corps">
+      <figure class="axes__radar" aria-hidden="true">
+        <svg viewBox="0 0 400 400" class="pentagone">
+          <g class="pentagone__niveaux"><polygon points="200,40 352,150 294,330 106,330 48,150"/><polygon points="200,100 314,182 271,318 129,318 86,182"/><polygon points="200,160 276,215 247,305 153,305 124,215"/></g>
+          <g class="pentagone__axes"><line x1="200" y1="200" x2="200" y2="40"/><line x1="200" y1="200" x2="352" y2="150"/><line x1="200" y1="200" x2="294" y2="330"/><line x1="200" y1="200" x2="106" y2="330"/><line x1="200" y1="200" x2="48" y2="150"/></g>
+          <polygon class="pentagone__trace" points="200,70 322,160 262,298 128,310 76,166" pathLength="1"/>
+          <g class="pentagone__points"><circle cx="200" cy="70" r="6"/><circle cx="322" cy="160" r="6"/><circle cx="262" cy="298" r="6"/><circle cx="128" cy="310" r="6"/><circle cx="76" cy="166" r="6"/></g>
+        </svg>
+        <figcaption>Illustration du radar de progression. Les valeurs réelles apparaissent sur le passeport de chaque joueur.</figcaption>
+      </figure>
+      <ol class="axes__liste">
+        <li class="axe rev"><span class="axe__num chiffre">01</span><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-ballon"/></svg><div><h3>Technique</h3><p>Contrôle, conduite, passe, frappe et gestes spécifiques au poste, travaillés à chaque séance.</p></div></li>
+        <li class="axe rev"><span class="axe__num chiffre">02</span><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-eclair"/></svg><div><h3>Physique</h3><p>Vitesse, endurance, coordination et préparation adaptée à l'âge et à la croissance.</p></div></li>
+        <li class="axe rev"><span class="axe__num chiffre">03</span><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-plan"/></svg><div><h3>Tactique</h3><p>Lecture du jeu, placement, prise de décision et compréhension du collectif.</p></div></li>
+        <li class="axe rev"><span class="axe__num chiffre">04</span><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-cerveau"/></svg><div><h3>Mental</h3><p>Confiance, gestion de l'effort, esprit de compétition et rigueur au quotidien.</p></div></li>
+        <li class="axe rev"><span class="axe__num chiffre">05</span><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-livre"/></svg><div><h3>Scolaire</h3><p>Moyennes suivies chaque trimestre : le sport ne prend jamais le pas sur l'école.</p></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PARCOURS ===== -->
+<section class="section parcours" id="parcours" aria-labelledby="parcours-titre">
+  <div class="conteneur">
+    <div class="parcours__tete">
+      <p class="sur-titre">Le parcours de formation</p>
+      <h2 id="parcours-titre" class="titre titre--lg rev-lignes"><span class="ligne"><span>De la découverte</span></span><span class="ligne"><span>à l'orientation.</span></span></h2>
+    </div>
+    <div class="parcours__piste">
+      <svg class="parcours__trace" viewBox="0 0 1200 160" preserveAspectRatio="none" aria-hidden="true"><path d="M0 120 C 200 20, 400 150, 600 70 S 1000 20, 1200 90" pathLength="1"/></svg>
+      <ol class="etapes">
+        <li class="etape rev"><span class="etape__num chiffre">1</span><h3>Découverte</h3><p>Les parents remplissent le formulaire en ligne ou nous écrivent sur WhatsApp. Une visite du terrain est proposée.</p></li>
+        <li class="etape rev"><span class="etape__num chiffre">2</span><h3>Détection</h3><p>Le jeune participe à une journée de détection : tests techniques, physiques et de jeu, encadrés par nos éducateurs.</p></li>
+        <li class="etape rev"><span class="etape__num chiffre">3</span><h3>Intégration</h3><p>Visite médicale d'aptitude obligatoire, choix de la filière avec la famille, dossier signé, pochette de bienvenue.</p></li>
+        <li class="etape rev"><span class="etape__num chiffre">4</span><h3>Entraînement</h3><p>Séances par groupe d'âge, présences suivies par le coach, matchs amicaux et stages de vacances.</p></li>
+        <li class="etape rev"><span class="etape__num chiffre">5</span><h3>Évaluation</h3><p>Chaque trimestre, les cinq axes du passeport sont notés et commentés. La famille les consulte dans son espace.</p></li>
+        <li class="etape rev"><span class="etape__num chiffre">6</span><h3>Orientation</h3><p>Avec l'accord des parents, le passeport peut être partagé avec un club ou un recruteur, par un lien révocable.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SPORT-ÉTUDES ===== -->
+<section class="section section--vert sport" id="sport-etudes" aria-labelledby="sport-titre">
+  <div class="conteneur sport__grille">
     <div>
-      <span class="eyebrow">L'académie</span>
-      <h2 class="h2">Une académie Sport-Études unique au Gabon</h2>
-      <p>Basée à <b>Akanda</b>, à proximité immédiate du <b>stade de l'Amitié</b>, Elite Football Academy combine des <b>entraînements footballistiques de haut niveau</b>, un <b>suivi scolaire structuré</b> et un <b>accompagnement individuel personnalisé</b>. Notre ambition : permettre à chaque jeune de révéler son potentiel, sur le terrain comme à l'école.</p>
-      <div class="mv">
-        <div class="mv-card"><h3>Notre vision</h3><p>Devenir, d'ici 2029, l'académie de référence au Gabon pour la formation Sport-Études des jeunes footballeurs.</p></div>
-        <div class="mv-card"><h3>Notre mission</h3><p>Permettre à chaque jeune joueur, quels que soient ses moyens, de révéler son potentiel sportif et personnel.</p></div>
+      <p class="sur-titre">Sport-Études</p>
+      <h2 id="sport-titre" class="titre titre--lg rev-lignes"><span class="ligne"><span>Réussir</span></span><span class="ligne"><span>sur les deux</span></span><span class="ligne"><span>terrains.</span></span></h2>
+      <p class="chapeau rev">Les moyennes scolaires sont suivies chaque trimestre dans le passeport du joueur. Quand une moyenne baisse, la famille et l'académie le voient tout de suite et agissent ensemble.</p>
+      <div class="regle rev" id="regleAcademie">
+        <svg class="ico" aria-hidden="true"><use href="/icons.svg#i-bouclier"/></svg>
+        <div><h3>La règle de l'académie</h3><p id="regleTexte">En filière Sport-Études, la participation aux tournois demande un suivi scolaire à jour et une moyenne trimestrielle au-dessus du seuil fixé par la direction.</p></div>
       </div>
-      <div class="founder-card">
-        <div class="founder-badge">★</div>
-        <div class="founder-txt">
-          <span class="founder-label">Le fondateur</span>
-          <h3 class="founder-name">Thomas Serge Lanchais</h3>
-          <p>Gérant et fondateur d'Elite Football Academy, <b>figure reconnue du football</b>, il met son expérience et son réseau au service de la formation des jeunes talents gabonais.</p>
+    </div>
+    <div class="formules">
+      <article class="formule formule--principale rev">
+        <header><span class="etiquette etiquette--or">La plus complète</span><h3 class="titre titre--sm">Sport-Études</h3><p class="formule__prix chiffre" data-tarif="sport_etudes">50 000 <small>FCFA / mois</small></p></header>
+        <ul>
+          <li>Entraînements le matin, technique et tactique l'après-midi</li>
+          <li>Séances individualisées le mercredi</li>
+          <li>Suivi scolaire structuré et aménagement du temps</li>
+          <li>Suivi médical et visite d'aptitude</li>
+          <li>Matchs, tournois et stages de vacances</li>
+          <li>Pochette de bienvenue : maillot, ballon, sac</li>
+        </ul>
+        <a href="#inscription" class="btn btn--or btn--bloc" data-filiere="Sport-Études">Choisir Sport-Études</a>
+      </article>
+      <article class="formule rev">
+        <header><span class="etiquette">Souplesse</span><h3 class="titre titre--sm">Loisirs</h3><p class="formule__prix chiffre" data-tarif="loisirs">25 000 <small>FCFA / mois</small></p></header>
+        <ul>
+          <li>Séances en fin d'après-midi et le samedi matin</li>
+          <li>Encadrement diplômé et progression technique</li>
+          <li>Suivi médical et visite d'aptitude</li>
+          <li>Matchs amicaux, ambiance conviviale</li>
+          <li>Accès aux stages de vacances</li>
+          <li>Pochette de bienvenue : maillot, ballon, sac</li>
+        </ul>
+        <a href="#inscription" class="btn btn--creme btn--bloc" data-filiere="Loisirs">Choisir Loisirs</a>
+      </article>
+      <p class="formules__note rev">Le programme annuel prévoit 36 semaines d'entraînement, trois stages de vacances, des matchs amicaux, des tournois et deux évaluations techniques par saison. Une journée de détection gratuite est organisée chaque année pour les jeunes des quartiers populaires. Tarifs d'amorçage, par mois.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DÉTECTION ===== -->
+<section class="section detection" id="detection" aria-labelledby="detection-titre">
+  <div class="conteneur detection__grille">
+    <div class="detection__texte">
+      <p class="sur-titre">Journées de détection</p>
+      <h2 id="detection-titre" class="titre titre--lg rev-lignes"><span class="ligne"><span>Viens montrer</span></span><span class="ligne"><span>ce que tu sais faire.</span></span></h2>
+      <p class="chapeau rev">Une matinée sur le terrain, un dossard, des ateliers techniques, physiques et de jeu. Les éducateurs notent chaque candidat sur une grille commune, puis la famille est recontactée.</p>
+      <ol class="detection__etapes rev">
+        <li><b>Inscription</b> en ligne : un numéro de dossard est attribué immédiatement.</li>
+        <li><b>Le jour J</b> : accueil, ateliers, petits matchs, grille de notation.</li>
+        <li><b>Décision</b> : retenu, liste d'attente ou non retenu, communiquée à la famille.</li>
+      </ol>
+    </div>
+    <div class="detection__cote" id="detectionCote">
+      <div class="vide rev" id="detectionVide"><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-calendrier"/></svg><h3>Aucune journée programmée pour le moment</h3><p>Les prochaines dates seront annoncées ici. Laissez vos coordonnées par le formulaire d'inscription : nous vous prévenons dès l'ouverture.</p><a href="#inscription" class="btn btn--sm">Être prévenu</a></div>
+      <div id="detectionListe" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ÉQUIPE ET VIE DU CLUB ===== -->
+<section class="section section--nuit equipe" id="equipe" aria-labelledby="equipe-titre">
+  <div class="conteneur">
+    <div class="equipe__tete">
+      <p class="sur-titre">Équipe et vie du club</p>
+      <h2 id="equipe-titre" class="titre titre--lg rev-lignes"><span class="ligne"><span>Des éducateurs</span></span><span class="ligne"><span>au bord du terrain.</span></span></h2>
+    </div>
+    <div class="equipe__grille">
+      <div class="masque masque--large" data-parallaxe><picture><source type="image/webp" srcset="/assets/team-800.webp 800w, /assets/team-1600.webp 1600w" sizes="(max-width: 60em) 92vw, 56vw"><img src="/assets/team.jpg" alt="Un groupe d'enfants joue au ballon sur une pelouse" width="1000" height="750" loading="lazy"></picture></div>
+      <div class="equipe__cote">
+        <div class="equipe__bloc rev">
+          <h3 class="titre titre--sm">Les éducateurs</h3>
+          <ul class="coachs" id="coachs"></ul>
+          <p class="vide-inline" id="coachsVide">L'équipe des éducateurs sera présentée ici dès que la direction aura créé leurs comptes.</p>
+        </div>
+        <div class="equipe__bloc rev">
+          <h3 class="titre titre--sm">La semaine type</h3>
+          <ul class="planning" id="planning"></ul>
         </div>
       </div>
-      <a href="#inscription" class="btn btn-green">Rejoindre l'académie</a>
     </div>
-  </div>
-</section>
-
-<!-- ===== VALEURS ===== -->
-<section class="section dark" id="valeurs">
-  <div class="container">
-    <div class="head-center"><span class="eyebrow gold">Ce qui nous anime</span><h2 class="h2 light">Nos valeurs</h2><p class="sub-center">Le football comme école de la vie. Chaque joueur grandit autour de cinq valeurs fondamentales.</p></div>
-    <div class="cards-4">
-      <div class="vcard"><div class="vi">🎯</div><h3>Excellence</h3><p>L'exigence du travail bien fait, sur le terrain comme en classe, pour viser le plus haut niveau.</p></div>
-      <div class="vcard"><div class="vi">🤝</div><h3>Respect</h3><p>Respect de soi, des autres, de l'adversaire, des règles et des encadrants. La base de tout.</p></div>
-      <div class="vcard"><div class="vi">🛡️</div><h3>Discipline</h3><p>Rigueur, ponctualité et régularité : les habitudes qui forgent les champions et les hommes.</p></div>
-      <div class="vcard"><div class="vi">🔥</div><h3>Dépassement</h3><p>Repousser ses limites, transformer l'effort en progrès et ne jamais rien lâcher.</p></div>
-      <div class="vcard"><div class="vi">❤️</div><h3>Solidarité</h3><p>L'esprit d'équipe et l'entraide, parce qu'on gagne et on grandit ensemble.</p></div>
-      <div class="vcard"><div class="vi">📚</div><h3>Réussite scolaire</h3><p>Le sport ne se construit pas contre l'école : il se construit avec elle.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== PROGRAMME / FORMULES ===== -->
-<section class="section" id="programme">
-  <div class="container">
-    <div class="head-center"><span class="eyebrow">Nos formules</span><h2 class="h2">Le programme</h2><p class="sub-center">Deux formules pensées pour s'adapter à l'ambition et au rythme de chaque jeune. Tarifs d'amorçage, par mois.</p></div>
-    <div class="formules">
-      <div class="formule">
-        <div class="f-head"><span class="f-tag">Le plus complet</span><h3>Sport-Études</h3><div class="f-price">50 000 <small>FCFA / mois</small></div></div>
-        <ul class="f-list">
-          <li>Entraînements le matin + technique/tactique l'après-midi</li>
-          <li>Séances individualisées le mercredi</li>
-          <li>Suivi scolaire structuré &amp; aménagement du temps</li>
-          <li>Suivi médical &amp; visite d'aptitude</li>
-          <li>Matchs, tournois &amp; stages de vacances</li>
-          <li>Pochette de bienvenue (maillot, ballon, sac)</li>
-        </ul>
-        <a href="#inscription" class="btn btn-gold btn-block" data-filiere="Sport-Études">Choisir Sport-Études</a>
-      </div>
-      <div class="formule">
-        <div class="f-head"><span class="f-tag alt">Souplesse</span><h3>Loisirs</h3><div class="f-price">25 000 <small>FCFA / mois</small></div></div>
-        <ul class="f-list">
-          <li>Séances en fin d'après-midi &amp; samedi matin</li>
-          <li>Encadrement diplômé &amp; progression technique</li>
-          <li>Suivi médical &amp; visite d'aptitude</li>
-          <li>Matchs amicaux &amp; ambiance conviviale</li>
-          <li>Accès aux stages de vacances</li>
-          <li>Pochette de bienvenue (maillot, ballon, sac)</li>
-        </ul>
-        <a href="#inscription" class="btn btn-green btn-block" data-filiere="Loisirs">Choisir Loisirs</a>
-      </div>
-    </div>
-    <p class="program-note">📅 Le programme annuel comprend <b>36 semaines d'entraînement</b>, <b>3 stages de vacances</b> (Toussaint, Pâques, été), <b>8 à 12 matchs amicaux</b>, <b>2 à 5 tournois</b> et <b>2 évaluations techniques</b> par saison. Une <b>journée détection gratuite</b> est organisée chaque année pour les jeunes des quartiers populaires.</p>
-  </div>
-</section>
-
-<!-- ===== ACQUIS ===== -->
-<section class="section dark" id="acquis">
-  <div class="container">
-    <div class="head-center"><span class="eyebrow gold">Ce que votre enfant développe</span><h2 class="h2 light">Les acquis</h2><p class="sub-center">Bien plus que du football : un parcours complet de développement sportif, scolaire et humain.</p></div>
-    <div class="cards-3">
-      <div class="acard"><span class="an">01</span><h3>Maîtrise technique</h3><p>Contrôle, conduite de balle, passe, frappe et gestes spécifiques au poste, travaillés à chaque séance.</p></div>
-      <div class="acard"><span class="an">02</span><h3>Intelligence de jeu</h3><p>Lecture du jeu, placement, prise de décision et compréhension tactique collective.</p></div>
-      <div class="acard"><span class="an">03</span><h3>Condition physique</h3><p>Vitesse, endurance, coordination et préparation physique adaptée à l'âge et à la croissance.</p></div>
-      <div class="acard"><span class="an">04</span><h3>Mental &amp; discipline</h3><p>Confiance, gestion de l'effort, esprit de compétition et rigueur au quotidien.</p></div>
-      <div class="acard"><span class="an">05</span><h3>Réussite scolaire</h3><p>Un suivi scolaire structuré pour ne jamais sacrifier les études au profit du sport.</p></div>
-      <div class="acard"><span class="an">06</span><h3>Ouverture &amp; opportunités</h3><p>Détection, évaluations formalisées et passerelles vers des clubs et compétitions officielles.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== RECRUTEMENT ===== -->
-<section class="section" id="recrutement">
-  <div class="container">
-    <div class="head-center"><span class="eyebrow">Comment intégrer l'académie</span><h2 class="h2">Le processus de recrutement</h2><p class="sub-center">Un parcours clair, exigeant et bienveillant, de la candidature à l'intégration définitive.</p></div>
-    <div class="steps">
-      <div class="step"><span class="s-num">1</span><div><h3>Candidature &amp; pré-inscription</h3><p>Les parents remplissent le formulaire en ligne (ou nous contactent par WhatsApp). Une visite du terrain à Akanda est proposée.</p></div></div>
-      <div class="step"><span class="s-num">2</span><div><h3>Journée de détection</h3><p>Le jeune participe à une séance de détection (tests techniques, physiques et de jeu) encadrée par nos éducateurs diplômés.</p></div></div>
-      <div class="step"><span class="s-num">3</span><div><h3>Évaluation par les encadrants</h3><p>Nos éducateurs évaluent le potentiel, la motivation et le comportement, puis échangent avec la famille sur la filière la plus adaptée.</p></div></div>
-      <div class="step"><span class="s-num">4</span><div><h3>Visite médicale d'aptitude</h3><p>Une visite d'aptitude est <b>obligatoire avant toute inscription</b>, en partenariat avec un cabinet de médecine du sport.</p></div></div>
-      <div class="step"><span class="s-num">5</span><div><h3>Choix de la filière</h3><p>Sport-Études ou Loisirs : la famille choisit la formule correspondant aux objectifs et au rythme du jeune.</p></div></div>
-      <div class="step"><span class="s-num">6</span><div><h3>Inscription définitive</h3><p>Signature du dossier, remise de la <b>pochette de bienvenue</b> (maillot, ballon, sac) et intégration au groupe.</p></div></div>
-    </div>
-    <div class="reassure">
-      <span>✔ Encadrement diplômé</span><span>✔ Suivi médical trimestriel</span><span>✔ Assurance responsabilité civile</span><span>✔ Déclaré FEGAFOOT</span>
-    </div>
+    <div class="actus rev" id="actus" hidden><h3 class="titre titre--sm">Dernières nouvelles</h3><ul id="actusListe"></ul></div>
   </div>
 </section>
 
 <!-- ===== INSCRIPTION ===== -->
-<section class="section dark" id="inscription">
-  <div class="container grid-2 align-start">
-    <div>
-      <span class="eyebrow gold">Espace parents</span>
-      <h2 class="h2 light">Inscrivez votre enfant</h2>
-      <p class="light-p">Remplissez ce formulaire : nous vous recontactons rapidement pour planifier la <b>journée de détection</b> et la visite du terrain. L'inscription n'est définitive qu'après la détection et la visite médicale d'aptitude.</p>
-      <ul class="ins-points">
-        <li>👦 Garçons &amp; filles de 8 à 18 ans</li>
-        <li>📍 Terrain à Akanda, proche du stade de l'Amitié</li>
-        <li>💬 Une question ? Contactez-nous sur WhatsApp</li>
+<section class="section inscription" id="inscription" aria-labelledby="inscription-titre">
+  <div class="conteneur inscription__grille">
+    <div class="inscription__texte">
+      <p class="sur-titre">Espace parents</p>
+      <h2 id="inscription-titre" class="titre titre--lg rev-lignes"><span class="ligne"><span>Inscrivez</span></span><span class="ligne"><span>votre enfant.</span></span></h2>
+      <p class="chapeau rev">Remplissez ce formulaire : l'académie vous recontacte pour la journée de détection et la visite du terrain. L'inscription n'est définitive qu'après la détection et la visite médicale d'aptitude.</p>
+      <ul class="inscription__points rev">
+        <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-groupe"/></svg>Garçons et filles de 8 à 18 ans</li>
+        <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-lieu"/></svg><span id="lieuTexte">Terrain à Akanda, proche du stade de l'Amitié</span></li>
+        <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-whatsapp"/></svg><a id="waInsc" href="#" target="_blank" rel="noopener">Une question ? Écrivez-nous sur WhatsApp</a></li>
       </ul>
-      <a href="#" id="waInsc" class="btn btn-outline">💬 Pré-inscription sur WhatsApp</a>
+      <div class="inscription__espaces rev">
+        <h3>Déjà membre ?</h3>
+        <p>Parents, coachs et direction disposent de leur espace : planning, présences, évaluations, cotisations.</p>
+        <a href="/connexion" class="btn btn--fantome btn--sm">Se connecter<svg class="ico" aria-hidden="true"><use href="/icons.svg#i-fleche"/></svg></a>
+      </div>
     </div>
-    <form class="ins-form" id="insForm">
-      <h3>Formulaire d'inscription</h3>
-      <div class="f-row">
-        <label>Nom de l'enfant *<input type="text" name="enfNom" required placeholder="Prénom & nom" /></label>
-        <label>Âge *<input type="number" name="enfAge" min="5" max="20" required placeholder="Ex : 12" /></label>
+    <form class="formulaire rev" id="insForm" novalidate>
+      <h3 class="titre titre--sm">Demande d'inscription</h3>
+      <div class="grille-champs">
+        <label class="champ"><span>Nom de l'enfant <small>requis</small></span><input type="text" name="enfNom" required autocomplete="off" placeholder="Prénom et nom"></label>
+        <label class="champ"><span>Âge <small>requis</small></span><input type="number" name="enfAge" min="5" max="20" required placeholder="12"></label>
+        <label class="champ"><span>Filière souhaitée</span><select name="filiere" id="filiereSel"><option>Sport-Études</option><option>Loisirs</option><option>À déterminer</option></select></label>
+        <label class="champ"><span>Poste préféré</span><select name="poste"><option>À déterminer</option><option>Gardien</option><option>Défenseur</option><option>Milieu</option><option>Attaquant</option></select></label>
       </div>
-      <div class="f-row">
-        <label>Filière souhaitée
-          <select name="filiere" id="filiereSel"><option>Sport-Études</option><option>Loisirs</option><option>À déterminer</option></select>
-        </label>
-        <label>Poste préféré
-          <select name="poste"><option>À déterminer</option><option>Gardien</option><option>Défenseur</option><option>Milieu</option><option>Attaquant</option></select>
-        </label>
+      <label class="champ"><span>Niveau ou club actuel <small>facultatif</small></span><input type="text" name="niveau" placeholder="Débutant, club de quartier, jamais joué…"></label>
+      <div class="grille-champs">
+        <label class="champ"><span>Nom du parent ou tuteur <small>requis</small></span><input type="text" name="parNom" required autocomplete="name" placeholder="Votre nom"></label>
+        <label class="champ"><span>Téléphone <small>requis</small></span><input type="tel" name="parTel" required autocomplete="tel" inputmode="tel" placeholder="077 00 00 00"></label>
+        <label class="champ"><span>E-mail <small>facultatif</small></span><input type="email" name="parEmail" autocomplete="email" placeholder="vous@email.com"></label>
+        <label class="champ"><span>Quartier</span><input type="text" name="parQuartier" placeholder="Akanda, Libreville…"></label>
       </div>
-      <label>Niveau / club actuel (facultatif)<input type="text" name="niveau" placeholder="Débutant, club de quartier, jamais joué…" /></label>
-      <hr/>
-      <div class="f-row">
-        <label>Nom du parent / tuteur *<input type="text" name="parNom" required placeholder="Votre nom" /></label>
-        <label>Téléphone *<input type="tel" name="parTel" required placeholder="Ex : 077 00 00 00" /></label>
-      </div>
-      <div class="f-row">
-        <label>E-mail (facultatif)<input type="email" name="parEmail" placeholder="vous@email.com" /></label>
-        <label>Quartier<input type="text" name="parQuartier" placeholder="Akanda, Libreville…" /></label>
-      </div>
-      <label>Message (facultatif)<textarea name="message" rows="2" placeholder="Disponibilités, questions…"></textarea></label>
-      <button type="submit" class="btn btn-gold btn-block" id="insSubmit">Envoyer ma demande d'inscription</button>
-      <p class="ins-hint">Votre demande est enregistrée directement auprès de l'académie, qui vous recontacte. Aucun compte WhatsApp n'est nécessaire — et aucun paiement n'est demandé en ligne.</p>
-      <div class="ins-confirm" id="insConfirm" hidden>
-        <p>✅ <b>Demande bien enregistrée !</b> L'académie vous recontacte très vite au numéro indiqué.</p>
-        <a href="#" id="waAfter" class="btn btn-wa btn-block" target="_blank">💬 Envoyer aussi sur WhatsApp (facultatif)</a>
-      </div>
+      <label class="champ"><span>Message <small>facultatif</small></span><textarea name="message" rows="2" placeholder="Disponibilités, questions…"></textarea></label>
+      <label class="champ champ--case"><input type="checkbox" name="consent" required><span>Je suis le responsable légal de l'enfant et j'accepte que ces informations soient utilisées par l'académie pour traiter cette demande (<a href="/confidentialite">politique de confidentialité</a>).</span></label>
+      <button type="submit" class="btn btn--or btn--bloc" id="insSubmit">Envoyer ma demande<svg class="ico" aria-hidden="true"><use href="/icons.svg#i-fleche"/></svg></button>
+      <p class="formulaire__statut" id="insStatut" role="status" aria-live="polite"></p>
+      <p class="formulaire__note">Votre demande est enregistrée directement auprès de l'académie. Aucun paiement n'est demandé en ligne.</p>
+      <div class="formulaire__apres" id="insConfirm" hidden><p><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-ok"/></svg><b>Demande bien enregistrée.</b> L'académie vous recontacte au numéro indiqué.</p><a href="#" id="waAfter" class="btn btn--fantome btn--sm" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-whatsapp"/></svg>Envoyer aussi sur WhatsApp</a></div>
     </form>
   </div>
 </section>
+</main>
 
-<!-- ===== CONTACT / FOOTER ===== -->
-<footer class="footer" id="contact">
-  <div class="container foot-in">
-    <div class="foot-brand">
-      <img src="assets/logo_elite.png" alt="Elite Football Academy" />
-      <p><b>ELITE FOOTBALL ACADEMY</b><br/>Académie Sport-Études de football<br/>Dirigée par <b>Thomas Serge Lanchais</b><br/>« Révéler les talents, bâtir des parcours »</p>
+<!-- ===== PIED ===== -->
+<footer class="pied" id="contact">
+  <div class="conteneur pied__grille">
+    <div class="pied__marque">
+      <img src="/assets/logo_elite.png" alt="Elite Football Academy" width="72" height="72">
+      <p><b>Elite Football Academy</b><br>Académie Sport-Études de football<br>Dirigée par <span id="fondateurPied">Thomas Serge Lanchais</span></p>
+      <p class="pied__slogan">« Révéler les talents, bâtir des parcours »</p>
     </div>
-    <div class="foot-col">
-      <h4>Nous trouver</h4>
-      <p>📍 Akanda — proche du stade de l'Amitié<br/>Libreville, Gabon</p>
-      <p>🕐 Lundi – Samedi</p>
+    <div class="pied__col">
+      <h2>Nous trouver</h2>
+      <p><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-lieu"/></svg><span id="lieuPied">Akanda — proche du stade de l'Amitié, Libreville (Gabon)</span></p>
+      <p><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-horloge"/></svg>Lundi – Samedi</p>
     </div>
-    <div class="foot-col">
-      <h4>Nous contacter</h4>
-      <p><a id="waFoot" href="#">💬 WhatsApp</a></p>
-      <p><a id="fbFoot" href="#" target="_blank" rel="noopener">📘 Facebook</a></p>
-      <p><a id="igFoot" href="#" target="_blank" rel="noopener">📸 Instagram</a></p>
-      <p><a href="/admin">🔐 Espace admin</a></p>
+    <div class="pied__col">
+      <h2>Nous contacter</h2>
+      <p><a id="waFoot" href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-whatsapp"/></svg>WhatsApp</a></p>
+      <p id="emailPied" hidden><a id="emailLien" href="#"><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-document"/></svg><span></span></a></p>
+      <p id="fbPied" hidden><a id="fbFoot" href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-lien"/></svg>Facebook</a></p>
+      <p id="igPied" hidden><a id="igFoot" href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-lien"/></svg>Instagram</a></p>
+    </div>
+    <div class="pied__col">
+      <h2>Espaces</h2>
+      <p><a href="/parents">Espace parents</a></p>
+      <p><a href="/coach">Espace coachs</a></p>
+      <p><a href="/admin">Espace direction</a></p>
+      <p><a href="#inscription">Devenir partenaire</a></p>
     </div>
   </div>
-  <div class="copyright"><div class="container">© <span id="year"></span> Elite Football Academy — Tous droits réservés.</div></div>
+  <div class="conteneur pied__bas">
+    <span>© <span id="annee"></span> Elite Football Academy — Tous droits réservés.</span>
+    <nav aria-label="Mentions"><a href="/mentions-legales">Mentions légales</a><a href="/confidentialite">Confidentialité</a></nav>
+    <span class="pied__credit">Photos d'illustration en attendant les images de l'académie.</span>
+  </div>
 </footer>
 
-<a href="#" class="wa-float" id="waFloat" aria-label="WhatsApp">💬</a>
-<script src="script.js"></script>
+<a href="#" class="wa-flottant" id="waFloat" aria-label="Nous écrire sur WhatsApp"><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-whatsapp"/></svg></a>
+
+<script src="/vendor/gsap.min.js" defer></script>
+<script src="/vendor/ScrollTrigger.min.js" defer></script>
+<script src="/ui.js" defer></script>
+<script src="/site.js" defer></script>
 </body>
 </html>
