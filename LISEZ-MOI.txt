@@ -29,9 +29,11 @@ détections, réglages) sont importés dans la base.
 -----------------------------------------------
 2) LES ESPACES
 -----------------------------------------------
-  /              site public : hero, académie, cinq axes, parcours,
-                 Sport-Études, détection (inscription en ligne),
-                 équipe, formulaire d'inscription avec consentement
+  /              site public « éclipse » : ouverture plein écran
+                 (scène WebGL), galerie de sept écrans sur dunes,
+                 puis académie, cinq axes, parcours, Sport-Études,
+                 détection (inscription en ligne), équipe,
+                 formulaire d'inscription avec consentement
   /connexion     connexion unique, redirection selon le rôle
   /admin         DIRECTION : tableau de bord, demandes, joueurs
                  (fiche, passeport, compte parent, lien de partage),
@@ -71,8 +73,9 @@ détections, réglages) sont importés dans la base.
   node --no-warnings tools/shoot-espaces.mjs
       captures de toutes les vues des trois espaces (ordinateur
       et mobile) sur des données de démonstration temporaires.
-  node tools/shoot.mjs
-      captures du site public section par section.
+  node tools/shoot-recit.mjs
+      captures du récit au défilement du site public (ouverture,
+      galerie, sections), ordinateur et mobile.
 
 -----------------------------------------------
 5) À RENSEIGNER PAR L'ACADÉMIE (Paramètres de l'espace direction)
@@ -96,11 +99,13 @@ disque persistant sans lequel la base est effacée par Render).
   lib/db.js ............ schéma SQLite, reprise v1, export/import
   lib/auth.js .......... hachage, sessions, cookies
   public/index.html, site.css, site.js ... site public
+  public/scene.js ...... scène WebGL (éclipse, brume, lumière)
+  public/dunes.js ...... dunes de premier plan de la galerie
   public/design.css .... jetons, typographies (Sora, Manrope)
   public/ui.js, app.js . socle des espaces connectés
   public/admin/, coach/, parents/ ... les trois espaces
   public/passeport.* ... passeport (espaces + lien partagé)
-  public/vendor/ ....... GSAP + ScrollTrigger (local)
+  public/vendor/ ....... GSAP, ScrollTrigger, Lenis (local)
   public/icons.svg ..... pictogrammes SVG
   public/assets/ ....... logo et photos (WebP + JPEG)
   tools/ ............... tests et captures

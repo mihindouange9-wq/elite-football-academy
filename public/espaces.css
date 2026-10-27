@@ -150,7 +150,7 @@ span.actions { display: inline-flex; align-items: center; gap: .4rem; }
 .annonce p { font-size: var(--t-sm); color: var(--encre-2); }
 
 /* connexion et pages de texte */
-.page-connexion { background: var(--nuit); color: var(--creme); }
+.page-connexion { background: #050807; color: var(--creme); }
 .connexion { min-height: 100svh; display: grid; place-items: center; padding: 2rem var(--gouttiere); position: relative; }
 .connexion__retour { position: absolute; top: 1.4rem; left: var(--gouttiere); display: inline-flex; align-items: center; gap: .5rem; min-height: 2.75rem; font-weight: 700; font-size: var(--t-sm); }
 .connexion__retour .ico { transform: rotate(180deg); }

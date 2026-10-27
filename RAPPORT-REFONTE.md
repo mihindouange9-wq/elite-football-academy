@@ -19,11 +19,18 @@
 - Parents : onglets par enfant, résumé (prochaine séance, présence, cotisations, dernière évaluation, convocations, documents du dossier), planning et présences, passeport (radar, impression PDF, partage à un club avec autorisation du responsable légal, révocable), cotisations (consigne Mobile Money, déclaration de paiement, reçus imprimables).
 - Lien public `/passeport/<jeton>` en lecture seule, journalisé.
 
+**Présentation visuelle « éclipse » (27 octobre 2026)**, transposée de la référence Studio Mirage après analyse de son site (captures, polices, structure) :
+- Chargeur à jauge fine, puis ouverture plein écran : éclipse-ballon au bord crénelé, lumière rasante sur un sol ondulé (scène WebGL écrite à la main, `public/scene.js`), wordmark ELITE au centre, Akanda et Libreville aux bords, pilule « Faites défiler pour explorer ».
+- Au défilement : l'éclipse s'ouvre, la marque s'éloigne dans le flou, le texte de présentation s'allume mot à mot, les dunes de pelouse montent (`public/dunes.js`).
+- Galerie de sept écrans en perspective posés sur les dunes (académie, passeport, parcours, Sport-Études, détection, éducateurs, inscription), parcourue par le défilement vertical, aimantée chapitre par chapitre, avec Précédent / Suivant et « Explorer ce chapitre ».
+- Sections détaillées en noir profond, pilules translucides, transitions de page par voile noir, défilement doux (Lenis vendorisé). Sur mobile, la galerie devient une pile d'écrans et les dunes sont désactivées ; avec `prefers-reduced-motion`, tout est statique.
+
 ## Ce qui a été testé
 
 | Vérification | Résultat |
 |---|---|
 | `tools/test-api.mjs` : 44 contrôles de bout en bout (accès public, rôles, inscription → joueur, compte parent, présences, évaluations, scolaire et règle des tournois, échéancier, déclaration et validation de paiement, reçus, détection et candidats, partage de passeport, journal, export, **persistance des données et des sessions après redémarrage**, restauration) | 44/44 |
+| `tools/shoot-recit.mjs` : 44 captures du récit au défilement du site public (ouverture, galerie, sections) à 1440 px et 390 px, contrôle des erreurs JavaScript et des débordements | 0 erreur, 0 débordement |
 | `tools/shoot-espaces.mjs` : 51 captures de toutes les vues des trois espaces à 1440 px et 390 px sur données de démonstration temporaires, contrôle des erreurs JavaScript et des débordements horizontaux | 0 erreur, 0 débordement |
 | Détecteur d'anti-patterns Impeccable sur les feuilles de style et scripts | 0 signalement |
 | Site public : captures section par section (`tools/shoot.mjs`), Lighthouse sur la v1 de la refonte | conforme (voir commit précédent) |
