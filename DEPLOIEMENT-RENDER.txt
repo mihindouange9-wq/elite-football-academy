@@ -17,7 +17,7 @@ dépendance npm). Il a besoin de TROIS réglages sur Render.
    À la main (si Blueprint échoue) : "New +" → "Web Service" →
       Runtime Node · Build Command vide ·
       Start Command : node --no-warnings server.js ·
-      Environment : NODE_VERSION=22.12.0, DATA_DIR=/var/data,
+      Environment : NODE_VERSION=22.23.2, DATA_DIR=/var/data,
       ADMIN_PASSWORD=(voir étape 2)
 
 ----------------------------------------------------------------

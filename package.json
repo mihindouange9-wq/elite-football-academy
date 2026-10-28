@@ -4,5 +4,5 @@
   "description": "Site Elite Football Academy — vitrine + inscriptions + espace admin",
   "private": true,
   "scripts": { "start": "node --no-warnings server.js" },
-  "engines": { "node": ">=22.5" }
+  "engines": { "node": ">=22.13" }
 }

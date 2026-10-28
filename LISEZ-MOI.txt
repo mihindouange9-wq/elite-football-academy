@@ -6,7 +6,7 @@
 -----------------------------------------------
 1) LANCER EN LOCAL
 -----------------------------------------------
-Prérequis : Node.js 22.5 ou plus (la base SQLite est intégrée à
+Prérequis : Node.js 22.13 ou plus (la base SQLite est intégrée à
 Node, il n'y a aucune dépendance à installer).
 
   node --no-warnings server.js        →  http://localhost:5600

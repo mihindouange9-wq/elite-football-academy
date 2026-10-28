@@ -10,6 +10,7 @@ import { readFileSync } from "node:fs";
 import { randomBytes } from "node:crypto";
 
 const API = "https://api.render.com/v1";
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const KEY = (process.env.RENDER_API_KEY || (process.env.RENDER_KEY_FILE ? readFileSync(process.env.RENDER_KEY_FILE, "utf8") : "")).trim();
 if (!KEY) { console.error("RENDER_API_KEY (ou RENDER_KEY_FILE) manquante."); process.exit(1); }
 const REPO = "https://github.com/mihindouange9-wq/elite-football-academy";
@@ -19,21 +20,22 @@ const ADMIN = process.env.ADMIN_PASSWORD || randomBytes(9).toString("base64url")
 const SERVICE = {
   type: "web_service", name: NAME, repo: REPO, branch: "main", autoDeploy: "yes",
   envVars: [
-    { key: "NODE_VERSION", value: "22.12.0" },
+    { key: "NODE_VERSION", value: "22.23.2" },
     { key: "ADMIN_PASSWORD", value: ADMIN },
     // DATA_DIR n'est pas fixé : sans disque persistant (plan gratuit), la base vit dans ./data et repart
     // de zéro à chaque redéploiement. Avec un disque monté sur /var/data, ajouter DATA_DIR=/var/data.
   ],
-  serviceDetails: { env: "node", plan: "free", region: "frankfurt", envSpecificDetails: { buildCommand: "", startCommand: "node --no-warnings server.js" }, healthCheckPath: "/api/public", pullRequestPreviewsEnabled: "no" },
+  serviceDetails: { env: "node", plan: "free", region: "frankfurt", envSpecificDetails: { buildCommand: "echo aucune-etape-de-build", startCommand: "node --no-warnings server.js" }, healthCheckPath: "/api/public", pullRequestPreviewsEnabled: "no" },
 };
 
-async function api(method, path, body) {
-  const res = await fetch(`${API}${path}`, { method, headers: { Authorization: `Bearer ${KEY}`, Accept: "application/json", "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined });
+async function api(method, path, body, essai = 0) {
+  let res;
+  try { res = await fetch(`${API}${path}`, { method, headers: { Authorization: `Bearer ${KEY}`, Accept: "application/json", "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined }); }
+  catch (e) { if (essai < 3) { await sleep(3000); return api(method, path, body, essai + 1); } throw e; }
   const text = await res.text(); let data; try { data = text ? JSON.parse(text) : null; } catch { data = text; }
   if (!res.ok) throw new Error(`${method} ${path} → ${res.status} ${typeof data === "object" && data && data.message ? data.message : text}`);
   return data;
 }
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function main() {
   const owners = (await api("GET", "/owners?limit=20")).map((o) => o.owner);
@@ -45,7 +47,7 @@ async function main() {
   let deployId, nouveau = false;
   if (service) {
     console.log(`Service existant : ${service.id} → ${service.serviceDetails?.url ?? ""}`);
-    if (process.env.ADMIN_PASSWORD) { await api("PUT", `/services/${service.id}/env-vars`, SERVICE.envVars); console.log("Variables mises à jour (ADMIN_PASSWORD remplacé)."); }
+    if (process.env.ADMIN_PASSWORD) { await api("PUT", `/services/${service.id}/env-vars`, SERVICE.envVars); console.log(`Variables mises à jour. Mot de passe de la direction (identifiant « direction ») : ${ADMIN}`); }
     const deploy = await api("POST", `/services/${service.id}/deploys`, { clearCache: "do_not_clear" });
     deployId = deploy.id; console.log(`Nouveau déploiement demandé : ${deployId}`);
   } else {
