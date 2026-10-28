@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Elite Football Academy — film de présentation</title>
+<style>
+@font-face { font-family: "Sora"; src: url("/public/fonts/sora-latin-ext.woff2") format("woff2"); font-weight: 100 800; unicode-range: U+0100-02BA, U+1E00-1EFF; }
+@font-face { font-family: "Sora"; src: url("/public/fonts/sora-latin.woff2") format("woff2"); font-weight: 100 800; }
+@font-face { font-family: "Manrope"; src: url("/public/fonts/manrope-latin-ext-wght-normal.woff2") format("woff2"); font-weight: 200 800; unicode-range: U+0100-02BA, U+1E00-1EFF; }
+@font-face { font-family: "Manrope"; src: url("/public/fonts/manrope-latin-wght-normal.woff2") format("woff2"); font-weight: 200 800; }
+:root { --noir: #050807; --or: #d4af37; --vert: #1f8a4c; --creme: #f6f3ec; }
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--noir); }
+body { font-family: "Manrope", sans-serif; color: var(--creme); }
+#stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--noir); }
+#fond { position: absolute; inset: 0; width: 100%; height: 100%; }
+#brume { position: absolute; inset: 0; background: radial-gradient(90% 60% at 50% 110%, rgba(31, 138, 76, .28), transparent 70%); opacity: 0; }
+.plan { position: absolute; inset: 0; visibility: hidden; }
+.t { font-family: "Sora", sans-serif; font-weight: 800; letter-spacing: -.035em; line-height: .98; color: #fff; }
+.ligne { display: block; overflow: hidden; padding: .12em .06em .08em 0; margin: -.12em 0 -.08em 0; }
+.ligne > span { display: block; }
+.sur { font-family: "Sora", sans-serif; font-weight: 700; font-size: 24px; letter-spacing: .24em; text-transform: uppercase; color: var(--or); }
+
+/* bandeau de progression (haut) */
+#barre { position: absolute; left: 120px; right: 120px; top: 54px; height: 2px; background: rgba(246, 243, 236, .14); visibility: hidden; }
+#barre i { position: absolute; left: 0; top: 0; height: 100%; width: 0; background: var(--creme); }
+#etape { position: absolute; right: 120px; top: 70px; font-family: "Sora", sans-serif; font-weight: 700; font-size: 20px; letter-spacing: .2em; text-transform: uppercase; color: rgba(246, 243, 236, .55); visibility: hidden; }
+#marqueMini { position: absolute; left: 120px; top: 66px; display: flex; align-items: center; gap: 14px; visibility: hidden; }
+#marqueMini img { width: 42px; height: 42px; border-radius: 50%; background: #fff; padding: 2px; }
+#marqueMini span { font-family: "Sora", sans-serif; font-weight: 800; font-size: 22px; letter-spacing: .12em; color: #fff; }
+
+/* chapitre : colonne de texte à gauche, cadre à droite */
+.chap .num { position: absolute; left: 120px; top: 180px; font-family: "Sora", sans-serif; font-weight: 800; font-size: 150px; letter-spacing: -.05em; line-height: 1; color: transparent; -webkit-text-stroke: 2px rgba(212, 175, 55, .8); }
+.chap .nouv { position: absolute; left: 124px; top: 352px; }
+.chap .titre { position: absolute; left: 120px; top: 392px; width: 720px; font-size: 76px; }
+.chap .points { position: absolute; left: 120px; top: 640px; width: 700px; display: grid; gap: 18px; }
+.chap .point { display: flex; align-items: flex-start; gap: 18px; font-size: 30px; line-height: 1.3; font-weight: 500; color: rgba(246, 243, 236, .88); }
+.chap .point::before { content: ""; flex: none; width: 14px; height: 14px; margin-top: 13px; border-radius: 50%; background: var(--or); }
+.chap .pour { position: absolute; left: 120px; bottom: 90px; display: inline-flex; align-items: center; gap: 12px; padding: 14px 24px; border-radius: 999px; border: 1px solid rgba(246, 243, 236, .22); background: rgba(246, 243, 236, .06); font-family: "Sora", sans-serif; font-weight: 700; font-size: 22px; color: var(--creme); }
+.chap .pour b { color: var(--or); font-weight: 700; }
+
+/* cadre navigateur */
+.cadre { position: absolute; left: 920px; top: 170px; width: 900px; height: 760px; border-radius: 18px; overflow: hidden; background: #0c120e; box-shadow: 0 0 0 1px rgba(246, 243, 236, .12), 0 60px 120px -40px #000, 0 0 120px -30px rgba(214, 190, 110, .35); transform-origin: 50% 100%; }
+.cadre .chrome { position: absolute; left: 0; right: 0; top: 0; height: 46px; background: #141d17; display: flex; align-items: center; gap: 8px; padding: 0 18px; z-index: 3; }
+.cadre .chrome i { width: 12px; height: 12px; border-radius: 50%; background: rgba(246, 243, 236, .25); }
+.cadre .chrome span { margin-left: 14px; flex: 1; height: 26px; border-radius: 13px; background: rgba(246, 243, 236, .08); font-size: 15px; line-height: 26px; padding: 0 14px; color: rgba(246, 243, 236, .6); font-family: "Manrope", sans-serif; }
+.cadre .vue { position: absolute; left: 0; top: 46px; width: 900px; height: 714px; overflow: hidden; background: #f6f3ec; }
+.cadre .src { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.cadre .src img { display: block; width: 1440px; height: auto; }
+.cadre .spot { position: absolute; border: 4px solid var(--or); border-radius: 14px; box-shadow: 0 0 0 9999px rgba(5, 8, 7, .32), 0 0 40px rgba(212, 175, 55, .6); opacity: 0; }
+.cadre .spot::after { content: ""; position: absolute; inset: -4px; border-radius: 14px; border: 2px solid rgba(212, 175, 55, .5); }
+.cadre .legende { position: absolute; left: 24px; bottom: 22px; z-index: 3; padding: 12px 20px; border-radius: 999px; background: rgba(5, 8, 7, .85); border: 1px solid rgba(246, 243, 236, .18); color: var(--creme); font-family: "Sora", sans-serif; font-weight: 700; font-size: 21px; opacity: 0; }
+
+/* téléphone */
+.tel { position: absolute; width: 400px; height: 820px; border-radius: 46px; background: #0c120e; padding: 14px; box-shadow: 0 0 0 2px rgba(246, 243, 236, .18), 0 60px 120px -40px #000, 0 0 120px -30px rgba(214, 190, 110, .35); transform-origin: 50% 100%; }
+.tel .ecran { position: absolute; inset: 14px; border-radius: 34px; overflow: hidden; background: #f6f3ec; }
+.tel .ecran img { position: absolute; left: 0; top: 0; width: 372px; height: auto; display: block; }
+.tel .encoche { position: absolute; left: 50%; top: 24px; width: 110px; height: 26px; margin-left: -55px; border-radius: 13px; background: #0c120e; z-index: 2; }
+
+/* intro */
+#intro .fondimg { position: absolute; inset: 0; opacity: 0; }
+#intro .fondimg img { position: absolute; left: 0; top: 0; width: 1920px; height: 1200px; object-fit: cover; object-position: 80% 50%; opacity: .55; }
+#intro .fondimg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5, 8, 7, .96) 35%, rgba(5, 8, 7, .55) 70%, rgba(5, 8, 7, .85)); }
+#intro .logo { position: absolute; left: 120px; top: 190px; width: 120px; height: 120px; border-radius: 50%; background: #fff; padding: 4px; box-shadow: 0 0 80px -10px rgba(214, 190, 110, .5); }
+#intro .logo img { width: 100%; height: 100%; }
+#intro .sur { position: absolute; left: 124px; top: 350px; }
+#intro .grand { position: absolute; left: 120px; top: 400px; width: 1100px; font-size: 118px; }
+#intro .grand .or { color: var(--or); }
+#intro .texte { position: absolute; left: 124px; top: 780px; width: 980px; font-size: 34px; line-height: 1.4; color: rgba(246, 243, 236, .82); }
+#intro .avant { position: absolute; left: 1180px; top: 250px; width: 620px; display: grid; gap: 18px; }
+#intro .avant .carte { padding: 26px 30px; border-radius: 18px; border: 1px solid rgba(246, 243, 236, .16); background: rgba(246, 243, 236, .05); }
+#intro .avant .carte small { display: block; font-family: "Sora", sans-serif; font-weight: 700; font-size: 18px; letter-spacing: .2em; text-transform: uppercase; color: rgba(246, 243, 236, .55); margin-bottom: 10px; }
+#intro .avant .carte b { display: block; font-family: "Sora", sans-serif; font-weight: 800; font-size: 40px; letter-spacing: -.02em; color: #fff; }
+#intro .avant .carte.or { border-color: rgba(212, 175, 55, .5); background: rgba(212, 175, 55, .08); }
+#intro .avant .carte.or small { color: var(--or); }
+#intro .avant .carte p { margin-top: 10px; font-size: 24px; line-height: 1.35; color: rgba(246, 243, 236, .78); }
+
+/* sécurité */
+#securite .tags { position: absolute; left: 920px; top: 230px; width: 900px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+#securite .tag { padding: 30px 30px; border-radius: 18px; border: 1px solid rgba(246, 243, 236, .16); background: rgba(246, 243, 236, .05); font-family: "Sora", sans-serif; font-weight: 800; font-size: 34px; letter-spacing: -.02em; color: #fff; }
+#securite .tag small { display: block; font-family: "Manrope", sans-serif; font-weight: 500; font-size: 22px; letter-spacing: 0; color: rgba(246, 243, 236, .66); margin-top: 8px; }
+
+/* fin */
+#fin .logo { position: absolute; left: 50%; top: 250px; width: 190px; height: 190px; margin-left: -95px; border-radius: 50%; background: #fff; padding: 6px; box-shadow: 0 0 120px -10px rgba(214, 190, 110, .55); }
+#fin .logo img { width: 100%; height: 100%; display: block; }
+#fin .mot { position: absolute; left: 0; width: 1920px; top: 500px; text-align: center; font-family: "Sora", sans-serif; font-weight: 800; font-size: 150px; letter-spacing: .14em; color: #fff; }
+#fin .sous { position: absolute; left: 0; width: 1920px; top: 690px; text-align: center; font-family: "Sora", sans-serif; font-weight: 600; font-size: 24px; letter-spacing: .34em; text-transform: uppercase; color: rgba(246, 243, 236, .65); }
+#fin .slogan { position: absolute; left: 0; width: 1920px; top: 770px; text-align: center; font-family: "Sora", sans-serif; font-weight: 700; font-size: 44px; color: var(--or); }
+#fin .site { position: absolute; left: 0; width: 1920px; top: 880px; text-align: center; font-family: "Sora", sans-serif; font-weight: 600; font-size: 28px; letter-spacing: .06em; color: rgba(246, 243, 236, .8); }
+
+/* ---- partie 1 : qui est Elite Football ---- */
+.pres .photo { position: absolute; left: 1000px; top: 150px; width: 800px; height: 780px; border-radius: 18px; overflow: hidden; box-shadow: 0 60px 120px -40px #000, 0 0 120px -30px rgba(214, 190, 110, .3); transform-origin: 50% 100%; }
+.pres .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pres .photo .cred { position: absolute; left: 20px; bottom: 16px; font-size: 16px; color: rgba(246, 243, 236, .7); background: rgba(5, 8, 7, .6); padding: 6px 12px; border-radius: 999px; }
+.pres .sur { position: absolute; left: 124px; top: 190px; }
+.pres .titre { position: absolute; left: 120px; top: 236px; width: 820px; font-size: 92px; }
+.pres .texte { position: absolute; left: 124px; top: 520px; width: 800px; font-size: 32px; line-height: 1.4; color: rgba(246, 243, 236, .85); }
+.pres .faits { position: absolute; left: 120px; top: 640px; width: 820px; display: grid; gap: 14px; }
+.pres .fait { display: flex; align-items: flex-start; gap: 18px; font-size: 29px; line-height: 1.3; font-weight: 500; color: rgba(246, 243, 236, .88); }
+.pres .fait::before { content: ""; flex: none; width: 14px; height: 14px; margin-top: 12px; border-radius: 50%; background: var(--or); }
+.pres .fait b { color: #fff; font-weight: 700; }
+#identite .grand { position: absolute; left: 120px; top: 300px; font-family: "Sora", sans-serif; font-weight: 800; font-size: 170px; letter-spacing: .12em; line-height: 1; color: #fff; }
+#identite .ligne2 { position: absolute; left: 124px; top: 500px; font-family: "Sora", sans-serif; font-weight: 600; font-size: 30px; letter-spacing: .3em; text-transform: uppercase; color: rgba(246, 243, 236, .7); }
+#identite .infos { position: absolute; left: 120px; top: 620px; width: 800px; display: grid; gap: 14px; }
+#identite .info { font-size: 32px; line-height: 1.35; color: rgba(246, 243, 236, .88); }
+#identite .info b { color: var(--or); font-weight: 700; }
+#mission .titre { font-size: 74px; width: 860px; }
+#mission .faits { top: 470px !important; }
+#mission .citation { position: absolute; left: 120px; top: 740px; width: 800px; font-family: "Sora", sans-serif; font-weight: 700; font-size: 30px; line-height: 1.35; color: #fff; padding-left: 26px; border-left: 4px solid var(--or); }
+#mission .citation small { display: block; margin-top: 10px; font-family: "Manrope", sans-serif; font-weight: 500; font-size: 22px; color: rgba(246, 243, 236, .6); }
+#valeurs .grille { position: absolute; left: 120px; top: 520px; width: 820px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+#valeurs .val { padding: 24px 28px; border-radius: 16px; border: 1px solid rgba(246, 243, 236, .16); background: rgba(246, 243, 236, .05); font-family: "Sora", sans-serif; font-weight: 800; font-size: 36px; letter-spacing: -.02em; color: #fff; }
+#filieres .cartes { position: absolute; left: 1000px; top: 150px; width: 800px; display: grid; gap: 20px; }
+#filieres .carte { padding: 30px 34px; border-radius: 18px; border: 1px solid rgba(246, 243, 236, .16); background: rgba(246, 243, 236, .05); }
+#filieres .carte.or { border-color: rgba(212, 175, 55, .5); background: rgba(212, 175, 55, .09); }
+#filieres .carte small { display: block; font-family: "Sora", sans-serif; font-weight: 700; font-size: 18px; letter-spacing: .2em; text-transform: uppercase; color: var(--or); margin-bottom: 8px; }
+#filieres .carte b { display: block; font-family: "Sora", sans-serif; font-weight: 800; font-size: 44px; letter-spacing: -.02em; color: #fff; }
+#filieres .carte .prix { font-family: "Sora", sans-serif; font-weight: 800; font-size: 54px; letter-spacing: -.03em; color: #fff; margin: 10px 0 14px; }
+#filieres .carte .prix span { font-family: "Manrope", sans-serif; font-weight: 600; font-size: 22px; letter-spacing: 0; color: rgba(246, 243, 236, .6); margin-left: 10px; }
+#filieres .carte ul { list-style: none; padding: 0; display: grid; gap: 6px; font-size: 23px; color: rgba(246, 243, 236, .82); }
+#filieres .carte li::before { content: "· "; color: var(--or); }
+#programme .chiffres { position: absolute; left: 1000px; top: 150px; width: 800px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+#programme .chiffre { padding: 30px 30px; border-radius: 18px; border: 1px solid rgba(246, 243, 236, .16); background: rgba(246, 243, 236, .05); }
+#programme .chiffre b { display: block; font-family: "Sora", sans-serif; font-weight: 800; font-size: 86px; letter-spacing: -.04em; line-height: 1; color: var(--or); }
+#programme .chiffre span { display: block; margin-top: 10px; font-family: "Sora", sans-serif; font-weight: 700; font-size: 26px; color: #fff; }
+#parcours .etapes { position: absolute; left: 1000px; top: 170px; width: 800px; display: grid; gap: 12px; }
+#parcours .etape { display: grid; grid-template-columns: 70px 1fr; align-items: center; gap: 20px; padding: 18px 24px; border-radius: 14px; border: 1px solid rgba(246, 243, 236, .14); background: rgba(246, 243, 236, .04); }
+#parcours .etape b { width: 56px; height: 56px; display: grid; place-items: center; border-radius: 50%; background: var(--creme); color: var(--noir); font-family: "Sora", sans-serif; font-weight: 800; font-size: 26px; }
+#parcours .etape span { font-family: "Sora", sans-serif; font-weight: 800; font-size: 32px; color: #fff; }
+#parcours .etape small { display: block; font-family: "Manrope", sans-serif; font-weight: 500; font-size: 20px; color: rgba(246, 243, 236, .66); }
+#transition .grand { position: absolute; left: 120px; top: 260px; width: 1600px; font-size: 104px; }
+#transition .grand .or { color: var(--or); }
+#transition .sous { position: absolute; left: 124px; top: 760px; font-size: 36px; line-height: 1.4; width: 1300px; color: rgba(246, 243, 236, .82); }
+#ouv .marque { position: absolute; left: 0; width: 1920px; top: 430px; display: grid; justify-items: center; gap: 22px; }
+#ouv .mot { display: flex; font-family: "Sora", sans-serif; font-weight: 800; font-size: 150px; letter-spacing: .14em; margin-right: -.14em; line-height: 1; color: #fff; text-shadow: 0 0 60px rgba(255, 255, 255, .3); }
+#ouv .mot i { display: inline-block; font-style: normal; }
+#ouv .sousmot { font-family: "Sora", sans-serif; font-weight: 600; font-size: 22px; letter-spacing: .36em; text-transform: uppercase; color: rgba(246, 243, 236, .65); }
+#ouv .bord { position: absolute; top: 520px; font-family: "Sora", sans-serif; font-weight: 600; font-size: 26px; color: rgba(246, 243, 236, .85); }
+.voile { position: absolute; inset: 0; background: var(--noir); visibility: hidden; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="fond"></canvas>
+  <div id="brume"></div>
+  <div id="marqueMini"><img src="/public/assets/logo_elite.png" alt=""><span>ELITE</span></div>
+  <div id="barre"><i></i></div>
+  <p id="etape"></p>
+
+  <!-- OUVERTURE : éclipse et marque -->
+  <section class="plan" id="ouv">
+    <div class="marque"><span class="mot"><i>E</i><i>L</i><i>I</i><i>T</i><i>E</i></span><span class="sousmot">Football Academy · Sport-Études</span></div>
+    <p class="bord" style="left:70px">Akanda</p><p class="bord" style="right:70px">Libreville · Gabon</p>
+  </section>
+
+  <!-- QUI SOMMES-NOUS -->
+  <section class="plan pres" id="identite">
+    <p class="sur">Qui est Elite Football Academy</p>
+    <p class="grand">ELITE</p>
+    <p class="ligne2">Football Academy</p>
+    <div class="infos">
+      <p class="info"><b>Académie Sport-Études de football</b> à Akanda, Libreville (Gabon), proche du stade de l'Amitié.</p>
+      <p class="info">Fondée et dirigée par <b>Thomas Serge Lanchais</b>.</p>
+      <p class="info">Pour les <b>garçons et filles de 8 à 18 ans</b>.</p>
+    </div>
+    <div class="photo"><img src="/public/assets/enfants.jpg" alt=""><span class="cred">Les joueurs de l'académie</span></div>
+  </section>
+
+  <section class="plan pres" id="mission">
+    <p class="sur">La mission</p>
+    <h2 class="titre t"><span class="ligne"><span>Révéler les talents,</span></span><span class="ligne"><span style="color:var(--or)">bâtir des parcours.</span></span></h2>
+    <div class="faits" style="top:500px">
+      <p class="fait"><b>Former</b> les jeunes sur le terrain, avec des entraînements de haut niveau.</p>
+      <p class="fait"><b>Accompagner</b> à l'école, avec un suivi scolaire structuré.</p>
+      <p class="fait"><b>Transmettre</b> des valeurs qui durent.</p>
+    </div>
+    <p class="citation">« Le sport ne se construit pas contre l'école : il se construit avec elle. »<small>Thomas Serge Lanchais, fondateur · Vision 2029 : devenir l'académie de référence au Gabon pour la formation Sport-Études.</small></p>
+    <div class="photo"><img src="/public/assets/training.jpg" alt=""><span class="cred">Photo d'illustration</span></div>
+  </section>
+
+  <section class="plan pres" id="valeurs">
+    <p class="sur">Les valeurs</p>
+    <h2 class="titre t"><span class="ligne"><span>Six valeurs,</span></span><span class="ligne"><span>un état d'esprit.</span></span></h2>
+    <div class="grille"><div class="val">Excellence</div><div class="val">Respect</div><div class="val">Discipline</div><div class="val">Dépassement</div><div class="val">Solidarité</div><div class="val">Réussite scolaire</div></div>
+    <div class="photo"><img src="/public/assets/team.jpg" alt=""><span class="cred">Photo d'illustration</span></div>
+  </section>
+
+  <section class="plan pres" id="filieres">
+    <p class="sur">Les deux filières</p>
+    <h2 class="titre t"><span class="ligne"><span>Réussir</span></span><span class="ligne"><span>sur les deux</span></span><span class="ligne"><span>terrains.</span></span></h2>
+    <div class="faits" style="top:620px">
+      <p class="fait">Suivi médical et visite d'aptitude pour tous.</p>
+      <p class="fait">Pochette de bienvenue : maillot, ballon, sac.</p>
+      <p class="fait">Tarifs d'amorçage, par mois.</p>
+    </div>
+    <div class="cartes">
+      <div class="carte or"><small>La plus complète</small><b>Sport-Études</b><p class="prix">50 000<span>FCFA / mois</span></p><ul><li>Entraînements le matin, technique et tactique l'après-midi</li><li>Séances individualisées le mercredi</li><li>Suivi scolaire structuré, matchs, tournois, stages</li></ul></div>
+      <div class="carte"><small>Souplesse</small><b>Loisirs</b><p class="prix">25 000<span>FCFA / mois</span></p><ul><li>Séances en fin d'après-midi et le samedi matin</li><li>Encadrement diplômé, matchs amicaux, stages de vacances</li></ul></div>
+    </div>
+  </section>
+
+  <section class="plan pres" id="programme">
+    <p class="sur">Le programme annuel</p>
+    <h2 class="titre t"><span class="ligne"><span>Une saison</span></span><span class="ligne"><span>complète.</span></span></h2>
+    <div class="faits" style="top:560px">
+      <p class="fait">Matchs amicaux et tournois toute la saison.</p>
+      <p class="fait">Une <b>journée de détection gratuite</b> chaque année pour les jeunes des quartiers populaires.</p>
+      <p class="fait">Entraînements du lundi au samedi, terrain d'Akanda.</p>
+    </div>
+    <div class="chiffres">
+      <div class="chiffre"><b>36</b><span>semaines d'entraînement</span></div>
+      <div class="chiffre"><b>3</b><span>stages de vacances</span></div>
+      <div class="chiffre"><b>2</b><span>évaluations techniques par saison</span></div>
+      <div class="chiffre"><b>4</b><span>groupes par tranche d'âge, U7 à U18</span></div>
+    </div>
+  </section>
+
+  <section class="plan pres" id="parcours">
+    <p class="sur">Le parcours du joueur</p>
+    <h2 class="titre t"><span class="ligne"><span>De la découverte</span></span><span class="ligne"><span>à l'orientation.</span></span></h2>
+    <p class="texte" style="top:540px">Six étapes, de la première prise de contact jusqu'au partage du parcours avec un club.</p>
+    <div class="etapes">
+      <div class="etape"><b>1</b><div><span>Découverte</span><small>Formulaire en ligne ou WhatsApp, visite du terrain</small></div></div>
+      <div class="etape"><b>2</b><div><span>Détection</span><small>Tests techniques, physiques et de jeu</small></div></div>
+      <div class="etape"><b>3</b><div><span>Intégration</span><small>Visite médicale, choix de la filière, dossier signé</small></div></div>
+      <div class="etape"><b>4</b><div><span>Entraînement</span><small>Séances par groupe d'âge, matchs, stages</small></div></div>
+      <div class="etape"><b>5</b><div><span>Évaluation</span><small>Les cinq axes notés chaque trimestre</small></div></div>
+      <div class="etape"><b>6</b><div><span>Orientation</span><small>Passeport partagé avec un club, avec l'accord des parents</small></div></div>
+    </div>
+  </section>
+
+  <!-- TRANSITION -->
+  <section class="plan" id="transition">
+    <h2 class="grand t"><span class="ligne"><span>Cette année :</span></span><span class="ligne"><span class="or">la même idée,</span></span><span class="ligne"><span>et une plateforme numérique.</span></span></h2>
+    <p class="sous">Neuf nouveautés pour l'académie, les coachs et les familles. Toutes construites sur des données réelles, rien d'inventé.</p>
+  </section>
+
+  <!-- 01 PASSEPORT -->
+  <section class="plan chap" id="passeport">
+    <p class="num">01</p><p class="nouv sur">Nouveauté</p>
+    <h2 class="titre t"><span class="ligne"><span>Le passeport</span></span><span class="ligne"><span>du joueur.</span></span></h2>
+    <div class="points"><p class="point">Cinq axes notés chaque trimestre : technique, physique, tactique, mental, scolaire.</p><p class="point">Un radar de progression lisible d'un coup d'œil.</p><p class="point">Les observations des éducateurs, trimestre après trimestre.</p></div>
+    <p class="pour"><b>Pour</b> le joueur et sa famille</p>
+    <div class="cadre"><div class="chrome"><i></i><i></i><i></i><span>elite-football-academy-eezb.onrender.com/admin</span></div><div class="vue"><div class="src"><img src="/video/captures/fiche-joueur.png" alt=""><div class="spot" style="left:300px;top:400px;width:350px;height:340px"></div></div></div><p class="legende">Radar des cinq axes</p></div>
+  </section>
+
+  <!-- 02 PARENTS -->
+  <section class="plan chap" id="parents">
+    <p class="num">02</p><p class="nouv sur">Nouveauté</p>
+    <h2 class="titre t"><span class="ligne"><span>L'espace</span></span><span class="ligne"><span>parents.</span></span></h2>
+    <div class="points"><p class="point">Prochaine séance, présences et évaluations de l'enfant.</p><p class="point">Convocations et informations du groupe.</p><p class="point">Cotisations, paiements et reçus, depuis le téléphone.</p></div>
+    <p class="pour"><b>Pour</b> les familles</p>
+    <div class="tel" style="left:1180px;top:150px"><div class="encoche"></div><div class="ecran"><img src="/video/captures/parents-mobile.png" alt=""></div></div>
+  </section>
+
+  <!-- 03 COACHS -->
+  <section class="plan chap" id="coachs">
+    <p class="num">03</p><p class="nouv sur">Nouveauté</p>
+    <h2 class="titre t"><span class="ligne"><span>L'espace</span></span><span class="ligne"><span>coachs.</span></span></h2>
+    <div class="points"><p class="point">Feuille de présence en trois touches : présent, retard, absent, excusé.</p><p class="point">Évaluation du trimestre par cinq curseurs.</p><p class="point">Absences récentes et message aux parents en un clic.</p></div>
+    <p class="pour"><b>Pour</b> les éducateurs</p>
+    <div class="cadre" style="left:900px;width:760px"><div class="chrome"><i></i><i></i><i></i><span>…/coach</span></div><div class="vue" style="width:760px"><div class="src"><img src="/video/captures/coach-evaluation.png" alt=""><div class="spot" style="left:300px;top:400px;width:350px;height:320px"></div></div></div><p class="legende">Évaluation en cinq curseurs</p></div>
+    <div class="tel" style="left:1500px;top:230px;width:320px;height:660px"><div class="encoche"></div><div class="ecran"><img src="/video/captures/coach-mobile.png" alt="" style="width:292px"></div></div>
+  </section>
+
+  <!-- 04 SCOLAIRE -->
+  <section class="plan chap" id="scolaire">
+    <p class="num">04</p><p class="nouv sur">Nouveauté</p>
+    <h2 class="titre t"><span class="ligne"><span>Le suivi scolaire</span></span><span class="ligne"><span>intégré.</span></span></h2>
+    <div class="points"><p class="point">La moyenne de chaque trimestre est saisie dans le passeport.</p><p class="point">Sous le seuil fixé par la direction, la règle des tournois s'applique.</p><p class="point">La famille et l'académie voient la baisse tout de suite.</p></div>
+    <p class="pour"><b>Pour</b> la filière Sport-Études</p>
+    <div class="cadre"><div class="chrome"><i></i><i></i><i></i><span>…/admin · fiche du joueur</span></div><div class="vue"><div class="src"><img src="/video/captures/fiche-joueur.png" alt=""><div class="spot" style="left:676px;top:430px;width:340px;height:380px"></div></div></div><p class="legende">Éligible aux tournois ou suspendu, automatiquement</p></div>
+  </section>
+
+  <!-- 05 DÉTECTION -->
+  <section class="plan chap" id="detection">
+    <p class="num">05</p><p class="nouv sur">Nouveauté</p>
+    <h2 class="titre t"><span class="ligne"><span>La détection</span></span><span class="ligne"><span>en ligne.</span></span></h2>
+    <div class="points"><p class="point">Inscription depuis le site, numéro de dossard attribué immédiatement.</p><p class="point">Le jour J : grille de notation commune pour les éducateurs.</p><p class="point">Décision communiquée à la famille, joueur créé en un clic.</p></div>
+    <p class="pour"><b>Pour</b> les jeunes candidats</p>
+    <div class="cadre"><div class="chrome"><i></i><i></i><i></i><span>…/admin · détections</span></div><div class="vue"><div class="src"><img src="/video/captures/detection.png" alt=""><div class="spot" style="left:310px;top:350px;width:1080px;height:180px"></div></div></div><p class="legende">Dossards, notes et décision</p></div>
+  </section>
+
+  <!-- 06 PAIEMENTS -->
+  <section class="plan chap" id="paiements">
+    <p class="num">06</p><p class="nouv sur">Nouveauté</p>
+    <h2 class="titre t"><span class="ligne"><span>Cotisations</span></span><span class="ligne"><span>et paiements.</span></span></h2>
+    <div class="points"><p class="point">Échéancier mensuel généré pour chaque joueur actif.</p><p class="point">Le parent déclare son paiement Mobile Money avec la référence.</p><p class="point">La direction vérifie, valide, et le reçu numéroté est émis.</p></div>
+    <p class="pour"><b>Pour</b> la trésorerie de l'académie</p>
+    <div class="cadre"><div class="chrome"><i></i><i></i><i></i><span>…/admin · cotisations et paiements</span></div><div class="vue"><div class="src"><img src="/video/captures/finances.png" alt=""><div class="spot" style="left:300px;top:250px;width:1100px;height:120px"></div></div></div><p class="legende">Paiement déclaré, à valider</p></div>
+  </section>
+
+  <!-- 07 PARTAGE -->
+  <section class="plan chap" id="partage">
+    <p class="num">07</p><p class="nouv sur">Nouveauté</p>
+    <h2 class="titre t"><span class="ligne"><span>Le partage</span></span><span class="ligne"><span>du passeport.</span></span></h2>
+    <div class="points"><p class="point">Avec l'autorisation du responsable légal, un lien sécurisé.</p><p class="point">Le club ou le recruteur consulte le parcours en lecture seule.</p><p class="point">Révocable à tout moment, chaque consultation est enregistrée.</p></div>
+    <p class="pour"><b>Pour</b> l'orientation du joueur</p>
+    <div class="cadre"><div class="chrome"><i></i><i></i><i></i><span>…/passeport/lien-sécurisé</span></div><div class="vue"><div class="src"><img src="/video/captures/partage.png" alt=""><div class="spot" style="left:260px;top:20px;width:920px;height:150px"></div></div></div><p class="legende">Passeport partagé, lecture seule</p></div>
+  </section>
+
+  <!-- 08 DIRECTION -->
+  <section class="plan chap" id="direction">
+    <p class="num">08</p><p class="nouv sur">Nouveauté</p>
+    <h2 class="titre t"><span class="ligne"><span>Le pilotage</span></span><span class="ligne"><span>de la direction.</span></span></h2>
+    <div class="points"><p class="point">Effectifs, présences, impayés et alertes scolaires en temps réel.</p><p class="point">Finances du mois et point mort calculé.</p><p class="point">Rapport mensuel imprimable, journal, sauvegarde complète.</p></div>
+    <p class="pour"><b>Pour</b> la direction</p>
+    <div class="cadre"><div class="chrome"><i></i><i></i><i></i><span>…/admin · tableau de bord</span></div><div class="vue"><div class="src"><img src="/video/captures/direction.png" alt=""><div class="spot" style="left:290px;top:135px;width:1115px;height:250px"></div></div></div><p class="legende">Indicateurs réels, jamais inventés</p></div>
+  </section>
+
+  <!-- 09 SITE VIVANT -->
+  <section class="plan chap" id="site">
+    <p class="num">09</p><p class="nouv sur">Nouveauté</p>
+    <h2 class="titre t"><span class="ligne"><span>Un site</span></span><span class="ligne"><span>vivant.</span></span></h2>
+    <div class="points"><p class="point">Tarifs, slogan, contacts, âges, planning, actualités : réglés dans l'espace direction.</p><p class="point">Le site public se met à jour tout seul, en quelques secondes.</p><p class="point">Aucune ligne de code à toucher.</p></div>
+    <p class="pour"><b>Pour</b> l'autonomie de l'académie</p>
+    <div class="cadre" style="width:620px"><div class="chrome"><i></i><i></i><i></i><span>…/admin · paramètres</span></div><div class="vue" style="width:620px"><div class="src"><img src="/video/captures/parametres.png" alt=""><div class="spot" style="left:306px;top:480px;width:330px;height:84px"></div></div></div><p class="legende">Le slogan, modifié ici…</p></div>
+    <div class="cadre c2" style="left:1300px;top:330px;width:560px;height:520px"><div class="chrome"><i></i><i></i><i></i><span>site public</span></div><div class="vue" style="width:560px;height:474px"><div class="src"><img src="/video/captures/pied.png" alt=""><div class="spot" style="left:50px;top:180px;width:860px;height:220px"></div></div></div><p class="legende">…apparaît là.</p></div>
+  </section>
+
+  <!-- SÉCURITÉ -->
+  <section class="plan chap" id="securite">
+    <p class="num">+</p><p class="nouv sur">Le socle</p>
+    <h2 class="titre t"><span class="ligne"><span>Sécurisé</span></span><span class="ligne"><span>et durable.</span></span></h2>
+    <div class="points"><p class="point">Chaque personne a son compte et ne voit que ce qui la concerne.</p><p class="point">Les données restent après un redémarrage, et s'exportent en un fichier.</p></div>
+    <p class="pour"><b>Pour</b> la confiance des familles</p>
+    <div class="tags">
+      <div class="tag">Comptes personnels<small>Identifiant et mot de passe pour chacun</small></div>
+      <div class="tag">Trois rôles<small>Direction, coachs, parents</small></div>
+      <div class="tag">Mots de passe chiffrés<small>Jamais stockés en clair</small></div>
+      <div class="tag">Journal des actions<small>Qui a fait quoi, et quand</small></div>
+      <div class="tag">Consentement parental<small>Pour chaque inscription et chaque partage</small></div>
+      <div class="tag">Sauvegarde complète<small>Export et restauration en un clic</small></div>
+    </div>
+  </section>
+
+  <!-- FIN -->
+  <section class="plan" id="fin">
+    <div class="logo"><img src="/public/assets/logo_elite.png" alt=""></div>
+    <p class="mot">ELITE</p>
+    <p class="sous">Football Academy · Akanda, Libreville</p>
+    <p class="slogan">Révéler les talents, bâtir des parcours.</p>
+    <p class="site">elite-football-academy-eezb.onrender.com</p>
+  </section>
+
+  <div class="voile" id="voile"></div>
+</div>
+
+<script src="/public/vendor/gsap.min.js"></script>
+<script src="/public/scene.js"></script>
+<script src="/video/minutage-presentation.js"></script>
+<script>
+const qa = (s) => Array.from(document.querySelectorAll(s));
+const scene = window.SCENE;
+const sc = { open: 0, dune: 0, intro: 1 };
+const appliquer = () => { if (scene) scene.set({ open: sc.open, dune: sc.dune, intro: sc.intro, pan: 0, pulse: 1, actif: true }); };
+const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
+const montrer = (s, t) => tl.set(s, { visibility: 'visible' }, t);
+const cacher = (s, t) => tl.set(s, { visibility: 'hidden' }, t);
+const lignes = (sel, t, stagger = .12) => tl.fromTo(sel + ' .ligne > span', { yPercent: 110 }, { yPercent: 0, duration: 1.0, stagger }, t);
+const D = Object.fromEntries(window.MINUTAGE.map((m) => [m.id, m.d]));
+const debuts = window.DEBUTS;
+window.DUREE = window.DUREE_TOTALE;
+
+const VUES = {
+  passeport: { k0: .62, x0: 0, y0: 60, k1: .95, x1: 230, y1: 330 },
+  scolaire: { k0: .62, x0: 0, y0: 60, k1: .95, x1: 560, y1: 330 },
+  detection: { k0: .62, x0: 0, y0: 0, k1: .95, x1: 300, y1: 300 },
+  paiements: { k0: .62, x0: 0, y0: 0, k1: .82, x1: 270, y1: 130 },
+  partage: { k0: .62, x0: 0, y0: 0, k1: .78, x1: 240, y1: 0 },
+  direction: { k0: .62, x0: 0, y0: 0, k1: .8, x1: 270, y1: 60 },
+  coachs: { k0: .52, x0: 0, y0: 0, k1: .9, x1: 260, y1: 330 },
+  site: { k0: .43, x0: 0, y0: 0, k1: .9, x1: 290, y1: 430 },
+};
+const vueCadre = (id, t, duree, sel = '#' + id + ' .cadre:not(.c2) .src') => {
+  const v = VUES[id]; if (!v) return;
+  const z = Math.min(2.2, duree * .3);
+  tl.set(sel, { scale: v.k0, x: -v.x0 * v.k0, y: -v.y0 * v.k0 }, t);
+  tl.to(sel, { scale: v.k1, x: -v.x1 * v.k1, y: -v.y1 * v.k1, duration: z, ease: 'power2.inOut' }, t + 1.4);
+  tl.fromTo(sel + ' .spot', { opacity: 0, scale: 1.25, transformOrigin: '50% 50%' }, { opacity: 1, scale: 1, duration: .7, ease: 'back.out(1.6)' }, t + 1.4 + z * .7);
+  tl.fromTo('#' + id + ' .cadre:not(.c2) .legende', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .6 }, t + 1.4 + z * .8);
+};
+const plan = (id, t, duree, numero) => {
+  montrer('#' + id, t);
+  if (numero != null) tl.set('#etape', { textContent: numero }, t);
+  tl.fromTo('#' + id + ' .num', { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: .9 }, t + .05);
+  tl.fromTo('#' + id + ' .nouv, #' + id + ' .sur', { autoAlpha: 0 }, { autoAlpha: 1, duration: .5 }, t + .2);
+  lignes('#' + id, t + .25);
+  tl.fromTo('#' + id + ' .texte, #' + id + ' .citation, #' + id + ' .ligne2', { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: .8 }, t + 1.0);
+  qa('#' + id + ' .point, #' + id + ' .fait, #' + id + ' .info').forEach((p, i) => tl.fromTo(p, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: .8 }, t + 1.3 + i * .9));
+  tl.fromTo('#' + id + ' .pour', { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: .7 }, t + duree - 2.6);
+  tl.fromTo('#' + id + ' .cadre, #' + id + ' .tel, #' + id + ' .tags, #' + id + ' .photo, #' + id + ' .cartes, #' + id + ' .chiffres, #' + id + ' .etapes', { autoAlpha: 0, y: 70, rotateX: 8, transformOrigin: '50% 100%' }, { autoAlpha: 1, y: 0, rotateX: 0, duration: 1.2, stagger: .2 }, t + .5);
+  qa('#' + id + ' .val, #' + id + ' .tag, #' + id + ' .carte, #' + id + ' .chiffre, #' + id + ' .etape').forEach((el, i) => tl.fromTo(el, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: .7 }, t + 1.0 + i * .35));
+  tl.fromTo('#' + id + ' .photo img', { scale: 1.1 }, { scale: 1, duration: duree, ease: 'none' }, t);
+  vueCadre(id, t, duree);
+  tl.to('#' + id + ' > *', { autoAlpha: 0, duration: .45, ease: 'power2.in' }, t + duree - .55);
+  cacher('#' + id, t + duree);
+};
+
+/* OUVERTURE */
+montrer('#ouv', 0);
+tl.set(sc, { open: 0, dune: 0, intro: 1 }, 0);
+tl.fromTo('#ouv .mot i', { yPercent: 40, autoAlpha: 0, filter: 'blur(14px)' }, { yPercent: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 1.4, stagger: .08 }, .6);
+tl.fromTo('#ouv .sousmot', { autoAlpha: 0 }, { autoAlpha: 1, duration: 1.2 }, 1.4);
+tl.fromTo('#ouv .bord', { autoAlpha: 0 }, { autoAlpha: 1, duration: .9, stagger: .15 }, 1.8);
+tl.to(sc, { open: 1, duration: 2.2, ease: 'power2.inOut' }, D.ouv - 2.4);
+tl.to('#ouv .marque', { scale: 1.8, autoAlpha: 0, filter: 'blur(16px)', transformOrigin: '50% 50%', duration: 1.6, ease: 'power2.in' }, D.ouv - 2.4);
+tl.to('#ouv .bord', { autoAlpha: 0, duration: .5 }, D.ouv - 2.4);
+tl.to(sc, { intro: 0, duration: .8 }, D.ouv - 1);
+tl.to(sc, { dune: .7, duration: 2 }, D.ouv - .5);
+cacher('#ouv', D.ouv);
+tl.set('#barre, #etape, #marqueMini', { visibility: 'visible' }, D.ouv - .2);
+tl.fromTo('#barre, #marqueMini', { autoAlpha: 0 }, { autoAlpha: 1, duration: .6 }, D.ouv - .2);
+tl.fromTo('#brume', { opacity: 0 }, { opacity: 1, duration: 2 }, D.ouv - 1);
+
+/* PARTIE 1 */
+const p1 = ['identite', 'mission', 'valeurs', 'filieres', 'programme', 'parcours'];
+p1.forEach((id, i) => plan(id, debuts[id], D[id], 'Qui sommes-nous · ' + (i + 1) + ' / ' + p1.length));
+tl.fromTo('#identite .grand', { autoAlpha: 0, letterSpacing: '.5em' }, { autoAlpha: 1, letterSpacing: '.12em', duration: 1.2 }, debuts.identite + .3);
+
+/* TRANSITION */
+montrer('#transition', debuts.transition);
+tl.set('#etape', { textContent: '' }, debuts.transition);
+lignes('#transition', debuts.transition + .2, .18);
+tl.fromTo('#transition .sous', { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: .9 }, debuts.transition + 1.8);
+tl.to('#transition > *', { autoAlpha: 0, duration: .45, ease: 'power2.in' }, debuts.transition + D.transition - .55);
+cacher('#transition', debuts.transition + D.transition);
+
+/* PARTIE 2 */
+const p2 = ['passeport', 'parents', 'coachs', 'scolaire', 'detection', 'paiements', 'partage', 'direction', 'site', 'securite'];
+p2.forEach((id, i) => plan(id, debuts[id], D[id], i < 9 ? 'Nouveauté ' + String(i + 1).padStart(2, '0') + ' / 09' : 'Le socle'));
+tl.fromTo('#barre i', { width: '0%' }, { width: '100%', duration: debuts.fin - D.ouv, ease: 'none' }, D.ouv);
+tl.to('#parents .tel .ecran img', { y: -780, duration: D.parents - 3, ease: 'sine.inOut' }, debuts.parents + 2);
+tl.to('#coachs .tel .ecran img', { y: -200, duration: D.coachs - 3, ease: 'sine.inOut' }, debuts.coachs + 2);
+tl.set('#site .cadre.c2 .src', { scale: .62, x: 0, y: 0 }, debuts.site);
+tl.to('#site .cadre.c2 .src', { scale: .66, x: -40, y: -120, duration: 2, ease: 'power2.inOut' }, debuts.site + 4.4);
+tl.fromTo('#site .cadre.c2 .spot', { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: .7, ease: 'back.out(1.6)' }, debuts.site + 5.6);
+tl.fromTo('#site .cadre.c2 .legende', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .6 }, debuts.site + 5.9);
+
+/* FIN */
+const tf = debuts.fin;
+tl.to('#barre, #etape, #marqueMini, #brume', { autoAlpha: 0, duration: .6 }, tf - .4);
+montrer('#fin', tf);
+tl.to(sc, { dune: 0, duration: 1.5 }, tf);
+tl.to(sc, { open: 0, intro: 1, duration: 2.4, ease: 'power2.inOut' }, tf + .1);
+tl.fromTo('#fin .logo', { scale: .6, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 1.0, ease: 'back.out(1.8)' }, tf + .2);
+tl.fromTo('#fin .mot', { autoAlpha: 0, letterSpacing: '.5em' }, { autoAlpha: 1, letterSpacing: '.14em', duration: 1.2 }, tf + .6);
+tl.fromTo('#fin .sous', { autoAlpha: 0 }, { autoAlpha: 1, duration: .8 }, tf + 1.3);
+tl.fromTo('#fin .slogan', { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: .9 }, tf + 1.7);
+tl.fromTo('#fin .site', { autoAlpha: 0 }, { autoAlpha: 1, duration: .8 }, tf + 2.4);
+tl.to('#fin > *', { autoAlpha: 0, duration: .8, ease: 'power2.in' }, window.DUREE - 1.2);
+tl.to(sc, { open: 1, duration: .9, ease: 'power2.in' }, window.DUREE - 1.0);
+
+window.seek = (t) => { tl.pause(); tl.seek(Math.max(0, Math.min(window.DUREE, t)), false); appliquer(); };
+window.pret = false;
+Promise.all([document.fonts.ready, ...qa('img').map((i) => (i.decode ? i.decode().catch(() => {}) : Promise.resolve()))]).then(() => { window.seek(0); window.pret = true; });
+</script>
+</body>
+</html>

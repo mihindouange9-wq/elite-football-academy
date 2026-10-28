@@ -2,6 +2,7 @@
 <meta charset="utf-8">
 <title>Encodeur Elite Football</title>
 <script src="mp4-muxer.js"></script>
+<script src="minutage-presentation.js"></script>
 <script>
 /* Encode les images capturées (frames/iNNNNN.png) en MP4 H.264 + AAC par WebCodecs, avec une bande-son synthétisée. */
 
@@ -83,6 +84,33 @@ async function bandeSonExplicative(duree, base) {
   return await ac.startRendering();
 }
 
+/* Bande-son du film de présentation (sans voix) : nappe chaude qui change d'accord à chaque plan,
+   pulsation discrète dès la première partie, sifflet feutré à la transition et aux nouveautés, accord final. */
+async function bandeSonPresentation(duree) {
+  const sr = 48000;
+  const ac = new OfflineAudioContext(2, Math.ceil(duree * sr), sr);
+  const master = ac.createGain(); master.gain.value = 0.9; master.connect(ac.destination);
+  const comp = ac.createDynamicsCompressor(); comp.threshold.value = -14; comp.ratio.value = 4; comp.attack.value = 0.004; comp.release.value = 0.2; comp.connect(master);
+  const nappe = (t0, t1, notes, gain, fc) => { const g = ac.createGain(); g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(gain, t0 + 1.2); g.gain.setValueAtTime(gain, t1 - 1.0); g.gain.linearRampToValueAtTime(0, t1); const f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.setValueAtTime(fc, t0); f.frequency.linearRampToValueAtTime(fc * 1.4, t1); g.connect(f); f.connect(comp); notes.forEach((fr, i) => { for (const [type, det, k] of [['sawtooth', 0, 0.35], ['triangle', 6, 0.4], ['sine', -5, 0.6]]) { const o = ac.createOscillator(); o.type = type; o.frequency.value = fr; o.detune.value = det + (i % 2 ? 3 : -3); const og = ac.createGain(); og.gain.value = k / notes.length; o.connect(og); og.connect(g); o.start(t0); o.stop(t1 + 0.1); } }); };
+  const note = (t, fr, gain = 0.1, dur = 1.0, type = 'sine') => { const o = ac.createOscillator(); o.type = type; o.frequency.value = fr; const o2 = ac.createOscillator(); o2.type = 'sine'; o2.frequency.value = fr * 2; const g2 = ac.createGain(); g2.gain.value = 0.2; const g = ac.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(gain, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0008, t + dur); o.connect(g); o2.connect(g2); g2.connect(g); g.connect(comp); o.start(t); o2.start(t); o.stop(t + dur + 0.05); o2.stop(t + dur + 0.05); };
+  const kick = (t, gain = 0.34) => { const o = ac.createOscillator(); o.type = 'sine'; o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(44, t + 0.14); const g = ac.createGain(); g.gain.setValueAtTime(gain, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.32); o.connect(g); g.connect(comp); o.start(t); o.stop(t + 0.34); };
+  const tic = (t, gain = 0.12, dur = 0.04) => { const n = ac.createBuffer(1, Math.ceil(dur * sr), sr); const d = n.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 2); const s = ac.createBufferSource(); s.buffer = n; const f = ac.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 5000; const g = ac.createGain(); g.gain.value = gain; s.connect(f); f.connect(g); g.connect(comp); s.start(t); s.stop(t + dur); };
+  const sifflet = (t, gain = 0.06, dur = 0.3) => { for (const fr of [2093, 2217]) { const o = ac.createOscillator(); o.type = 'sine'; o.frequency.value = fr; const g = ac.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(gain, t + 0.015); g.gain.setValueAtTime(gain, t + dur - 0.08); g.gain.exponentialRampToValueAtTime(0.0005, t + dur); o.connect(g); g.connect(comp); o.start(t); o.stop(t + dur + 0.05); } };
+  const souffle = (t0, t1, gain = 0.05, f0 = 300, f1 = 1800) => { const n = ac.createBuffer(1, Math.ceil((t1 - t0) * sr), sr); const d = n.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; const s = ac.createBufferSource(); s.buffer = n; const f = ac.createBiquadFilter(); f.type = 'bandpass'; f.frequency.setValueAtTime(f0, t0); f.frequency.exponentialRampToValueAtTime(f1, t1); f.Q.value = 0.7; const g = ac.createGain(); g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(gain, t0 + (t1 - t0) * 0.6); g.gain.linearRampToValueAtTime(0, t1); s.connect(f); f.connect(g); g.connect(comp); s.start(t0); s.stop(t1); };
+  const M = window.MINUTAGE, DEB = window.DEBUTS;
+  const accords = [[65.41, 130.81, 196, 261.63, 329.63], [98, 146.83, 196, 246.94, 293.66], [87.31, 130.81, 174.61, 220, 261.63], [110, 164.81, 220, 261.63, 329.63], [73.42, 110, 146.83, 174.61, 220], [82.41, 123.47, 164.81, 207.65, 246.94]];
+  souffle(0, M[0].d, 0.07, 120, 900); nappe(0.3, M[0].d + .3, [41.2, 82.41, 123.47, 164.81], 0.14, 320);
+  [0.7, 0.9, 1.05, 1.2, 1.35].forEach((t, i) => note(t, [329.63, 392, 493.88, 587.33, 659.25][i], 0.05, 1.6, 'triangle'));
+  souffle(M[0].d - 2.4, M[0].d + .3, 0.09, 200, 4000);
+  M.forEach((m, i) => { if (i === 0 || m.id === 'fin') return; const a = accords[i % accords.length]; nappe(DEB[m.id] - .2, DEB[m.id] + m.d, a, 0.15, m.id === 'transition' ? 400 : 700); [0, .45, .9].forEach((dt, k) => note(DEB[m.id] + .4 + dt, a[2 + k] * 2, 0.05, 1.0)); if (i >= 8) sifflet(DEB[m.id] + .05); });
+  const pas = 0.6; for (let t = DEB.identite + .2; t < DEB.fin - .5; t += pas) { kick(t, t < DEB.transition ? 0.26 : 0.34); tic(t + 0.3, 0.1); }
+  sifflet(DEB.transition + .1, 0.08, 0.5); souffle(DEB.transition - .5, DEB.transition + .8, 0.06);
+  nappe(DEB.fin - .3, duree, [41.2, 82.41, 123.47, 164.81, 207.65, 246.94], 0.17, 500);
+  note(DEB.fin + .4, 164.81, 0.2, 3.0, 'triangle'); note(DEB.fin + .7, 329.63, 0.08, 2.4); note(DEB.fin + 1.1, 659.25, 0.05, 1.6);
+  souffle(duree - 1.6, duree, 0.06, 1500, 200);
+  return await ac.startRendering();
+}
+
 window.encoder = async ({ dossier, total, ips, largeur, hauteur, debit, scene, base }) => {
   const vcfg = { codec: 'avc1.640028', width: largeur, height: hauteur, bitrate: debit, framerate: ips, bitrateMode: 'variable', latencyMode: 'quality', avc: { format: 'avc' } };
   const acfg = { codec: 'mp4a.40.2', sampleRate: 48000, numberOfChannels: 2, bitrate: 160000 };
@@ -92,7 +120,7 @@ window.encoder = async ({ dossier, total, ips, largeur, hauteur, debit, scene, b
   const muxer = new Mp4Muxer.Muxer({ target: new Mp4Muxer.ArrayBufferTarget(), video: { codec: 'avc', width: largeur, height: hauteur, frameRate: ips }, audio: as.supported ? { codec: 'aac', numberOfChannels: 2, sampleRate: 48000 } : undefined, fastStart: 'in-memory', firstTimestampBehavior: 'offset' });
   window.audio = as.supported;
   if (as.supported) {
-    const son = scene === 'scene-explicative' ? await bandeSonExplicative(total / ips, base) : await bandeSon(total / ips);
+    const son = scene === 'scene-explicative' ? await bandeSonExplicative(total / ips, base) : scene === 'scene-presentation' ? await bandeSonPresentation(total / ips) : await bandeSon(total / ips);
     const aenc = new AudioEncoder({ output: (c, m) => muxer.addAudioChunk(c, m), error: (e) => { window.erreur = 'audio ' + e.message; } });
     aenc.configure(acfg);
     const L = son.getChannelData(0), R = son.getChannelData(1), N = 1024;

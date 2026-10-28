@@ -106,7 +106,11 @@ détections, réglages) sont importés dans la base.
   node tools/video-render.mjs --apercu   → video/apercu.jpg
   node tools/video-render.mjs            → livrables/ELITE-film-40s-1080p.mp4
                                            et -720p.mp4 (+ affiche)
-  Film explicatif avec voix off (≈ 3 min, « ce qui change ») :
+  Film de présentation sans voix (≈ 2 min 40, musique seule) :
+  qui est l'académie en six plans, puis les neuf nouveautés.
+  node tools/video-render.mjs --scene scene-presentation
+       --nom ELITE-presentation --ips 25 → livrables/ELITE-presentation-156s-*.mp4
+  Variante avec voix off synthétique (scene-explicative) :
   powershell -File tools/narration.ps1   → video/voix/*.wav (voix
                                            Windows Hortense, fr-FR)
   node tools/video-render.mjs --scene scene-explicative
