@@ -9,9 +9,11 @@ let cible; for (let i = 0; i < 60 && !cible; i++) { await attendre(250); try { c
 const ws = new WebSocket(cible.webSocketDebuggerUrl); await new Promise((ok) => (ws.onopen = ok));
 let n = 0; const att = new Map(); ws.onmessage = (m) => { const t = JSON.parse(m.data); if (t.id && att.has(t.id)) { att.get(t.id)(t); att.delete(t.id); } };
 const evaluer = (expression) => new Promise((ok) => { const id = ++n; att.set(id, (t) => ok(t.result?.result?.value)); ws.send(JSON.stringify({ id, method: "Runtime.evaluate", params: { expression, awaitPromise: true, returnByValue: true } })); });
-for (const f of readdirSync("public/assets").filter((f) => /\.jpe?g$/i.test(f))) {
+for (const f of readdirSync("public/assets").filter((f) => /\.(jpe?g|png)$/i.test(f) && f !== "logo_elite.png")) {
+  const mime = /\.png$/i.test(f) ? "image/png" : "image/jpeg";
   const b64 = readFileSync("public/assets/" + f).toString("base64");
-  const out = await evaluer(`(async () => { const img = new Image(); img.src = "data:image/jpeg;base64,${b64}"; await img.decode(); const res = {}; for (const w of [1600, 800]) { const s = Math.min(1, w / img.naturalWidth); const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth * s); c.height = Math.round(img.naturalHeight * s); const x = c.getContext("2d"); x.imageSmoothingQuality = "high"; x.drawImage(img, 0, 0, c.width, c.height); res[w] = { w: c.width, h: c.height, data: c.toDataURL("image/webp", 0.82).split(",")[1] }; } return res; })()`);
-  for (const w of [1600, 800]) { const name = f.replace(/\.jpe?g$/i, "") + "-" + w + ".webp"; writeFileSync("public/assets/" + name, Buffer.from(out[w].data, "base64")); console.log(name, out[w].w + "x" + out[w].h, Math.round(Buffer.from(out[w].data, "base64").length / 1024) + " Ko"); }
+  const out = await evaluer(`(async () => { const img = new Image(); img.src = "data:${mime};base64,${b64}"; await img.decode(); const res = {}; for (const w of [1600, 800]) { const s = Math.min(1, w / img.naturalWidth); const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth * s); c.height = Math.round(img.naturalHeight * s); const x = c.getContext("2d"); x.imageSmoothingQuality = "high"; x.drawImage(img, 0, 0, c.width, c.height); res[w] = { w: c.width, h: c.height, data: c.toDataURL("image/webp", 0.82).split(",")[1], jpg: w === 1600 ? c.toDataURL("image/jpeg", 0.86).split(",")[1] : null }; } return res; })()`);
+  if (mime === "image/png") { writeFileSync("public/assets/" + f.replace(/\.png$/i, ".jpg"), Buffer.from(out[1600].jpg, "base64")); }
+  for (const w of [1600, 800]) { const name = f.replace(/\.(jpe?g|png)$/i, "") + "-" + w + ".webp"; writeFileSync("public/assets/" + name, Buffer.from(out[w].data, "base64")); console.log(name, out[w].w + "x" + out[w].h, Math.round(Buffer.from(out[w].data, "base64").length / 1024) + " Ko"); }
 }
 ws.close(); chrome.kill();
