@@ -1,9 +1,15 @@
 ================================================================
   METTRE LE SITE EN LIGNE — Elite Football Academy (Render.com)
 ================================================================
-Dépôt GitHub : https://github.com/mihindouange9-oss/elite-football-academy
+Dépôt GitHub (public) : https://github.com/mihindouange9-wq/elite-football-academy
+EN LIGNE depuis le 28 octobre 2026 :
+   https://elite-football-academy-eezb.onrender.com
+Service Render srv-d8fvt95ckfvc73dupgmg (plan gratuit, Oregon),
+créé par l'API avec tools/render-deploy.mjs. Un push sur main
+redéploie automatiquement (autoDeploy) ; sinon relancer l'outil :
+   RENDER_API_KEY=rnd_xxx node tools/render-deploy.mjs
 
-Le site v2 tourne avec Node 22 (base SQLite intégrée, aucune
+Le site v2 tourne avec Node 22.13+ (base SQLite intégrée, aucune
 dépendance npm). Il a besoin de TROIS réglages sur Render.
 
 ----------------------------------------------------------------
@@ -11,7 +17,7 @@ dépendance npm). Il a besoin de TROIS réglages sur Render.
 ----------------------------------------------------------------
 1. https://dashboard.render.com → "New +" → "Blueprint".
 2. Sélectionner le dépôt elite-football-academy → "Apply".
-   Render lit render.yaml : Node 22.12, commande de démarrage
+   Render lit render.yaml : Node 22.23, commande de démarrage
    "node --no-warnings server.js", variable DATA_DIR=/var/data.
 
    À la main (si Blueprint échoue) : "New +" → "Web Service" →
@@ -55,7 +61,7 @@ Sur Render, cette persistance dépend du disque de l'étape 3a.
 ----------------------------------------------------------------
 RÉSULTAT
 ----------------------------------------------------------------
-   https://elite-football-academy.onrender.com      site public
+   https://elite-football-academy-eezb.onrender.com  site public
    …/connexion   connexion (direction, coachs, parents)
    …/admin       espace direction
    …/coach       espace coachs

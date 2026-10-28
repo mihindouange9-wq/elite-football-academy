@@ -50,7 +50,7 @@ Vérifications **non faites** : aucune mesure sur un vrai téléphone (captures 
 4. **Documents** : la visite médicale, l'autorisation parentale et le consentement photos sont des cases suivies par la direction, pas des fichiers téléversés.
 5. **Photos** : uniquement les trois photos existantes (hero, entraînement, équipe) ; aucun visuel ajouté ni partenaire inventé. Aucune statistique n'est affichée tant qu'elle n'est pas calculée sur de vraies données.
 6. **Police** : Sora et Manrope, auto-hébergées, en remplacement des polices système de la v1.
-7. **Remote git** : le dépôt local pointe vers un bundle de sauvegarde, pas vers GitHub ; rien n'a été poussé.
+7. **En ligne** depuis le 28 octobre 2026 sur https://elite-football-academy-eezb.onrender.com (dépôt public https://github.com/mihindouange9-wq/elite-football-academy, plan gratuit Render sans disque : les données saisies en ligne disparaissent à chaque redéploiement ou réveil, voir le point 1). Les groupes et séances de départ sont versionnés dans `seed/`.
 8. Les messages de commit portent une ligne `Co-Authored-By: Claude …` : à retirer (`git rebase` ou amend) si le projet est rendu comme travail personnel.
 
 ## À configurer par l'académie
