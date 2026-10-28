@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Elite Football Academy — film</title>
+<style>
+@font-face { font-family: "Sora"; src: url("/public/fonts/sora-latin-ext.woff2") format("woff2"); font-weight: 100 800; unicode-range: U+0100-02BA, U+1E00-1EFF; }
+@font-face { font-family: "Sora"; src: url("/public/fonts/sora-latin.woff2") format("woff2"); font-weight: 100 800; }
+@font-face { font-family: "Manrope"; src: url("/public/fonts/manrope-latin-ext-wght-normal.woff2") format("woff2"); font-weight: 200 800; unicode-range: U+0100-02BA, U+1E00-1EFF; }
+@font-face { font-family: "Manrope"; src: url("/public/fonts/manrope-latin-wght-normal.woff2") format("woff2"); font-weight: 200 800; }
+:root { --noir: #050807; --or: #d4af37; --vert: #1f8a4c; --creme: #f6f3ec; }
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--noir); }
+body { font-family: "Manrope", sans-serif; color: var(--creme); }
+#stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--noir); }
+#fond { position: absolute; inset: 0; width: 100%; height: 100%; }
+.plan { position: absolute; inset: 0; visibility: hidden; }
+.t { font-family: "Sora", sans-serif; font-weight: 800; letter-spacing: -.035em; line-height: .96; color: #fff; }
+.ligne { display: block; overflow: hidden; padding: .12em .06em .08em 0; margin: -.12em 0 -.08em 0; }
+.ligne > span { display: block; }
+.sur { font-family: "Sora", sans-serif; font-weight: 700; font-size: 26px; letter-spacing: .24em; text-transform: uppercase; color: var(--or); }
+.pilule { display: inline-flex; align-items: center; gap: 14px; padding: 18px 34px; border-radius: 999px; background: rgba(5, 8, 7, .55); border: 1px solid rgba(246, 243, 236, .18); font-family: "Sora", sans-serif; font-weight: 700; font-size: 26px; color: rgba(246, 243, 236, .82); }
+.ecran { position: absolute; overflow: hidden; background: #0c120e; box-shadow: 0 0 120px -20px rgba(214, 190, 110, .35), 0 70px 140px -50px #000; transform-style: preserve-3d; }
+.ecran img { position: absolute; left: 0; top: 0; width: 100%; height: auto; display: block; }
+.ecran .etiq { position: absolute; left: 32px; bottom: 28px; padding: 12px 22px; border-radius: 999px; background: rgba(246, 243, 236, .92); color: var(--noir); font-family: "Sora", sans-serif; font-weight: 700; font-size: 24px; }
+.persp { position: absolute; inset: 0; perspective: 1600px; perspective-origin: 50% 45%; }
+
+/* P1 : éclipse */
+#p1 .marque { position: absolute; left: 0; width: 1920px; top: 430px; display: grid; justify-items: center; gap: 22px; }
+#p1 .mot { display: flex; font-family: "Sora", sans-serif; font-weight: 800; font-size: 150px; letter-spacing: .14em; margin-right: -.14em; line-height: 1; color: #fff; text-shadow: 0 0 60px rgba(255, 255, 255, .3); }
+#p1 .mot i { display: inline-block; font-style: normal; }
+#p1 .sous { font-family: "Sora", sans-serif; font-weight: 600; font-size: 22px; letter-spacing: .36em; text-transform: uppercase; color: rgba(246, 243, 236, .65); }
+#p1 .bord { position: absolute; top: 520px; font-family: "Sora", sans-serif; font-weight: 600; font-size: 26px; color: rgba(246, 243, 236, .85); }
+#p1 .bord.g { left: 70px; }
+#p1 .bord.d { right: 70px; }
+#p1 .cta { position: absolute; left: 50%; transform: translateX(-50%); bottom: 70px; }
+
+/* P2 : énoncé */
+#p2 .grand { position: absolute; left: 140px; top: 300px; font-size: 168px; }
+#p2 .grand .or { color: var(--or); }
+#p2 .sur { position: absolute; left: 146px; top: 230px; }
+#p2 .texte { position: absolute; left: 146px; top: 700px; width: 1100px; font-size: 38px; line-height: 1.4; color: rgba(246, 243, 236, .78); }
+
+/* P3 : le site */
+#p3 .sur { position: absolute; left: 140px; top: 120px; }
+#p3 .titre { position: absolute; left: 140px; top: 170px; font-size: 110px; width: 900px; }
+#p3 .e1 { left: 470px; top: 390px; width: 1120px; height: 630px; }
+#p3 .e2 { left: 1380px; top: 420px; width: 800px; height: 450px; }
+#p3 .e0 { left: -380px; top: 420px; width: 800px; height: 450px; }
+#p3 .dunes { position: absolute; left: 0; right: 0; bottom: -40px; height: 300px; background: radial-gradient(120% 90% at 50% 100%, rgba(31, 138, 76, .45), transparent 70%); }
+
+/* P4 : passeport */
+#p4 .sur { position: absolute; left: 140px; top: 120px; }
+#p4 .titre { position: absolute; left: 140px; top: 170px; font-size: 118px; width: 1000px; }
+#p4 .axes { position: absolute; left: 140px; top: 520px; display: grid; gap: 8px; }
+#p4 .axe { display: flex; align-items: center; gap: 26px; font-family: "Sora", sans-serif; font-weight: 800; font-size: 52px; color: #fff; }
+#p4 .axe b { font-weight: 700; font-size: 22px; letter-spacing: .14em; color: var(--or); width: 60px; }
+#p4 .e { left: 1010px; top: 150px; width: 820px; height: 800px; }
+#p4 .e img { width: 1440px; left: -420px; top: -120px; }
+
+/* P5 : trois espaces */
+#p5 .sur { position: absolute; left: 140px; top: 100px; }
+#p5 .titre { position: absolute; left: 140px; top: 150px; font-size: 110px; }
+#p5 .e { top: 420px; width: 560px; height: 520px; }
+#p5 .e img { width: 1120px; }
+#p5 .e.a { left: 120px; } #p5 .e.b { left: 700px; } #p5 .e.c { left: 1280px; }
+
+/* P6 : piliers */
+#p6 .sur { position: absolute; left: 140px; top: 110px; }
+#p6 .liste { position: absolute; left: 140px; top: 190px; width: 1640px; }
+#p6 .item { display: grid; grid-template-columns: 110px 1fr; align-items: center; gap: 30px; padding: 22px 0; border-top: 1px solid rgba(246, 243, 236, .14); }
+#p6 .item .n { font-family: "Sora", sans-serif; font-weight: 700; font-size: 24px; letter-spacing: .14em; color: var(--or); }
+#p6 .item .txt { font-family: "Sora", sans-serif; font-weight: 800; font-size: 58px; letter-spacing: -.03em; color: #fff; }
+#p6 .item .txt small { display: block; font-family: "Manrope", sans-serif; font-weight: 500; font-size: 26px; letter-spacing: 0; color: rgba(246, 243, 236, .66); margin-top: 6px; }
+
+/* P7 : signature */
+#p7 .logo { position: absolute; left: 50%; top: 250px; width: 190px; height: 190px; margin-left: -95px; border-radius: 50%; background: #fff; padding: 6px; box-shadow: 0 0 120px -10px rgba(214, 190, 110, .55); }
+#p7 .logo img { width: 100%; height: 100%; display: block; }
+#p7 .mot { position: absolute; left: 0; width: 1920px; top: 500px; text-align: center; font-family: "Sora", sans-serif; font-weight: 800; font-size: 150px; letter-spacing: .14em; color: #fff; }
+#p7 .sous { position: absolute; left: 0; width: 1920px; top: 690px; text-align: center; font-family: "Sora", sans-serif; font-weight: 600; font-size: 24px; letter-spacing: .34em; text-transform: uppercase; color: rgba(246, 243, 236, .65); }
+#p7 .slogan { position: absolute; left: 0; width: 1920px; top: 770px; text-align: center; font-family: "Sora", sans-serif; font-weight: 700; font-size: 44px; color: var(--or); letter-spacing: -.01em; }
+#p7 .site { position: absolute; left: 0; width: 1920px; top: 880px; text-align: center; font-family: "Sora", sans-serif; font-weight: 600; font-size: 28px; letter-spacing: .06em; color: rgba(246, 243, 236, .8); }
+.voile { position: absolute; inset: 0; background: var(--noir); visibility: hidden; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="fond"></canvas>
+
+  <!-- P1 : l'éclipse-ballon et la marque -->
+  <section class="plan" id="p1">
+    <p class="bord g">Akanda</p><p class="bord d">Libreville · Gabon</p>
+    <div class="marque"><span class="mot"><i>E</i><i>L</i><i>I</i><i>T</i><i>E</i></span><span class="sous">Football Academy · Sport-Études</span></div>
+    <span class="pilule cta">Faites défiler pour explorer <span style="font-size:30px;line-height:0">↓</span></span>
+  </section>
+
+  <!-- P2 : l'énoncé -->
+  <section class="plan" id="p2">
+    <p class="sur">Académie Sport-Études · 8 à 18 ans</p>
+    <h1 class="grand t"><span class="ligne"><span>Révéler les talents,</span></span><span class="ligne"><span class="or">bâtir des parcours.</span></span></h1>
+    <p class="texte">Un site qui raconte l'académie, et une plateforme qui la fait tourner : passeport du joueur, espaces parents, coachs et direction, détection en ligne, cotisations et paiements.</p>
+  </section>
+
+  <!-- P3 : le site public, écrans sur l'horizon -->
+  <section class="plan" id="p3">
+    <p class="sur">Le site public</p>
+    <h2 class="titre t"><span class="ligne"><span>Une ouverture,</span></span><span class="ligne"><span>sept chapitres.</span></span></h2>
+    <div class="persp">
+      <div class="ecran e0"><img src="/video/captures/sport.png" alt=""><span class="etiq">Sport-Études</span></div>
+      <div class="ecran e1"><img src="/video/captures/ouverture.png" alt=""><span class="etiq">Ouverture immersive</span></div>
+      <div class="ecran e2"><img src="/video/captures/galerie.png" alt=""><span class="etiq">Galerie des chapitres</span></div>
+    </div>
+    <div class="dunes"></div>
+  </section>
+
+  <!-- P4 : le passeport du joueur -->
+  <section class="plan" id="p4">
+    <p class="sur">Le passeport du joueur</p>
+    <h2 class="titre t"><span class="ligne"><span>Cinq axes,</span></span><span class="ligne"><span>un seul joueur.</span></span></h2>
+    <div class="axes">
+      <div class="axe"><b>01</b>Technique</div><div class="axe"><b>02</b>Physique</div><div class="axe"><b>03</b>Tactique</div><div class="axe"><b>04</b>Mental</div><div class="axe"><b>05</b>Scolaire</div>
+    </div>
+    <div class="ecran e"><img src="/video/captures/passeport.png" alt=""><span class="etiq">Radar de progression · partage à un club</span></div>
+  </section>
+
+  <!-- P5 : trois espaces connectés -->
+  <section class="plan" id="p5">
+    <p class="sur">La plateforme</p>
+    <h2 class="titre t"><span class="ligne"><span>Trois espaces connectés.</span></span></h2>
+    <div class="ecran e a"><img src="/video/captures/direction.png" alt=""><span class="etiq">Direction · pilotage</span></div>
+    <div class="ecran e b"><img src="/video/captures/coach.png" alt=""><span class="etiq">Coachs · présences</span></div>
+    <div class="ecran e c"><img src="/video/captures/parents.png" alt=""><span class="etiq">Parents · cotisations</span></div>
+  </section>
+
+  <!-- P6 : ce que fait la plateforme -->
+  <section class="plan" id="p6">
+    <p class="sur">Ce que la plateforme fait</p>
+    <div class="liste">
+      <div class="item"><span class="n">01</span><div class="txt">Détection en ligne<small>Un dossard attribué à l'inscription, une grille de notation pour les éducateurs.</small></div></div>
+      <div class="item"><span class="n">02</span><div class="txt">Présences et évaluations<small>Feuille de présence en trois touches, évaluation trimestrielle sur cinq axes.</small></div></div>
+      <div class="item"><span class="n">03</span><div class="txt">Suivi scolaire<small>Les moyennes dans le passeport ; la règle des tournois appliquée automatiquement.</small></div></div>
+      <div class="item"><span class="n">04</span><div class="txt">Cotisations et reçus<small>Échéancier mensuel, paiement déclaré par les parents, validé par la direction.</small></div></div>
+      <div class="item"><span class="n">05</span><div class="txt">Pilotage de la direction<small>Indicateurs réels, rapport mensuel imprimable, sauvegarde complète.</small></div></div>
+    </div>
+  </section>
+
+  <!-- P7 : signature -->
+  <section class="plan" id="p7">
+    <div class="logo"><img src="/public/assets/logo_elite.png" alt=""></div>
+    <p class="mot">ELITE</p>
+    <p class="sous">Football Academy · Akanda, Libreville</p>
+    <p class="slogan">Révéler les talents, bâtir des parcours.</p>
+    <p class="site">elite-football-academy-eezb.onrender.com</p>
+  </section>
+
+  <div class="voile" id="voile"></div>
+</div>
+
+<script src="/public/vendor/gsap.min.js"></script>
+<script src="/public/scene.js"></script>
+<script>
+window.DUREE = 40;
+const qa = (s) => Array.from(document.querySelectorAll(s));
+const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
+const montrer = (s, t) => tl.set(s, { visibility: 'visible' }, t);
+const cacher = (s, t) => tl.set(s, { visibility: 'hidden' }, t);
+/* la scène WebGL est pilotée par un objet proxy relu à chaque image */
+const sc = { open: 0, dune: 0, intro: 1 };
+const scene = window.SCENE;
+const appliquer = () => { if (scene) scene.set({ open: sc.open, dune: sc.dune, intro: sc.intro, pan: 0, pulse: 1, actif: true }); };
+const fondu = (t, dur = .5) => tl.set('#voile', { visibility: 'visible', autoAlpha: 0 }, t).to('#voile', { autoAlpha: 1, duration: dur, ease: 'power2.in' }, t).to('#voile', { autoAlpha: 0, duration: dur, ease: 'power2.out' }, t + dur).set('#voile', { visibility: 'hidden' }, t + 2 * dur);
+const lignes = (sel, t, stagger = .12) => tl.fromTo(sel + ' .ligne > span', { yPercent: 110 }, { yPercent: 0, duration: 1.1, stagger }, t);
+
+/* P1 · 0 → 6.5 : l'éclipse, les lettres sortent du flou, le sous-titre, les bords, la pilule */
+montrer('#p1', 0);
+tl.set(sc, { open: 0, dune: 0, intro: 1 }, 0);
+tl.fromTo('#p1 .mot i', { yPercent: 40, autoAlpha: 0, filter: 'blur(14px)' }, { yPercent: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 1.4, stagger: .08 }, .6);
+tl.fromTo('#p1 .sous', { autoAlpha: 0, letterSpacing: '.7em' }, { autoAlpha: 1, letterSpacing: '.36em', duration: 1.3 }, 1.3);
+tl.fromTo('#p1 .bord', { autoAlpha: 0 }, { autoAlpha: 1, duration: .9, stagger: .15 }, 1.8);
+tl.fromTo('#p1 .cta', { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: .9 }, 2.4);
+/* l'éclipse s'ouvre, la marque s'éloigne dans le flou */
+tl.to(sc, { open: 1, duration: 2.2, ease: 'power2.inOut' }, 4.4);
+tl.to('#p1 .marque', { scale: 1.9, autoAlpha: 0, filter: 'blur(16px)', transformOrigin: '50% 50%', duration: 1.6, ease: 'power2.in' }, 4.4);
+tl.to('#p1 .bord, #p1 .cta', { autoAlpha: 0, duration: .5 }, 4.4);
+tl.to(sc, { intro: 0, duration: .8 }, 5.8);
+cacher('#p1', 6.6);
+
+/* P2 · 6.5 → 12 : énoncé sur fond noir, brume verte qui monte */
+montrer('#p2', 6.5);
+tl.to(sc, { dune: .9, duration: 2.5, ease: 'power2.out' }, 6.5);
+tl.fromTo('#p2 .sur', { autoAlpha: 0, x: -20 }, { autoAlpha: 1, x: 0, duration: .8 }, 6.6);
+lignes('#p2', 6.8, .16);
+tl.fromTo('#p2 .texte', { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 1 }, 7.9);
+tl.to('#p2 > *', { autoAlpha: 0, duration: .4, ease: 'power2.in' }, 11.5);
+cacher('#p2', 12);
+
+/* P3 · 12 → 18.5 : le site public, trois écrans en perspective qui glissent */
+montrer('#p3', 12);
+tl.fromTo('#p3 .sur', { autoAlpha: 0 }, { autoAlpha: 1, duration: .6 }, 12.1);
+lignes('#p3', 12.2);
+tl.fromTo('#p3 .dunes', { autoAlpha: 0 }, { autoAlpha: 1, duration: 1.2 }, 12.2);
+tl.fromTo('#p3 .e1', { y: 260, autoAlpha: 0, rotateX: 12, transformOrigin: '50% 100%' }, { y: 0, autoAlpha: 1, rotateX: 0, duration: 1.3 }, 12.5);
+tl.fromTo('#p3 .e2', { x: 300, autoAlpha: 0, rotateY: -40 }, { x: 0, autoAlpha: 1, rotateY: -30, duration: 1.2 }, 12.9);
+tl.fromTo('#p3 .e0', { x: -300, autoAlpha: 0, rotateY: 40 }, { x: 0, autoAlpha: 1, rotateY: 30, duration: 1.2 }, 12.9);
+tl.fromTo('#p3 .etiq', { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: .6, stagger: .15 }, 13.6);
+/* le voyage horizontal : la galerie passe au centre */
+tl.to('#p3 .e1', { x: -900, y: 140, rotateY: 30, scale: .66, duration: 1.6, ease: 'power3.inOut' }, 15.6);
+tl.to('#p3 .e2', { x: -910, y: 40, rotateY: 0, scale: 1.36, duration: 1.6, ease: 'power3.inOut' }, 15.6);
+tl.to('#p3 .e0', { x: -600, autoAlpha: 0, duration: 1.2, ease: 'power3.inOut' }, 15.6);
+tl.to('#p3 > *', { autoAlpha: 0, duration: .4, ease: 'power2.in' }, 18.0);
+cacher('#p3', 18.5);
+
+/* P4 · 18.5 → 24.5 : le passeport, les cinq axes, l'écran parents */
+montrer('#p4', 18.5);
+tl.fromTo('#p4 .sur', { autoAlpha: 0 }, { autoAlpha: 1, duration: .6 }, 18.6);
+lignes('#p4', 18.7);
+qa('#p4 .axe').forEach((a, i) => tl.fromTo(a, { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: .7 }, 19.6 + i * .18));
+tl.fromTo('#p4 .e', { y: 200, autoAlpha: 0, rotateY: -14, transformOrigin: '0 50%' }, { y: 0, autoAlpha: 1, rotateY: -6, duration: 1.4 }, 19.0);
+tl.to('#p4 .e img', { y: -300, duration: 4.5, ease: 'sine.inOut' }, 19.8);
+tl.fromTo('#p4 .etiq', { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: .6 }, 20.4);
+tl.to('#p4 > *', { autoAlpha: 0, duration: .4, ease: 'power2.in' }, 24.0);
+cacher('#p4', 24.5);
+
+/* P5 · 24.5 → 30 : trois espaces, trois écrans qui montent en cascade et défilent */
+montrer('#p5', 24.5);
+tl.fromTo('#p5 .sur', { autoAlpha: 0 }, { autoAlpha: 1, duration: .6 }, 24.6);
+lignes('#p5', 24.7);
+['a', 'b', 'c'].forEach((k, i) => {
+  tl.fromTo('#p5 .e.' + k, { y: 320, autoAlpha: 0, rotateX: 14, transformOrigin: '50% 100%' }, { y: 0, autoAlpha: 1, rotateX: 0, duration: 1.2 }, 25.2 + i * .25);
+  tl.to('#p5 .e.' + k + ' img', { y: -220 - i * 60, duration: 4.2, ease: 'sine.inOut' }, 26.2 + i * .2);
+  tl.fromTo('#p5 .e.' + k + ' .etiq', { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: .6 }, 26.0 + i * .25);
+});
+tl.to('#p5 > *', { autoAlpha: 0, duration: .4, ease: 'power2.in' }, 29.5);
+cacher('#p5', 30);
+
+/* P6 · 30 → 35 : les cinq piliers roulent */
+montrer('#p6', 30);
+tl.fromTo('#p6 .sur', { autoAlpha: 0 }, { autoAlpha: 1, duration: .6 }, 30.1);
+qa('#p6 .item').forEach((it, i) => {
+  const t = 30.4 + i * .42;
+  tl.fromTo(it, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: .8 }, t);
+  tl.fromTo(it.querySelector('.n'), { x: -20 }, { x: 0, duration: .8 }, t);
+});
+tl.to('#p6 > *', { autoAlpha: 0, duration: .4, ease: 'power2.in' }, 34.5);
+cacher('#p6', 35);
+
+/* P7 · 35 → 40 : signature, l'éclipse se referme derrière */
+montrer('#p7', 35);
+tl.to(sc, { dune: 0, duration: 1.5 }, 35);
+tl.to(sc, { open: 0, intro: 1, duration: 2.6, ease: 'power2.inOut' }, 35.2);
+tl.fromTo('#p7 .logo', { scale: .6, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 1.0, ease: 'back.out(1.8)' }, 35.2);
+tl.fromTo('#p7 .mot', { autoAlpha: 0, letterSpacing: '.5em' }, { autoAlpha: 1, letterSpacing: '.14em', duration: 1.2 }, 35.6);
+tl.fromTo('#p7 .sous', { autoAlpha: 0 }, { autoAlpha: 1, duration: .8 }, 36.3);
+tl.fromTo('#p7 .slogan', { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: .9 }, 36.7);
+tl.fromTo('#p7 .site', { autoAlpha: 0 }, { autoAlpha: 1, duration: .8 }, 37.3);
+tl.to('#p7 > *', { autoAlpha: 0, duration: .7, ease: 'power2.in' }, 39.0);
+tl.to(sc, { open: 1, duration: .9, ease: 'power2.in' }, 39.1);
+
+window.seek = (t) => { tl.pause(); tl.seek(Math.max(0, Math.min(window.DUREE, t)), false); appliquer(); };
+window.pret = false;
+Promise.all([document.fonts.ready, ...qa('img').map((i) => (i.decode ? i.decode().catch(() => {}) : Promise.resolve()))]).then(() => { window.seek(0); window.pret = true; });
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Encodeur Elite Football</title>
+<script src="mp4-muxer.js"></script>
+<script>
+/* Encode les images capturées (frames/iNNNNN.png) en MP4 H.264 + AAC par WebCodecs, avec une bande-son synthétisée. */
+
+/* Bande sonore : souffle de stade et nappe profonde sur l'éclipse, pulsation à 100 bpm dès l'énoncé,
+   coup de sifflet feutré à chaque chapitre, accord final qui s'ouvre sur la signature. */
+async function bandeSon(duree) {
+  const sr = 48000;
+  const ac = new OfflineAudioContext(2, Math.ceil(duree * sr), sr);
+  const master = ac.createGain(); master.gain.value = 0.9; master.connect(ac.destination);
+  const comp = ac.createDynamicsCompressor(); comp.threshold.value = -14; comp.ratio.value = 4; comp.attack.value = 0.004; comp.release.value = 0.2; comp.connect(master);
+  const nappe = (t0, t1, notes, gain, fc) => {
+    const g = ac.createGain(); g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(gain, t0 + 1.2); g.gain.setValueAtTime(gain, t1 - 1.0); g.gain.linearRampToValueAtTime(0, t1);
+    const f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.setValueAtTime(fc, t0); f.frequency.linearRampToValueAtTime(fc * 1.5, t1);
+    g.connect(f); f.connect(comp);
+    notes.forEach((fr, i) => { for (const [type, det, k] of [['sawtooth', 0, 0.4], ['triangle', 6, 0.4], ['sine', -5, 0.6]]) { const o = ac.createOscillator(); o.type = type; o.frequency.value = fr; o.detune.value = det + (i % 2 ? 3 : -3); const og = ac.createGain(); og.gain.value = k / notes.length; o.connect(og); og.connect(g); o.start(t0); o.stop(t1 + 0.1); } });
+  };
+  const note = (t, fr, gain = 0.1, dur = 1.0, type = 'sine') => {
+    const o = ac.createOscillator(); o.type = type; o.frequency.value = fr;
+    const o2 = ac.createOscillator(); o2.type = 'sine'; o2.frequency.value = fr * 2; const g2 = ac.createGain(); g2.gain.value = 0.2;
+    const g = ac.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(gain, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0008, t + dur);
+    o.connect(g); o2.connect(g2); g2.connect(g); g.connect(comp); o.start(t); o2.start(t); o.stop(t + dur + 0.05); o2.stop(t + dur + 0.05);
+  };
+  const kick = (t, gain = 0.4) => { const o = ac.createOscillator(); o.type = 'sine'; o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(44, t + 0.14); const g = ac.createGain(); g.gain.setValueAtTime(gain, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.32); o.connect(g); g.connect(comp); o.start(t); o.stop(t + 0.34); };
+  const tic = (t, gain = 0.18, dur = 0.05) => { const n = ac.createBuffer(1, Math.ceil(dur * sr), sr); const d = n.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 2); const s = ac.createBufferSource(); s.buffer = n; const f = ac.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 5000; const g = ac.createGain(); g.gain.value = gain; s.connect(f); f.connect(g); g.connect(comp); s.start(t); s.stop(t + dur); };
+  /* coup de sifflet feutré : deux sinus proches, attaque nette, courte queue */
+  const sifflet = (t, gain = 0.09, dur = 0.35) => { for (const fr of [2093, 2217]) { const o = ac.createOscillator(); o.type = 'sine'; o.frequency.value = fr; const g = ac.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(gain, t + 0.015); g.gain.setValueAtTime(gain, t + dur - 0.08); g.gain.exponentialRampToValueAtTime(0.0005, t + dur); o.connect(g); g.connect(comp); o.start(t); o.stop(t + dur + 0.05); } };
+  /* souffle de stade : bruit filtré large et lent */
+  const souffle = (t0, t1, gain = 0.05, f0 = 300, f1 = 1800) => { const n = ac.createBuffer(1, Math.ceil((t1 - t0) * sr), sr); const d = n.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; const s = ac.createBufferSource(); s.buffer = n; const f = ac.createBiquadFilter(); f.type = 'bandpass'; f.frequency.setValueAtTime(f0, t0); f.frequency.exponentialRampToValueAtTime(f1, t1); f.Q.value = 0.7; const g = ac.createGain(); g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(gain, t0 + (t1 - t0) * 0.6); g.gain.linearRampToValueAtTime(0, t1); s.connect(f); f.connect(g); g.connect(comp); s.start(t0); s.stop(t1); };
+  /* P1 : l'éclipse, souffle profond et bourdon grave en Mi mineur */
+  souffle(0, 6.4, 0.07, 120, 900);
+  nappe(0.3, 6.6, [41.2, 82.41, 123.47, 164.81], 0.14, 320);
+  [0.7, 0.9, 1.05, 1.2, 1.35].forEach((t, i) => note(t, [329.63, 392, 493.88, 587.33, 659.25][i], 0.05, 1.6, 'triangle'));
+  note(4.5, 82.41, 0.22, 2.4, 'triangle'); souffle(4.4, 6.6, 0.09, 200, 4000);
+  /* P2 : l'énoncé, Do majeur chaleureux, la pulsation démarre */
+  nappe(6.6, 12.0, [65.41, 130.81, 196, 261.63, 329.63], 0.15, 600);
+  note(6.9, 261.63, 0.12, 2.0); note(7.1, 523.25, 0.06, 1.4);
+  const pas = 0.6; for (let t = 7.2; t < 38.4; t += pas) { kick(t, t < 12 ? 0.3 : 0.4); tic(t + 0.3, 0.12, 0.04); }
+  /* P3 : le site, Sol majeur ; P4 : passeport, La mineur ; P5 : espaces, Fa majeur ; P6 : piliers, Ré mineur */
+  nappe(12.0, 18.5, [98, 146.83, 196, 246.94, 293.66], 0.15, 800);
+  nappe(18.5, 24.5, [110, 164.81, 220, 261.63, 329.63], 0.15, 700);
+  nappe(24.5, 30.0, [87.31, 130.81, 174.61, 220, 261.63], 0.16, 900);
+  nappe(30.0, 35.0, [73.42, 110, 146.83, 174.61, 220], 0.16, 520);
+  [12.0, 18.5, 24.5, 30.0].forEach((t) => { sifflet(t + 0.05, 0.07, 0.3); souffle(t - 0.4, t + 0.5, 0.05); });
+  [12.5, 12.9, 13.3].forEach((t, i) => note(t, [392, 493.88, 587.33][i], 0.07, 1.1));
+  [19.6, 19.78, 19.96, 20.14, 20.32].forEach((t, i) => note(t, [440, 523.25, 659.25, 783.99, 880][i], 0.06, 0.8));
+  [25.2, 25.45, 25.7].forEach((t, i) => note(t, [349.23, 440, 523.25][i], 0.08, 1.2));
+  [30.4, 30.82, 31.24, 31.66, 32.08].forEach((t, i) => { tic(t, 0.22, 0.06); note(t, [293.66, 349.23, 440, 523.25, 587.33][i], 0.06, 0.9); });
+  /* P7 : signature, accord de Mi majeur qui s'ouvre, le souffle se referme */
+  nappe(35.0, 40.0, [41.2, 82.41, 123.47, 164.81, 207.65, 246.94], 0.17, 500);
+  sifflet(35.3, 0.08, 0.5); note(35.4, 164.81, 0.2, 3.0, 'triangle'); note(35.7, 329.63, 0.08, 2.4); note(36.1, 659.25, 0.05, 1.6);
+  note(37.4, 493.88, 0.06, 2.0); note(37.9, 659.25, 0.05, 1.8);
+  souffle(38.6, 40.0, 0.06, 1500, 200);
+  return await ac.startRendering();
+}
+
+window.encoder = async ({ dossier, total, ips, largeur, hauteur, debit }) => {
+  const vcfg = { codec: 'avc1.640028', width: largeur, height: hauteur, bitrate: debit, framerate: ips, bitrateMode: 'variable', latencyMode: 'quality', avc: { format: 'avc' } };
+  const acfg = { codec: 'mp4a.40.2', sampleRate: 48000, numberOfChannels: 2, bitrate: 160000 };
+  const vs = await VideoEncoder.isConfigSupported(vcfg);
+  const as = await AudioEncoder.isConfigSupported(acfg);
+  if (!vs.supported) throw new Error('H.264 non pris en charge');
+  const muxer = new Mp4Muxer.Muxer({ target: new Mp4Muxer.ArrayBufferTarget(), video: { codec: 'avc', width: largeur, height: hauteur, frameRate: ips }, audio: as.supported ? { codec: 'aac', numberOfChannels: 2, sampleRate: 48000 } : undefined, fastStart: 'in-memory', firstTimestampBehavior: 'offset' });
+  window.audio = as.supported;
+  if (as.supported) {
+    const son = await bandeSon(total / ips);
+    const aenc = new AudioEncoder({ output: (c, m) => muxer.addAudioChunk(c, m), error: (e) => { window.erreur = 'audio ' + e.message; } });
+    aenc.configure(acfg);
+    const L = son.getChannelData(0), R = son.getChannelData(1), N = 1024;
+    for (let i = 0; i < L.length; i += N) { const n = Math.min(N, L.length - i); const d = new Float32Array(n * 2); d.set(L.subarray(i, i + n), 0); d.set(R.subarray(i, i + n), n); const ad = new AudioData({ format: 'f32-planar', sampleRate: 48000, numberOfFrames: n, numberOfChannels: 2, timestamp: Math.round((i * 1e6) / 48000), data: d }); aenc.encode(ad); ad.close(); }
+    await aenc.flush();
+  }
+  const venc = new VideoEncoder({ output: (c, m) => muxer.addVideoChunk(c, m), error: (e) => { window.erreur = 'vidéo ' + e.message; } });
+  venc.configure(vcfg);
+  const canvas = new OffscreenCanvas(largeur, hauteur);
+  const ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+  window.erreur = '';
+  for (let i = 0; i < total; i++) {
+    const img = new Image(); img.src = dossier + '/i' + String(i).padStart(5, '0') + '.png'; await img.decode();
+    ctx.drawImage(img, 0, 0, largeur, hauteur);
+    const vf = new VideoFrame(canvas, { timestamp: Math.round((i * 1e6) / ips), duration: Math.round(1e6 / ips) });
+    venc.encode(vf, { keyFrame: i % (ips * 2) === 0 }); vf.close();
+    while (venc.encodeQueueSize > 6) await new Promise((r) => setTimeout(r, 4));
+    window.avancement = i + 1;
+  }
+  await venc.flush(); muxer.finalize();
+  const octets = new Uint8Array(muxer.target.buffer); window.resultat = octets; return octets.length;
+};
+window.tranche = (debut, fin) => { const o = window.resultat.subarray(debut, fin); let s = ''; for (let i = 0; i < o.length; i += 32768) s += String.fromCharCode.apply(null, o.subarray(i, i + 32768)); return btoa(s); };
+window.pret = true;
+</script>

@@ -99,13 +99,24 @@ détections, réglages) sont importés dans la base.
   • Comptes coachs, puis affectation aux groupes
 
 -----------------------------------------------
-6) MISE EN LIGNE
+6) FILM DE PRÉSENTATION (motion design, 40 s)
+-----------------------------------------------
+  video/scene.html ..... mise en scène GSAP + scène WebGL du site
+  video/encodeur.html .. encodage H.264 + AAC (bande-son synthétisée)
+  node tools/video-render.mjs --apercu   → video/apercu.jpg
+  node tools/video-render.mjs            → livrables/ELITE-film-40s-1080p.mp4
+                                           et -720p.mp4 (+ affiche)
+  Le rendu dure plusieurs minutes : le lancer en processus détaché
+  (voir RAPPORT-REFONTE.md). Les MP4 ne sont pas versionnés.
+
+-----------------------------------------------
+7) MISE EN LIGNE
 -----------------------------------------------
 Voir DEPLOIEMENT-RENDER.txt (service, mot de passe, et surtout le
 disque persistant sans lequel la base est effacée par Render).
 
 -----------------------------------------------
-7) STRUCTURE
+8) STRUCTURE
 -----------------------------------------------
   server.js ............ serveur HTTP + API (Node natif)
   lib/db.js ............ schéma SQLite, reprise v1, export/import

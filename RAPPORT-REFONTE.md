@@ -30,6 +30,21 @@
 - La page publique relit l'API toutes les 20 secondes et au retour sur l'onglet : une modification apparaît sans rechargement. Vérifié par `tools/test-direct.mjs` (16 contrôles).
 - Accès discret à l'espace direction : trois clics rapides sur le logo en haut à gauche.
 
+**Film de présentation (28 octobre 2026)** : motion design de 40 s en 1080p et 720p dans `livrables/` (et copié dans `geek/video motion/`), dans le monde « éclipse » du site : ouverture par l'éclipse-ballon et la marque, énoncé « Révéler les talents, bâtir des parcours », le site public en écrans sur l'horizon (captures réelles), le passeport et ses cinq axes, les trois espaces, cinq piliers fonctionnels, signature avec l'adresse du site. Bande-son synthétisée (souffle de stade, nappe, pulsation, sifflets feutrés). Pipeline : `video/scene.html` (GSAP + scène WebGL du site), `tools/video-render.mjs` (capture image par image, encodage WebCodecs H.264/AAC).
+
+## Dernière analyse (28 octobre 2026)
+
+| Contrôle | Résultat |
+|---|---|
+| `tools/test-api.mjs` (44 contrôles) | 44/44 |
+| `tools/test-direct.mjs` (16 contrôles de propagation admin → site) | 16/16 |
+| `tools/verif-finale.mjs` en local (19 contrôles) | 19/19 |
+| `tools/shoot-espaces.mjs` (51 captures) | 0 erreur, 0 débordement |
+| Détecteur d'anti-patterns | 0 signalement |
+| Site en ligne : API publique, connexion direction en HTTPS (cookie Secure), ouverture sans erreur | conforme |
+
+Points restant à la main de l'académie : disque persistant Render (ou exports réguliers), vraies photos et vidéos de l'académie, contacts et réseaux dans Paramètres, révocation de la clé API Render partagée pendant le travail, retrait des lignes « Co-Authored-By » si le projet est rendu comme travail personnel.
+
 ## Ce qui a été testé
 
 | Vérification | Résultat |
