@@ -8,3 +8,4 @@ Thumbs.db
 livrables/*.mp4
 video/.rendu/
 video/rendu*.log
+video/voix/

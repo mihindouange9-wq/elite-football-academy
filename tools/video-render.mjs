@@ -17,6 +17,8 @@ const args = process.argv.slice(2);
 const option = (nom, defaut) => { const i = args.indexOf("--" + nom); return i >= 0 ? Number(args[i + 1]) : defaut; };
 const APERCU = args.includes("--apercu");
 const FR = false;
+const SCENE = (() => { const i = args.indexOf("--scene"); return i >= 0 ? args[i + 1] : "scene"; })();
+const NOM = (() => { const i = args.indexOf("--nom"); return i >= 0 ? args[i + 1] : "ELITE-film"; })();
 const REPRENDRE = args.includes("--reprendre");
 const IPS = option("ips", 30);
 const DEBIT = option("debit", 10000) * 1000;
@@ -28,7 +30,7 @@ const DOSSIER = join(VIDEO, ".rendu");
 await mkdir(join(DOSSIER, "frames"), { recursive: true });
 
 /* ---------- serveur local : tout le projet (scène, polices, photos, encodeur) + images capturées ---------- */
-const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".css": "text/css", ".jpg": "image/jpeg", ".png": "image/png", ".webp": "image/webp", ".woff2": "font/woff2", ".svg": "image/svg+xml" };
+const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".css": "text/css", ".jpg": "image/jpeg", ".png": "image/png", ".webp": "image/webp", ".woff2": "font/woff2", ".svg": "image/svg+xml", ".wav": "audio/wav", ".json": "application/json" };
 const serveur = http.createServer(async (q, r) => {
   const p = decodeURIComponent(q.url.split("?")[0]);
   const fichier = p.startsWith("/frames/") ? join(DOSSIER, p) : join(RACINE, p);
@@ -58,7 +60,7 @@ async function ouvrirChrome(taille) {
 /* ---------- 1. capture ---------- */
 const scene = await ouvrirChrome(`${L},${H}`);
 await scene.envoyer("Emulation.setDeviceMetricsOverride", { width: L, height: H, deviceScaleFactor: 1, mobile: false });
-await scene.envoyer("Page.navigate", { url: `${BASE}/video/scene${FR ? "-fr" : ""}.html` });
+await scene.envoyer("Page.navigate", { url: `${BASE}/video/${SCENE}.html` });
 for (let i = 0; i < 120; i++) { if (await scene.evaluer("window.pret === true")) break; await attendre(250); }
 if (!(await scene.evaluer("window.pret === true"))) { console.error("scène non prête", scene.erreurs); process.exit(1); }
 await attendre(800);
@@ -71,7 +73,7 @@ const image = async (t, format = "jpeg") => {
 };
 
 if (APERCU) {
-  const temps = [0.5, 1.6, 2.8, 4.0, 5.2, 6.2, 7.4, 8.8, 10.5, 12.4, 13.6, 15.0, 16.4, 17.6, 19.2, 20.6, 22.5, 24.0, 25.6, 27.0, 28.8, 30.6, 32.4, 34.0, 35.6, 36.9, 38.2, 39.6];
+  const temps = Array.from({ length: 28 }, (_, i) => +((i + .5) * DUREE / 28).toFixed(1));
   const vignettes = [];
   for (const t of temps) vignettes.push({ t, data: (await image(t)).toString("base64") });
   const planche = await scene.evaluer(`(async () => {
@@ -82,7 +84,7 @@ if (APERCU) {
     for (let i = 0; i < vignettes.length; i++) { const img = new Image(); img.src = 'data:image/jpeg;base64,' + vignettes[i].data; await img.decode(); const x = (i % cols) * vw, y = Math.floor(i / cols) * vh; g.drawImage(img, x + 2, y + 2, vw - 4, vh - 4); g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(x + 2, y + 2, 70, 26); g.fillStyle = '#fff'; g.font = '600 15px sans-serif'; g.fillText(vignettes[i].t.toFixed(1) + ' s', x + 10, y + 21); }
     return c.toDataURL('image/jpeg', 0.86).split(',')[1];
   })()`, 120000);
-  await writeFile(join(VIDEO, FR ? "apercu-fr.jpg" : "apercu.jpg"), Buffer.from(planche, "base64"));
+  await writeFile(join(VIDEO, `apercu-${SCENE}.jpg`), Buffer.from(planche, "base64"));
   console.log(`video/apercu.jpg : ${temps.length} images clés · erreurs page : ${scene.erreurs.length ? scene.erreurs.join(" | ") : "aucune"}`);
   scene.fermer(); serveur.close(); await attendre(600); await rm(DOSSIER, { recursive: true, force: true }).catch(() => {});
   process.exit(0);
@@ -98,7 +100,7 @@ for (let i = 0; i < total; i++) {
   if (i % 30 === 0) await writeFile(journal, `capture ${i}/${total} (${((Date.now() - debut) / 1000).toFixed(0)} s)\n`);
 }
 console.log(`  capture ${total}/${total} en ${((Date.now() - debut) / 1000).toFixed(0)} s · erreurs page : ${scene.erreurs.length ? scene.erreurs.join(" | ") : "aucune"}`);
-const affiche = await image(37.6, "jpeg");
+const affiche = await image(DUREE - 3.4, "jpeg");
 scene.fermer();
 
 /* ---------- 2. encodage : 1080p puis 720p ---------- */
@@ -113,18 +115,18 @@ const sorties = [];
 for (const c of cibles) {
   await writeFile(journal, `encodage ${c.nom}…\n`);
   console.log(`  encodage H.264 ${c.largeur}×${c.hauteur} à ${c.debit / 1000} kb/s…`);
-  const taille = await enc.evaluer(`window.encoder(${JSON.stringify({ dossier: `${BASE}/frames`, total, ips: IPS, largeur: c.largeur, hauteur: c.hauteur, debit: c.debit })})`, 3600000);
+  const taille = await enc.evaluer(`window.encoder(${JSON.stringify({ dossier: `${BASE}/frames`, total, ips: IPS, largeur: c.largeur, hauteur: c.hauteur, debit: c.debit, scene: SCENE, base: BASE })})`, 3600000);
   const erreur = await enc.evaluer("window.erreur || ''");
   if (erreur) { console.error("échec :", erreur); enc.fermer(); process.exit(1); }
   audio = await enc.evaluer("window.audio");
   const morceaux = [];
   for (let d = 0; d < taille; d += 8_000_000) morceaux.push(Buffer.from(await enc.evaluer(`window.tranche(${d}, ${Math.min(taille, d + 8_000_000)})`, 120000), "base64"));
-  const sortie = join(RACINE, "livrables", `ELITE-film-${DUREE}s${FR ? "-FR" : ""}-${c.nom}.mp4`);
+  const sortie = join(RACINE, "livrables", `${NOM}-${DUREE}s-${c.nom}.mp4`);
   await writeFile(sortie, Buffer.concat(morceaux));
   sorties.push({ sortie, taille: (await stat(sortie)).size });
 }
 enc.fermer();
-await writeFile(join(RACINE, "livrables", `ELITE-film-affiche${FR ? "-FR" : ""}.jpg`), affiche);
+await writeFile(join(RACINE, "livrables", `${NOM}-affiche.jpg`), affiche);
 serveur.close();
 await attendre(600); await rm(DOSSIER, { recursive: true, force: true }).catch(() => {});
-console.log(`\n${sorties.map((s) => `  ${s.sortie} · ${(s.taille / 1048576).toFixed(1)} Mo`).join("\n")}\n  ${DUREE} s · audio AAC : ${audio ? "oui" : "non"} · affiche : livrables/ELITE-film-affiche.jpg`);
+console.log(`\n${sorties.map((s) => `  ${s.sortie} · ${(s.taille / 1048576).toFixed(1)} Mo`).join("\n")}\n  ${DUREE} s · audio AAC : ${audio ? "oui" : "non"} · affiche : livrables/${NOM}-affiche.jpg`);

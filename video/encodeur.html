@@ -57,7 +57,33 @@ async function bandeSon(duree) {
   return await ac.startRendering();
 }
 
-window.encoder = async ({ dossier, total, ips, largeur, hauteur, debit }) => {
+/* Bande-son du film explicatif : voix off (WAV générés par tools/narration.ps1) sur une nappe douce,
+   pulsation discrète, sifflet feutré au début de chaque chapitre ; la musique baisse sous la voix. */
+async function bandeSonExplicative(duree, base) {
+  const sr = 48000;
+  const ac = new OfflineAudioContext(2, Math.ceil(duree * sr), sr);
+  const master = ac.createGain(); master.gain.value = 0.95; master.connect(ac.destination);
+  const comp = ac.createDynamicsCompressor(); comp.threshold.value = -16; comp.ratio.value = 4; comp.attack.value = 0.004; comp.release.value = 0.25; comp.connect(master);
+  const musique = ac.createGain(); musique.gain.value = 0.55; musique.connect(comp);
+  const nappe = (t0, t1, notes, gain, fc) => { const g = ac.createGain(); g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(gain, t0 + 1.5); g.gain.setValueAtTime(gain, t1 - 1.2); g.gain.linearRampToValueAtTime(0, t1); const f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = fc; g.connect(f); f.connect(musique); notes.forEach((fr, i) => { for (const [type, det, k] of [['triangle', 5, 0.5], ['sine', -4, 0.6]]) { const o = ac.createOscillator(); o.type = type; o.frequency.value = fr; o.detune.value = det + (i % 2 ? 3 : -3); const og = ac.createGain(); og.gain.value = k / notes.length; o.connect(og); og.connect(g); o.start(t0); o.stop(t1 + 0.1); } }); };
+  const kick = (t, gain = 0.22) => { const o = ac.createOscillator(); o.type = 'sine'; o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(44, t + 0.14); const g = ac.createGain(); g.gain.setValueAtTime(gain, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.3); o.connect(g); g.connect(musique); o.start(t); o.stop(t + 0.32); };
+  const sifflet = (t, gain = 0.05, dur = 0.28) => { for (const fr of [2093, 2217]) { const o = ac.createOscillator(); o.type = 'sine'; o.frequency.value = fr; const g = ac.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(gain, t + 0.015); g.gain.setValueAtTime(gain, t + dur - 0.08); g.gain.exponentialRampToValueAtTime(0.0005, t + dur); o.connect(g); g.connect(musique); o.start(t); o.stop(t + dur + 0.05); } };
+  const durees = await (await fetch(base + '/video/narration-durees.json')).json();
+  const PAD = 1.6, DEBUT = 0.8; let t = DEBUT; const debuts = {};
+  for (const d of durees) { debuts[d.id] = t; t += d.duree + PAD; }
+  const accords = [[65.41, 130.81, 196, 261.63], [98, 146.83, 196, 246.94], [87.31, 130.81, 174.61, 220], [110, 164.81, 220, 261.63]];
+  durees.forEach((d, i) => { nappe(debuts[d.id] - 0.3, debuts[d.id] + d.duree + PAD, accords[i % accords.length], 0.16, 520); if (i > 0) sifflet(debuts[d.id] + 0.05); });
+  for (let x = debuts[durees[1].id]; x < debuts[durees[durees.length - 1].id]; x += 0.75) kick(x, 0.2);
+  /* voix off : chaque segment à son début, la musique baisse pendant la parole */
+  for (const d of durees) {
+    const buf = await ac.decodeAudioData(await (await fetch(base + '/video/' + d.fichier)).arrayBuffer());
+    const s = ac.createBufferSource(); s.buffer = buf; const g = ac.createGain(); g.gain.value = 1.0; s.connect(g); g.connect(comp); s.start(debuts[d.id] + 0.5);
+    musique.gain.setValueAtTime(0.55, Math.max(0, debuts[d.id] + 0.2)); musique.gain.linearRampToValueAtTime(0.22, debuts[d.id] + 0.6); musique.gain.setValueAtTime(0.22, debuts[d.id] + 0.5 + buf.duration); musique.gain.linearRampToValueAtTime(0.55, debuts[d.id] + 0.5 + buf.duration + 0.6);
+  }
+  return await ac.startRendering();
+}
+
+window.encoder = async ({ dossier, total, ips, largeur, hauteur, debit, scene, base }) => {
   const vcfg = { codec: 'avc1.640028', width: largeur, height: hauteur, bitrate: debit, framerate: ips, bitrateMode: 'variable', latencyMode: 'quality', avc: { format: 'avc' } };
   const acfg = { codec: 'mp4a.40.2', sampleRate: 48000, numberOfChannels: 2, bitrate: 160000 };
   const vs = await VideoEncoder.isConfigSupported(vcfg);
@@ -66,7 +92,7 @@ window.encoder = async ({ dossier, total, ips, largeur, hauteur, debit }) => {
   const muxer = new Mp4Muxer.Muxer({ target: new Mp4Muxer.ArrayBufferTarget(), video: { codec: 'avc', width: largeur, height: hauteur, frameRate: ips }, audio: as.supported ? { codec: 'aac', numberOfChannels: 2, sampleRate: 48000 } : undefined, fastStart: 'in-memory', firstTimestampBehavior: 'offset' });
   window.audio = as.supported;
   if (as.supported) {
-    const son = await bandeSon(total / ips);
+    const son = scene === 'scene-explicative' ? await bandeSonExplicative(total / ips, base) : await bandeSon(total / ips);
     const aenc = new AudioEncoder({ output: (c, m) => muxer.addAudioChunk(c, m), error: (e) => { window.erreur = 'audio ' + e.message; } });
     aenc.configure(acfg);
     const L = son.getChannelData(0), R = son.getChannelData(1), N = 1024;

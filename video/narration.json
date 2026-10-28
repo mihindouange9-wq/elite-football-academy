@@ -1,0 +1,14 @@
+[
+  { "id": "intro", "texte": "Elite Football Academy, à Akanda. Cette année, l'académie garde son idée : former les jeunes sur le terrain et à l'école. Et elle ajoute une vraie plateforme numérique. Voici ce qui change." },
+  { "id": "passeport", "texte": "Première nouveauté : le passeport du joueur. Chaque trimestre, le coach note cinq axes : technique, physique, tactique, mental et scolaire. Le radar montre la progression d'un coup d'œil." },
+  { "id": "parents", "texte": "Deuxième nouveauté : l'espace parents. Depuis leur téléphone, les familles voient le planning, les présences, les évaluations et les cotisations de leur enfant." },
+  { "id": "coachs", "texte": "Troisième nouveauté : l'espace coachs. La feuille de présence se remplit en trois touches, et l'évaluation du trimestre en quelques glissements." },
+  { "id": "scolaire", "texte": "Quatrième nouveauté : le suivi scolaire intégré. La moyenne de chaque trimestre entre dans le passeport. Si elle passe sous le seuil, la règle des tournois s'applique automatiquement." },
+  { "id": "detection", "texte": "Cinquième nouveauté : la détection en ligne. Les familles s'inscrivent depuis le site et reçoivent un numéro de dossard. Le jour J, les éducateurs notent chaque candidat sur une grille commune." },
+  { "id": "paiements", "texte": "Sixième nouveauté : les cotisations. Un échéancier mensuel, un paiement déclaré par les parents en Mobile Money, validé par la direction, et un reçu numéroté." },
+  { "id": "partage", "texte": "Septième nouveauté : le partage du passeport. Avec l'accord des parents, un lien sécurisé et révocable permet à un club ou à un recruteur de consulter le parcours du joueur." },
+  { "id": "direction", "texte": "Huitième nouveauté : le pilotage de la direction. Effectifs, présences, impayés, alertes scolaires, point mort, et un rapport mensuel imprimable." },
+  { "id": "site", "texte": "Neuvième nouveauté : un site vivant. Tout ce que la direction modifie dans ses paramètres s'affiche aussitôt sur le site public, sans toucher au code." },
+  { "id": "securite", "texte": "Le tout sur un socle sécurisé : comptes personnels, trois rôles, mots de passe chiffrés, journal des actions, sauvegarde complète." },
+  { "id": "fin", "texte": "Elite Football Academy. Révéler les talents, bâtir des parcours." }
+]

@@ -1,0 +1,62 @@
+﻿[
+    {
+        "id":  "intro",
+        "duree":  16.22,
+        "fichier":  "voix/intro.wav"
+    },
+    {
+        "id":  "passeport",
+        "duree":  16.23,
+        "fichier":  "voix/passeport.wav"
+    },
+    {
+        "id":  "parents",
+        "duree":  12.51,
+        "fichier":  "voix/parents.wav"
+    },
+    {
+        "id":  "coachs",
+        "duree":  10.89,
+        "fichier":  "voix/coachs.wav"
+    },
+    {
+        "id":  "scolaire",
+        "duree":  14.36,
+        "fichier":  "voix/scolaire.wav"
+    },
+    {
+        "id":  "detection",
+        "duree":  15.16,
+        "fichier":  "voix/detection.wav"
+    },
+    {
+        "id":  "paiements",
+        "duree":  13.02,
+        "fichier":  "voix/paiements.wav"
+    },
+    {
+        "id":  "partage",
+        "duree":  13.59,
+        "fichier":  "voix/partage.wav"
+    },
+    {
+        "id":  "direction",
+        "duree":  12.52,
+        "fichier":  "voix/direction.wav"
+    },
+    {
+        "id":  "site",
+        "duree":  11.72,
+        "fichier":  "voix/site.wav"
+    },
+    {
+        "id":  "securite",
+        "duree":  10.23,
+        "fichier":  "voix/securite.wav"
+    },
+    {
+        "id":  "fin",
+        "duree":  6.39,
+        "fichier":  "voix/fin.wav"
+    }
+]
