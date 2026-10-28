@@ -33,8 +33,15 @@
     if (lenis) lenis.scrollTo(t, { offset: h === "#haut" || h === "#galerie" ? 0 : -24, duration: 1.4 }); else t.scrollIntoView({ behavior: reduit ? "auto" : "smooth" });
     if (t.id && t.id !== "haut" && t.id !== "galerie") { t.setAttribute("tabindex", "-1"); setTimeout(() => t.focus({ preventScroll: true }), 900); }
   }));
-  /* transitions de page : voile noir avant de quitter */
+  /* accès discret à l'espace direction : trois clics rapides sur le logo en haut à gauche */
   const voile = $("voilePage");
+  let clicsLogo = 0, chronoLogo = 0;
+  document.querySelector(".entete .marque").addEventListener("click", (e) => {
+    clearTimeout(chronoLogo); clicsLogo++;
+    if (clicsLogo >= 3) { clicsLogo = 0; e.preventDefault(); e.stopImmediatePropagation(); if (reduit || !window.gsap) { location.href = "/admin"; return; } gsap.to(voile, { opacity: 1, duration: .5, ease: "power2.inOut", onComplete: () => { location.href = "/admin"; } }); return; }
+    chronoLogo = setTimeout(() => { clicsLogo = 0; }, 900);
+  }, true);
+  /* transitions de page : voile noir avant de quitter */
   document.querySelectorAll("a[data-page]").forEach((a) => a.addEventListener("click", (e) => {
     if (reduit || !window.gsap || e.metaKey || e.ctrlKey) return;
     e.preventDefault(); const href = a.getAttribute("href");
@@ -211,7 +218,7 @@
     ScrollTrigger.create({ trigger: ".galerie-wrap", start: "top bottom", end: "top top", scrub: true, onUpdate: (st) => { if (!large()) return; const p = st.progress; gsap.set(".galerie__piste", { y: (1 - p) * window.innerHeight * .42, autoAlpha: gsap.utils.clamp(0, 1, (p - .3) / .5) }); gsap.set(".galerie__ui, .galerie__points", { autoAlpha: gsap.utils.clamp(0, 1, (p - .7) / .3) }); } });
     const trigGalerie = ScrollTrigger.create({
       trigger: ".galerie-wrap", start: "top top", end: "bottom bottom", scrub: true,
-      snap: large() ? { snapTo: 1 / (ecrans.length - 1), duration: { min: .25, max: .7 }, delay: .08, ease: "power2.inOut" } : false,
+      snap: large() ? { snapTo: 1 / (ecrans.length - 1), duration: { min: .25, max: .7 }, delay: .08, ease: "power2.inOut", directional: false } : false,
       onUpdate: (st) => {
         if (!large()) return;
         const idx = st.progress * (ecrans.length - 1);

@@ -61,8 +61,8 @@ table.tab { width: 100%; border-collapse: collapse; font-size: var(--t-sm); }
 span.actions { display: inline-flex; align-items: center; gap: .4rem; }
 #vue:focus { outline: 0; }
 .tab .btn--sm { min-height: 2.1rem; padding: .3rem .7rem; }
-.filtres { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
-.filtres input, .filtres select { min-height: 2.6rem; padding: .4rem .8rem; border: 2px solid var(--ligne-forte); border-radius: var(--r-pill); background: var(--blanc); font-weight: 600; font-size: var(--t-sm); }
+.filtres { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; min-width: 0; max-width: 100%; }
+.filtres input, .filtres select { max-width: 100%; min-width: 0; min-height: 2.6rem; padding: .4rem .8rem; border: 2px solid var(--ligne-forte); border-radius: var(--r-pill); background: var(--blanc); font-weight: 600; font-size: var(--t-sm); }
 .filtres input:focus, .filtres select:focus { outline: none; border-color: var(--vert); }
 
 /* graphiques */
@@ -105,7 +105,7 @@ span.actions { display: inline-flex; align-items: center; gap: .4rem; }
 
 /* présences (coach) */
 .liste-presence { display: grid; gap: .5rem; }
-.ligne-presence { display: grid; grid-template-columns: 1fr auto; gap: .6rem; align-items: center; padding: .7rem .9rem; border-radius: var(--r-sm); background: var(--blanc); border: 1px solid var(--ligne); }
+.ligne-presence { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .6rem; align-items: center; padding: .7rem .9rem; border-radius: var(--r-sm); background: var(--blanc); border: 1px solid var(--ligne); }
 .ligne-presence b { font-family: var(--titre); }
 .ligne-presence small { display: block; color: var(--encre-3); }
 .segments { display: inline-flex; border: 2px solid var(--ligne-forte); border-radius: var(--r-pill); overflow: hidden; }
@@ -194,3 +194,5 @@ span.actions { display: inline-flex; align-items: center; gap: .4rem; }
   .passeport__grille { grid-template-columns: 1fr; }
   .notes-axes label { grid-template-columns: 6rem 1fr 2.6rem; }
 }
+
+@media (max-width: 40em) { .segments button { min-width: 2.4rem; padding: 0 .45rem; } .ligne-presence { padding: .6rem .7rem; gap: .4rem; } }
