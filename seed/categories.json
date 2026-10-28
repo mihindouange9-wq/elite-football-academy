@@ -1,0 +1,30 @@
+[
+  {
+    "id": "u7_u9",
+    "name": "U7 – U9 (École de foot)",
+    "tranche": "7-9 ans",
+    "coach": "",
+    "jours": "Mer · Sam"
+  },
+  {
+    "id": "u10_u12",
+    "name": "U10 – U12",
+    "tranche": "10-12 ans",
+    "coach": "",
+    "jours": "Mar · Jeu · Sam"
+  },
+  {
+    "id": "u13_u15",
+    "name": "U13 – U15",
+    "tranche": "13-15 ans",
+    "coach": "",
+    "jours": "Lun · Mer · Ven"
+  },
+  {
+    "id": "u16_u18",
+    "name": "U16 – U18",
+    "tranche": "16-18 ans",
+    "coach": "",
+    "jours": "Lun · Mer · Ven · Sam"
+  }
+]

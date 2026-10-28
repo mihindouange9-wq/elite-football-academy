@@ -1,0 +1,52 @@
+[
+  {
+    "id": "s1",
+    "jour": "Lundi",
+    "debut": "16:00",
+    "fin": "18:00",
+    "categorie": "U13 – U15",
+    "type": "Technique",
+    "lieu": "Terrain d'Akanda",
+    "coach": ""
+  },
+  {
+    "id": "s2",
+    "jour": "Mercredi",
+    "debut": "15:00",
+    "fin": "17:00",
+    "categorie": "U7 – U9 (École de foot)",
+    "type": "Technique",
+    "lieu": "Terrain d'Akanda",
+    "coach": ""
+  },
+  {
+    "id": "s3",
+    "jour": "Mercredi",
+    "debut": "17:00",
+    "fin": "19:00",
+    "categorie": "U16 – U18",
+    "type": "Tactique",
+    "lieu": "Terrain d'Akanda",
+    "coach": ""
+  },
+  {
+    "id": "s4",
+    "jour": "Vendredi",
+    "debut": "16:00",
+    "fin": "18:00",
+    "categorie": "U13 – U15",
+    "type": "Physique",
+    "lieu": "Terrain d'Akanda",
+    "coach": ""
+  },
+  {
+    "id": "s5",
+    "jour": "Samedi",
+    "debut": "09:00",
+    "fin": "11:00",
+    "categorie": "U10 – U12",
+    "type": "Match",
+    "lieu": "Stade de l'Amitié",
+    "coach": ""
+  }
+]
