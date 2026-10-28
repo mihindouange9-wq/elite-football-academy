@@ -91,7 +91,7 @@ for (const [role, v] of Object.entries(vues)) {
       const nom = `${width}-${role}-${String(i).padStart(2, "0")}-${h.replace(/[^a-z0-9]+/gi, "-").slice(0, 24)}.png`;
       await page.screenshot({ path: path.join(out, nom), fullPage: true });
       const debord = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-      if (debord > 0) erreurs.push(`[${role} ${width}] #${h} déborde horizontalement de ${debord}px`);
+      if (debord > 0) { const coupables = await page.evaluate(() => [...document.querySelectorAll("body *")].filter((e) => e.getBoundingClientRect().right > document.documentElement.clientWidth + 1 && e.getBoundingClientRect().width > 0).slice(0, 6).map((e) => `${e.tagName.toLowerCase()}${e.id ? "#" + e.id : ""}${e.className && typeof e.className === "string" ? "." + e.className.split(" ").join(".") : ""} (${Math.round(e.getBoundingClientRect().right)})`)); erreurs.push(`[${role} ${width}] #${h} déborde horizontalement de ${debord}px : ${coupables.join(" ; ")}`); }
     }
     if (mobile) { await page.goto(`${BASE}${v.url}#${v.hashes[0]}`, { waitUntil: "networkidle0" }); await page.click("#burgerApp"); await attendre(400); await page.screenshot({ path: path.join(out, `${width}-${role}-menu.png`) }); }
     await page.close();
