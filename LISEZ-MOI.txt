@@ -18,7 +18,8 @@ Variables d'environnement (toutes facultatives en local) :
   ADMIN_PASSWORD   mot de passe initial du compte "direction"
   SECURE_COOKIES=1 cookies Secure (derrière HTTPS)
 
-Première connexion : …/connexion, identifiant "direction",
+Première connexion : …/connexion (ou trois clics rapides sur le
+logo en haut à gauche du site), identifiant "direction",
 mot de passe ADMIN_PASSWORD, ou "Elite2026" si la variable est
 absente (changement obligatoire au premier accès).
 
@@ -70,6 +71,14 @@ détections, réglages) sont importés dans la base.
   node --no-warnings tools/test-api.mjs
       44 contrôles de bout en bout (rôles, neuf piliers,
       persistance et sessions après redémarrage, restauration).
+  node tools/test-direct.mjs
+      16 contrôles : chaque réglage de l'espace direction (nom,
+      slogan, présentation, âges, horaires, lieu, saison, tarifs,
+      contacts, coachs, actualités, détections) apparaît sur le
+      site public, y compris sur une page déjà ouverte (≤ 20 s).
+  node tools/verif-finale.mjs
+      19 contrôles du site public (pages, ancres, galerie, triple
+      clic sur le logo vers l'espace direction, mobile).
   node --no-warnings tools/shoot-espaces.mjs
       captures de toutes les vues des trois espaces (ordinateur
       et mobile) sur des données de démonstration temporaires.
@@ -80,6 +89,9 @@ détections, réglages) sont importés dans la base.
 -----------------------------------------------
 5) À RENSEIGNER PAR L'ACADÉMIE (Paramètres de l'espace direction)
 -----------------------------------------------
+  • Nom, slogan, texte de présentation, âges, jours d'ouverture,
+    lieu, saison : repris automatiquement sur le site public
+    (la page se met à jour seule, sans rechargement)
   • WhatsApp, e-mail, Facebook, Instagram (vides = non affichés)
   • Tarifs, moyenne minimale, seuil de présence, règle des tournois
   • Charges fixes mensuelles (calcul du point mort)

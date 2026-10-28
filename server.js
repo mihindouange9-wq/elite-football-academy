@@ -167,7 +167,7 @@ async function api(req, res, url, m, user) {
 
   /* ===== public ===== */
   if (R("api/public", ["GET"])) {
-    const pub = { nom: s.nom, slogan: s.slogan, whatsapp: s.whatsapp, facebook: s.facebook, instagram: s.instagram, lieu: s.lieu, saison: s.saison, tarif_sport_etudes: N(s.tarif_sport_etudes), tarif_loisirs: N(s.tarif_loisirs), fondateur: s.fondateur, email: s.email, mobile_money: s.mobile_money, moyenne_min: N(s.moyenne_min), regle_tournoi: s.regle_tournoi };
+    const pub = { nom: s.nom, slogan: s.slogan, whatsapp: s.whatsapp, facebook: s.facebook, instagram: s.instagram, lieu: s.lieu, saison: s.saison, tarif_sport_etudes: N(s.tarif_sport_etudes), tarif_loisirs: N(s.tarif_loisirs), fondateur: s.fondateur, email: s.email, mobile_money: s.mobile_money, moyenne_min: N(s.moyenne_min), regle_tournoi: s.regle_tournoi, presentation: s.presentation, age_min: s.age_min, age_max: s.age_max, horaires: s.horaires };
     const categories = D.all("SELECT id, name, tranche, jours, capacity FROM categories ORDER BY position");
     const seances = D.all("SELECT s.jour, s.debut, s.fin, s.type, s.lieu, c.name categorie FROM seances s LEFT JOIN categories c ON c.id=s.categorie_id");
     const detections = D.all("SELECT d.id, d.date, d.heure, d.lieu, d.titre, d.description, d.places, d.open_public, (SELECT COUNT(*) FROM candidates c WHERE c.detection_id=d.id) inscrits FROM detections d WHERE statut='à venir' AND date>=? ORDER BY date", D.today());
@@ -449,7 +449,7 @@ async function api(req, res, url, m, user) {
     if (R("api/direction/actualites", ["POST"])) { if (!S(b.title)) bad("Titre requis"); const id = D.uid("N-"); D.run("INSERT INTO news(id,date,type,title,body,categorie_id,public,created_at) VALUES(?,?,?,?,?,?,?,?)", id, isDate(b.date || "") ? b.date : D.today(), ["actualité", "convocation", "résultat", "information"].includes(b.type) ? b.type : "actualité", S(b.title, 140), S(b.body, 2000), S(b.categorie_id, 40), b.public === false ? 0 : 1, D.now()); return json(res, 201, { ok: true, id }); }
     if ((p = M("api/direction/actualites/:id")) && m === "DELETE") { D.run("DELETE FROM news WHERE id=?", p.id); return json(res, 200, { ok: true }); }
     if (R("api/direction/parametres", ["GET"])) return json(res, 200, s);
-    if (R("api/direction/parametres", ["PUT"])) { const keys = ["nom", "slogan", "whatsapp", "facebook", "instagram", "lieu", "saison", "capacite", "charges_fixes", "tarif_sport_etudes", "tarif_loisirs", "moyenne_min", "seuil_presence", "regle_tournoi", "mobile_money", "fondateur", "email"]; for (const k of keys) if (b[k] != null) D.setSetting(k, k === "whatsapp" ? String(b[k]).replace(/\D/g, "") : S(b[k], 300)); D.audit(user, "paramètres"); return json(res, 200, { ok: true }); }
+    if (R("api/direction/parametres", ["PUT"])) { const keys = ["nom", "slogan", "whatsapp", "facebook", "instagram", "lieu", "saison", "capacite", "charges_fixes", "tarif_sport_etudes", "tarif_loisirs", "moyenne_min", "seuil_presence", "regle_tournoi", "mobile_money", "fondateur", "email", "presentation", "age_min", "age_max", "horaires"]; for (const k of keys) if (b[k] != null) D.setSetting(k, k === "whatsapp" ? String(b[k]).replace(/\D/g, "") : S(b[k], k === "presentation" ? 600 : 300)); D.audit(user, "paramètres"); return json(res, 200, { ok: true }); }
   }
   throw new HttpError(404, "Route inconnue");
 }

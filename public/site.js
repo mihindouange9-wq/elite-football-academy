@@ -51,8 +51,17 @@
 
   /* ---------- données réelles ---------- */
   function lienWa(texte) { return waLink(PUB.whatsapp, texte); }
+  let empreinte = "";
   async function charger() {
-    try { PUB = await get("/api/public"); } catch { return; }
+    let brut; try { brut = await get("/api/public"); } catch { return; }
+    const e = JSON.stringify(brut); if (e === empreinte) return; empreinte = e; PUB = brut;
+    /* identité et textes modifiables depuis l'espace direction */
+    if (PUB.nom) { $("nomPied").textContent = PUB.nom; document.title = `${PUB.nom} — Académie Sport-Études, Akanda · Libreville`; }
+    if (PUB.slogan) { const [a, b] = PUB.slogan.split(/,\s*/); $("sloganPied").innerHTML = b ? `<span class="ligne"><span>${esc(a)},</span></span><span class="ligne"><span>${esc(b.replace(/\.?$/, "."))}</span></span>` : `<span class="ligne"><span>${esc(PUB.slogan)}</span></span>`; }
+    if (PUB.saison) $("introSous").textContent = `Football Academy · Sport-Études · Saison ${PUB.saison}`;
+    if (PUB.horaires) $("horairesPied").textContent = PUB.horaires;
+    if (PUB.age_min && PUB.age_max) document.querySelectorAll("[data-ages]").forEach((el) => { el.textContent = `de ${PUB.age_min} à ${PUB.age_max} ans`; });
+    if (PUB.presentation && PUB.presentation.trim() !== introTexte.dataset.texte) majPresentation(PUB.presentation.trim());
     const bonjour = lienWa("Bonjour Elite Football Academy, je souhaite inscrire mon enfant.");
     ["waFloat", "waInsc", "waFoot"].forEach((id) => { if ($(id)) $(id).href = bonjour; });
     $("waPartenaire").href = lienWa("Bonjour Elite Football Academy, je souhaite discuter d'un partenariat.");
@@ -66,8 +75,8 @@
     document.querySelector('[data-tarif-ecran="sport_etudes"]').textContent = window.EFA.num(PUB.tarif_sport_etudes);
     document.querySelector('[data-tarif-ecran="loisirs"]').textContent = window.EFA.num(PUB.tarif_loisirs);
     $("regleTexte").textContent = PUB.regle_tournoi === "oui" ? `En filière Sport-Études, la participation aux tournois demande un suivi scolaire à jour et une moyenne trimestrielle d'au moins ${PUB.moyenne_min}/20.` : "La direction a suspendu la règle de participation aux tournois liée au suivi scolaire : les moyennes restent suivies et visibles dans le passeport.";
+    $("detectionVide").hidden = PUB.detections.length > 0; $("detectionListe").hidden = !PUB.detections.length; if (!PUB.detections.length) $("detectionListe").innerHTML = "";
     if (PUB.detections.length) {
-      $("detectionVide").hidden = true; $("detectionListe").hidden = false;
       $("detectionListe").innerHTML = PUB.detections.map((d) => {
         const restantes = Math.max(0, d.places - d.inscrits), pct = d.places ? Math.min(100, Math.round((100 * d.inscrits) / d.places)) : 0;
         return `<article class="carte-detection rev" data-id="${esc(d.id)}">
@@ -91,11 +100,13 @@
       }).join("");
       $("detectionListe").querySelectorAll(".form-detection").forEach((f) => f.addEventListener("submit", envoyerDetection));
     }
-    if (PUB.coachs.length) { $("coachsVide").hidden = true; $("coachs").innerHTML = PUB.coachs.map((c) => `<li><span class="avatar" aria-hidden="true">${esc((c.name || "?").trim()[0].toUpperCase())}</span><div><b>${esc(c.name)}</b><small>${esc(c.groupes || "Éducateur")}</small></div></li>`).join(""); }
+    $("coachsVide").hidden = PUB.coachs.length > 0; if (!PUB.coachs.length) $("coachs").innerHTML = "";
+    if (PUB.coachs.length) { $("coachs").innerHTML = PUB.coachs.map((c) => `<li><span class="avatar" aria-hidden="true">${esc((c.name || "?").trim()[0].toUpperCase())}</span><div><b>${esc(c.name)}</b><small>${esc(c.groupes || "Éducateur")}</small></div></li>`).join(""); }
     const jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
     const parJour = jours.map((j) => ({ j, s: PUB.seances.filter((s) => s.jour === j).sort((a, b) => a.debut.localeCompare(b.debut)) })).filter((x) => x.s.length);
     $("planning").innerHTML = parJour.length ? parJour.map((x) => `<li><b>${esc(x.j)}</b><span>${x.s.map((s) => `${esc(s.debut)}–${esc(s.fin)} · ${esc(s.categorie || "")} · ${esc(s.type)}${s.lieu ? " · " + esc(s.lieu) : ""}`).join("<br>")}</span></li>`).join("") : `<li><span>Le planning de la semaine sera publié ici.</span></li>`;
-    if (PUB.news.length) { $("actus").hidden = false; $("actusListe").innerHTML = PUB.news.map((n) => `<li><time datetime="${esc(n.date)}">${esc(dateFr(n.date))}${n.categorie ? " · " + esc(n.categorie) : ""}</time><h4>${esc(n.title)}</h4>${n.body ? `<p>${esc(n.body)}</p>` : ""}</li>`).join(""); }
+    $("actus").hidden = !PUB.news.length;
+    if (PUB.news.length) { $("actusListe").innerHTML = PUB.news.map((n) => `<li><time datetime="${esc(n.date)}">${esc(dateFr(n.date))}${n.categorie ? " · " + esc(n.categorie) : ""}</time><h4>${esc(n.title)}</h4>${n.body ? `<p>${esc(n.body)}</p>` : ""}</li>`).join(""); }
     if (anime) { revelations(); ScrollTrigger.refresh(); }
   }
 
@@ -144,8 +155,9 @@
   const chargeur = $("chargeur");
   /* le paragraphe de l'ouverture, mot par mot */
   const introTexte = $("introTexte");
-  introTexte.innerHTML = introTexte.textContent.trim().split(/\s+/).map((m) => `<span class="mot">${esc(m)}</span>`).join(" ");
-  const mots = [...introTexte.querySelectorAll(".mot")];
+  let mots = [];
+  function majPresentation(texte) { introTexte.dataset.texte = texte; const allumes = mots.filter((m) => m.classList.contains("allume")).length; introTexte.innerHTML = texte.split(/\s+/).map((m) => `<span class="mot">${esc(m)}</span>`).join(" "); mots = [...introTexte.querySelectorAll(".mot")]; if ((mots.length && allumes >= mots.length) || !anime) mots.forEach((m) => m.classList.add("allume")); }
+  majPresentation(introTexte.textContent.trim());
   /* points et libellés de la galerie */
   $("galPoints").innerHTML = ecrans.map(() => "<li></li>").join("");
   const points = [...$("galPoints").children];
@@ -256,4 +268,9 @@
     document.querySelector(".galerie-wrap").style.height = "auto"; document.querySelector(".galerie").style.position = "static";
   }
   charger();
+  /* le site reflète les modifications faites dans l'espace direction : relecture périodique et au retour sur l'onglet */
+  setInterval(() => { if (!document.hidden) charger(); }, 20000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) charger(); });
+  window.addEventListener("focus", () => charger());
+  window.addEventListener("pageshow", (e) => { if (e.persisted) charger(); });
 })();

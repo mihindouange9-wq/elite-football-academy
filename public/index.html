@@ -63,8 +63,8 @@
   <section class="intro" aria-labelledby="hero-titre">
     <p class="intro__bord intro__bord--g" aria-hidden="true">Akanda</p>
     <p class="intro__bord intro__bord--d" aria-hidden="true">Libreville · Gabon</p>
-    <h1 class="intro__marque" id="hero-titre"><span class="intro__mot" aria-hidden="true"><i>E</i><i>L</i><i>I</i><i>T</i><i>E</i></span><span class="sr-only">Elite Football Academy</span><span class="intro__sous">Football Academy · Sport-Études</span></h1>
-    <p class="intro__texte" id="introTexte">Elite Football Academy est une académie Sport-Études d'Akanda qui forme les jeunes de 8 à 18 ans sur le terrain, les accompagne à l'école et leur transmet des valeurs qui durent.</p>
+    <h1 class="intro__marque" id="hero-titre"><span class="intro__mot" aria-hidden="true"><i>E</i><i>L</i><i>I</i><i>T</i><i>E</i></span><span class="sr-only">Elite Football Academy</span><span class="intro__sous" id="introSous">Football Academy · Sport-Études</span></h1>
+    <p class="intro__texte" id="introTexte" data-presentation>Elite Football Academy est une académie Sport-Études d'Akanda qui forme les jeunes de 8 à 18 ans sur le terrain, les accompagne à l'école et leur transmet des valeurs qui durent.</p>
     <a class="pilule pilule--sombre intro__cta" href="#galerie" id="introCta"><span>Faites défiler pour explorer</span><span class="fleche-anim" aria-hidden="true"><svg class="ico"><use href="/icons.svg#i-bas"/></svg><svg class="ico"><use href="/icons.svg#i-bas"/></svg></span></a>
   </section>
 </div>
@@ -79,7 +79,7 @@
       <article class="ecran ecran--graphique" data-cible="#sport-etudes" data-titre="Sport-Études"><div class="ecran__cadre ecran__cadre--sport"><div class="ecran__tarif"><span>Sport-Études</span><b data-tarif-ecran="sport_etudes">50 000</b><small>FCFA / mois</small></div><div class="ecran__tarif ecran__tarif--second"><span>Loisirs</span><b data-tarif-ecran="loisirs">25 000</b><small>FCFA / mois</small></div><p>Réussir sur les deux terrains</p></div><h2 class="ecran__titre">Sport-Études</h2></article>
       <article class="ecran" data-cible="#detection" data-titre="Détection"><div class="ecran__cadre"><picture><source type="image/webp" srcset="/assets/hero-800.webp 800w, /assets/hero-1600.webp 1600w" sizes="62vw"><img src="/assets/hero.jpg" alt="Deux jeunes joueurs se disputent le ballon" width="1600" height="1035" loading="lazy"></picture></div><h2 class="ecran__titre">Détection</h2></article>
       <article class="ecran" data-cible="#equipe" data-titre="Les éducateurs"><div class="ecran__cadre"><picture><source type="image/webp" srcset="/assets/team-800.webp 800w, /assets/team-1600.webp 1600w" sizes="62vw"><img src="/assets/team.jpg" alt="Un groupe d'enfants joue au ballon sur une pelouse" width="1000" height="750" loading="lazy"></picture></div><h2 class="ecran__titre">Les éducateurs</h2></article>
-      <article class="ecran ecran--graphique" data-cible="#inscription" data-titre="Inscription"><div class="ecran__cadre ecran__cadre--inscription"><img src="/assets/logo_elite.png" alt="" width="120" height="120"><p>Garçons et filles<br>de 8 à 18 ans</p></div><h2 class="ecran__titre">Inscrire<br>mon enfant</h2></article>
+      <article class="ecran ecran--graphique" data-cible="#inscription" data-titre="Inscription"><div class="ecran__cadre ecran__cadre--inscription"><img src="/assets/logo_elite.png" alt="" width="120" height="120"><p>Garçons et filles<br><span data-ages>de 8 à 18 ans</span></p></div><h2 class="ecran__titre">Inscrire<br>mon enfant</h2></article>
     </div>
     <div class="galerie__ui" aria-hidden="true">
       <p class="galerie__nav galerie__nav--prec"><small>Précédent</small><b id="galPrec"></b></p>
@@ -252,7 +252,7 @@
       <h2 id="inscription-titre" class="titre titre--lg rev-lignes"><span class="ligne"><span>Inscrivez</span></span><span class="ligne"><span>votre enfant.</span></span></h2>
       <p class="chapeau rev">Remplissez ce formulaire : l'académie vous recontacte pour la journée de détection et la visite du terrain. L'inscription n'est définitive qu'après la détection et la visite médicale d'aptitude.</p>
       <ul class="inscription__points rev">
-        <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-groupe"/></svg>Garçons et filles de 8 à 18 ans</li>
+        <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-groupe"/></svg>Garçons et filles <span data-ages>de 8 à 18 ans</span></li>
         <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-lieu"/></svg><span id="lieuTexte">Terrain à Akanda, proche du stade de l'Amitié</span></li>
         <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-whatsapp"/></svg><a id="waInsc" href="#" target="_blank" rel="noopener">Une question ? Écrivez-nous sur WhatsApp</a></li>
       </ul>
@@ -292,7 +292,7 @@
 <!-- ===== PIED ===== -->
 <footer class="pied" id="contact">
   <div class="conteneur pied__appel">
-    <p class="pied__grand" aria-hidden="true"><span class="ligne"><span>Révéler les talents,</span></span><span class="ligne"><span>bâtir des parcours.</span></span></p>
+    <p class="pied__grand" id="sloganPied" aria-hidden="true"><span class="ligne"><span>Révéler les talents,</span></span><span class="ligne"><span>bâtir des parcours.</span></span></p>
     <div class="pied__ctas">
       <a href="#inscription" class="pilule pilule--clair">Parents : inscrire mon enfant</a>
       <a href="#detection" class="pilule">Jeunes : journée de détection</a>
@@ -302,12 +302,12 @@
   <div class="conteneur pied__grille">
     <div class="pied__marque">
       <img src="/assets/logo_elite.png" alt="Elite Football Academy" width="64" height="64">
-      <p><b>Elite Football Academy</b><br>Académie Sport-Études de football<br>Dirigée par <span id="fondateurPied">Thomas Serge Lanchais</span></p>
+      <p><b id="nomPied">Elite Football Academy</b><br>Académie Sport-Études de football<br>Dirigée par <span id="fondateurPied">Thomas Serge Lanchais</span></p>
     </div>
     <div class="pied__col">
       <h2>Nous trouver</h2>
       <p><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-lieu"/></svg><span id="lieuPied">Akanda — proche du stade de l'Amitié, Libreville (Gabon)</span></p>
-      <p><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-horloge"/></svg>Lundi – Samedi</p>
+      <p><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-horloge"/></svg><span id="horairesPied">Lundi – Samedi</span></p>
     </div>
     <div class="pied__col">
       <h2>Nous contacter</h2>
@@ -338,6 +338,6 @@
 <script src="/ui.js" defer></script>
 <script src="/scene.js?v=3" defer></script>
 <script src="/dunes.js?v=3" defer></script>
-<script src="/site.js?v=3" defer></script>
+<script src="/site.js?v=4" defer></script>
 </body>
 </html>

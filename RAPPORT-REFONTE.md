@@ -25,6 +25,11 @@
 - Galerie de sept écrans en perspective posés sur les dunes (académie, passeport, parcours, Sport-Études, détection, éducateurs, inscription), parcourue par le défilement vertical, aimantée chapitre par chapitre, avec Précédent / Suivant et « Explorer ce chapitre ».
 - Sections détaillées en noir profond, pilules translucides, transitions de page par voile noir, défilement doux (Lenis vendorisé). Sur mobile, la galerie devient une pile d'écrans et les dunes sont désactivées ; avec `prefers-reduced-motion`, tout est statique.
 
+**Site piloté par l'espace direction (28 octobre 2026)**
+- Tout ce que la direction enregistre dans Paramètres (nom, slogan, texte de présentation, âges, jours d'ouverture, lieu, saison, tarifs, règle des tournois, contacts et réseaux) ainsi que les coachs, le planning, les actualités publiques et les journées de détection alimentent le site public.
+- La page publique relit l'API toutes les 20 secondes et au retour sur l'onglet : une modification apparaît sans rechargement. Vérifié par `tools/test-direct.mjs` (16 contrôles).
+- Accès discret à l'espace direction : trois clics rapides sur le logo en haut à gauche.
+
 ## Ce qui a été testé
 
 | Vérification | Résultat |
