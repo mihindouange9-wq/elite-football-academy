@@ -122,8 +122,10 @@ détections, réglages) sont importés dans la base.
 7) BUSINESS PLAN (dossier investisseurs)
 -----------------------------------------------
   business-plan/modele.py ..... toutes les hypothèses financières
-  business-plan/contenu.py .... le texte et les tableaux (chiffres
-                                calculés par le modèle, jamais saisis)
+  business-plan/contenu.py .... le texte des parties I et II, conclusion
+  business-plan/partie3.py .... l'analyse financière détaillée (chaque
+                                chiffre avec sa base de calcul, tout est
+                                recalculé depuis modele.py)
   python business-plan/docx_gen.py  → livrables/Elite_Football_BusinessPlan_v1.docx
   python business-plan/html_gen.py puis node business-plan/pdf.mjs
                                     → livrables/Elite_Football_BusinessPlan_v1.pdf

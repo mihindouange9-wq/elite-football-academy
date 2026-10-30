@@ -3,6 +3,7 @@
 Blocs : ("h1"|"h2"|"h3"|"p"|"lead"|"ul", ...), ("table", {"tete": [...], "lignes": [[...]], "larg": [...], "totaux": {idx}, "sections": {idx}}),
 ("note", texte), ("encart", {"titre", "texte"}), ("pagebreak",)."""
 import modele as M
+import partie3
 from modele import fcfa
 
 F = fcfa
@@ -12,9 +13,9 @@ TR = M.tresorerie()
 AM = M.amortissements()
 SEUIL1, SEUIL2 = M.seuil(1), M.seuil(2)
 BIL = M.bilan_fin_a1()
-INV_TOTAL = TR["invest_total"]
-RESERVE = TR["reserve"]
-SOUS_TOTAUX = {code: sum(q * pu for _, q, pu in l) for code, _, l in M.INVEST}
+INV_TOTAL = M.INV_TOTAL
+RESERVE = M.RESERVE
+SOUS_TOTAUX = M.INV_SOUS_TOTAUX
 
 TITRE = "Elite Football Academy"
 SLOGAN = "« Révéler les talents, bâtir des parcours »"
@@ -230,150 +231,7 @@ def blocs():
                 "Fidélisation : stages de vacances, maintien du tarif pour les familles présentes depuis la première saison, remise pour le second enfant d'une même famille, et une règle simple — un parent qui comprend ce que fait son enfant reste."]))
 
     # ------------------------------------------------------------------ III. ANALYSE FINANCIÈRE
-    add(("h1", "III.  ANALYSE FINANCIÈRE"))
-    add(("h2", "1.  Prévisions économiques et investissements"))
-    add(("h3", "1.1  Capital social et apports"))
-    add(("p", f"Le capital social d'Elite Football Academy SARL s'élève à {F(M.CAPITAL)} FCFA, intégralement libéré à la création. Il se décompose en un apport en numéraire de {F(M.CAPITAL_NUM)} FCFA (équivalent à 13 000 €) et un apport en nature de {F(M.CAPITAL_NAT)} FCFA correspondant à la plateforme numérique de l'académie, développée et en ligne au moment de la constitution. Le rapport d'évaluation de cet apport figure en annexe."))
-    add(("p", "Le tableau ci-dessous récapitule la composition du capital social et son traitement comptable au bilan d'ouverture. L'apport en nature est inscrit à l'actif en immobilisation incorporelle (logiciel) pour sa valeur d'apport et amorti sur cinq ans ; il ne génère aucun flux de trésorerie."))
-    add(t(["Composante du capital social", "Nature", "Montant (FCFA)", "Pourcentage"], [
-        ["Apport en numéraire", "Cash (banque)", F(M.CAPITAL_NUM), pct(M.CAPITAL_NUM, M.CAPITAL)],
-        ["Apport en nature — plateforme numérique Elite (site, espaces direction, coachs et parents, passeport du joueur)", "Immobilisation incorporelle", F(M.CAPITAL_NAT), pct(M.CAPITAL_NAT, M.CAPITAL)],
-        ["TOTAL CAPITAL SOCIAL", "—", F(M.CAPITAL), "100,0 %"],
-    ], larg=[46, 22, 17, 15], totaux=[2]))
-    add(("h3", "1.2  Investissements initiaux détaillés"))
-    add(("p", f"Les liquidités apportées au capital ({F(M.CAPITAL_NUM)} FCFA) financent les investissements initiaux, les frais d'établissement, le lancement, et une réserve de trésorerie volontairement préservée : {F(RESERVE)} FCFA, soit {pct(RESERVE, M.CAPITAL_NUM)} du numéraire, restent sur le compte de l'académie au premier jour d'activité. C'est un choix de gestion assumé : aucun investissement de confort n'est engagé avant que les premières cotisations ne soient encaissées."))
-    add(("p", "Le tableau ci-dessous présente la ventilation détaillée des investissements initiaux, regroupés en sept postes (A à G) et complétés par la réserve de trésorerie (poste H). Les prix retenus reflètent les pratiques observées sur le marché de Libreville et d'Akanda auprès des équipementiers sportifs, des fournisseurs de textile et des prestataires administratifs."))
-    for code, nom, lignes in M.INVEST:
-        add(("h3", f"{code} — {nom}"))
-        rows = [[d, str(q), F(pu), F(q * pu)] for d, q, pu in lignes]
-        rows.append([f"Sous-total — Poste {code}", "—", "—", F(SOUS_TOTAUX[code])])
-        add(t(["Désignation", "Qté", "PU (FCFA)", "Total (FCFA)"], rows, larg=[58, 10, 16, 16], totaux=[len(rows) - 1]))
-    add(("h3", "H — Réserve de trésorerie"))
-    add(("p", f"Après les investissements des postes A à G ({F(INV_TOTAL)} FCFA), le solde du capital en numéraire, {F(RESERVE)} FCFA, constitue la réserve de trésorerie de l'académie. Elle représente environ deux mois de charges courantes. Elle n'est pas un fonds de roulement destiné à être consommé : le plan de trésorerie de la section 2.4 montre qu'elle n'est jamais entamée, la trésorerie de fin de mois restant supérieure à {F(TR['min'])} FCFA sur toute la première saison. Elle protège l'académie contre un retard de cotisations, une réparation imprévue ou un mois difficile pour les familles."))
-    add(("h3", "Récapitulatif des investissements initiaux"))
-    rows = [[code, f"{code} — {nom}", F(SOUS_TOTAUX[code]), pct(SOUS_TOTAUX[code], M.CAPITAL_NUM)] for code, nom, _ in M.INVEST]
-    rows.append(["H", "Réserve de trésorerie (préservée)", F(RESERVE), pct(RESERVE, M.CAPITAL_NUM)])
-    rows.append(["TOTAL CAPITAL EN NUMÉRAIRE", "—", F(M.CAPITAL_NUM), "100,0 %"])
-    add(t(["Poste", "Désignation", "Montant (FCFA)", "% du cash"], rows, larg=[12, 52, 20, 16], totaux=[len(rows) - 1]))
-    add(("note", "Les postes C (santé et sécurité), F (frais d'établissement) et G (lancement) sont des dépenses de démarrage non récurrentes : elles sont décaissées sur le capital initial et comptabilisées en charges de la première année (section 2.3), et non à l'actif. Les 40 pochettes du poste B constituent le stock de départ remis aux premiers joueurs."))
-    add(("h3", "1.3  Prévision de dépenses annuelles sur 3 ans"))
-    add(("p", "Le tableau ci-dessous présente, poste par poste, l'ensemble des charges d'exploitation prévues sur les trois premières saisons. Elles sont distinctes des coûts variables liés aux joueurs (pochettes de bienvenue, stages) détaillés en section 2.1. La progression reflète : (i) le passage de deux à quatre éducateurs et la revalorisation progressive des salaires, (ii) l'ouverture d'un second créneau en année 3 (loyer, consommables, transport), (iii) la stabilité des charges structurelles (assurance, plateforme, téléphonie)."))
-    rows = []; sec = []
-    for i, (n, v) in enumerate([(n, v) for n, v in M.charges(1)]):
-        if v is None:
-            rows.append([n, "", "", ""]); sec.append(len(rows) - 1)
-        else:
-            v2 = dict(M.charges(2))[n]; v3 = dict(M.charges(3))[n]
-            rows.append([n, F(v), F(v2), F(v3)])
-    rows.append(["Dotations aux amortissements (calculées en section 1.4)", F(A1["dotation"]), F(A2["dotation"]), F(A3["dotation"])])
-    rows.append(["TOTAL CHARGES D'EXPLOITATION ANNUELLES", F(A1["total_charges"] + A1["dotation"]), F(A2["total_charges"] + A2["dotation"]), F(A3["total_charges"] + A3["dotation"])])
-    add(t(["Poste de dépense d'exploitation", "Année 1", "Année 2", "Année 3"], rows, larg=[52, 16, 16, 16], totaux=[len(rows) - 1], sections=sec))
-    add(("h3", "1.4  Plan d'amortissement"))
-    add(("p", "Les immobilisations sont amorties selon la méthode linéaire, sur des durées d'usage conformes aux pratiques courantes et au plan comptable SYSCOHADA : trois ans pour l'équipement sportif et l'informatique, cinq ans pour l'aménagement du terrain et pour la plateforme numérique (immobilisation incorporelle). La caution du terrain n'est pas amortissable : elle reste à l'actif jusqu'à sa restitution."))
-    rows = [[b["nom"], F(b["valeur"]), str(b["duree"]), F(b["dotation"]), F(b["c1"]), F(b["c2"]), F(b["c3"]), F(b["vnc3"])] for b in AM]
-    tot_val = sum(b["valeur"] for b in AM); tot_dot = sum(b["dotation"] for b in AM)
-    rows.append(["TOTAL IMMOBILISATIONS AMORTISSABLES", F(tot_val), "—", F(tot_dot), F(tot_dot), F(tot_dot * 2), F(tot_dot * 3), F(tot_val - tot_dot * 3)])
-    add(t(["Bien immobilisé", "Valeur d'origine", "Durée (ans)", "Dotation annuelle", "Cumul fin A1", "Cumul fin A2", "Cumul fin A3", "VNC fin A3"], rows, larg=[30, 11, 7, 11, 10, 10, 10, 11], totaux=[len(rows) - 1]))
-    add(("p", f"La dotation annuelle aux amortissements s'élève à {F(tot_dot)} FCFA et reste stable sur les trois années. Plus des deux tiers ({F(AM[3]['dotation'])} FCFA) correspondent à la plateforme numérique apportée en nature : c'est une charge calculée, sans flux de trésorerie, qui réduit le résultat fiscal et donc l'impôt sur les sociétés sans peser sur la trésorerie."))
-
-    add(("h2", "2.  Analyse financière détaillée"))
-    add(("h3", "2.1  Produits et coûts par joueur"))
-    add(("p", "Pour piloter la marge, l'académie raisonne par joueur et par saison. Le tableau ci-dessous présente, pour chaque filière, la cotisation annuelle nette des impayés, les produits annexes (inscription, stages) et les coûts variables directement liés au joueur (pochette de bienvenue, encadrement et collation des stages). Les charges fixes de structure sont couvertes par la marge dégagée sur l'ensemble des joueurs."))
-    se_net = M.TARIF[1]["SE"] * 10 * (1 - M.TAUX_IMPAYES[1]); lo_net = M.TARIF[1]["LO"] * 10 * (1 - M.TAUX_IMPAYES[1])
-    stage_moy = M.PRIX_STAGE * 3 * 0.6; cout_stage_moy = M.COUT_STAGE_ENFANT * 3 * 0.6
-    add(t(["Poste par joueur et par saison (FCFA)", "Sport-Études", "Loisirs"], [
-        ["Cotisation mensuelle (tarif d'amorçage)", F(M.TARIF[1]["SE"]), F(M.TARIF[1]["LO"])],
-        ["Cotisations sur dix mois, nettes de 6 % d'impayés", F(se_net), F(lo_net)],
-        ["Frais d'inscription (une fois, année d'entrée)", F(M.FRAIS_INSCRIPTION), F(M.FRAIS_INSCRIPTION)],
-        ["Stages de vacances (3 par an, participation moyenne de 60 %)", F(stage_moy), F(stage_moy)],
-        ["PRODUITS PAR JOUEUR (année d'entrée)", F(se_net + M.FRAIS_INSCRIPTION + stage_moy), F(lo_net + M.FRAIS_INSCRIPTION + stage_moy)],
-        ["Pochette de bienvenue (maillot, ballon, sac)", F(-M.COUT_POCHETTE), F(-M.COUT_POCHETTE)],
-        ["Coûts directs des stages (encadrement vacataire, collation, eau)", F(-cout_stage_moy), F(-cout_stage_moy)],
-        ["CONTRIBUTION PAR JOUEUR AUX CHARGES FIXES", F(se_net + M.FRAIS_INSCRIPTION + stage_moy - M.COUT_POCHETTE - cout_stage_moy), F(lo_net + M.FRAIS_INSCRIPTION + stage_moy - M.COUT_POCHETTE - cout_stage_moy)],
-    ], larg=[58, 21, 21], totaux=[4, 7]))
-    add(("h3", "2.2  Projection des produits sur 3 ans"))
-    add(("p", f"La projection repose sur une montée en charge mesurée de l'effectif : {P1['eff'][0]} joueurs dès septembre de l'année 1, {P1['eff_max']} en fin de première saison, la capacité du terrain ({P2['eff_max']} joueurs) atteinte en année 2, puis {P3['eff_max']} joueurs en année 3 avec un second créneau. Les tarifs sont constants sur les deux premières saisons et augmentent de 10 % en année 3. Les partenariats d'entreprises ne sont comptés qu'à partir de l'année 2, et pour des montants modestes."))
-    add(t(["Indicateur", "Année 1", "Année 2", "Année 3", "Croissance A1 → A3"], [
-        ["Effectif moyen payant (septembre à juin)", str(P1["eff_moyen"]).replace(".", ","), str(P2["eff_moyen"]).replace(".", ","), str(P3["eff_moyen"]).replace(".", ","), f"× {P3['eff_moyen'] / P1['eff_moyen']:.1f}".replace(".", ",")],
-        ["Effectif en fin de saison", str(P1["eff_max"]), str(P2["eff_max"]), str(P3["eff_max"]), f"× {P3['eff_max'] / P1['eff_max']:.1f}".replace(".", ",")],
-        ["Nouveaux inscrits dans l'année", str(M.NOUVEAUX[1]), str(M.NOUVEAUX[2]), str(M.NOUVEAUX[3]), "—"],
-        ["Cotisations Sport-Études", F(P1["cot_se"]), F(P2["cot_se"]), F(P3["cot_se"]), f"+{100 * (P3['cot_se'] / P1['cot_se'] - 1):.0f} %"],
-        ["Cotisations Loisirs", F(P1["cot_lo"]), F(P2["cot_lo"]), F(P3["cot_lo"]), f"+{100 * (P3['cot_lo'] / P1['cot_lo'] - 1):.0f} %"],
-        ["Impayés estimés (6 %, 5 %, 4 %)", F(-P1["impayes"]), F(-P2["impayes"]), F(-P3["impayes"]), "—"],
-        ["Frais d'inscription", F(P1["inscriptions"]), F(P2["inscriptions"]), F(P3["inscriptions"]), "—"],
-        ["Stages de vacances", F(P1["stages"]), F(P2["stages"]), F(P3["stages"]), "—"],
-        ["Partenariats d'entreprises", F(P1["partenariats"]), F(P2["partenariats"]), F(P3["partenariats"]), "—"],
-        ["TOTAL DES PRODUITS ANNUELS (FCFA)", F(P1["total"]), F(P2["total"]), F(P3["total"]), f"× {P3['total'] / P1['total']:.1f}".replace(".", ",")],
-        ["Taux de croissance par rapport à l'année précédente", "—", f"+{100 * (P2['total'] / P1['total'] - 1):.0f} %", f"+{100 * (P3['total'] / P2['total'] - 1):.0f} %", "—"],
-    ], larg=[36, 15, 15, 15, 19], totaux=[9]))
-    add(("h3", "2.3  Compte de résultat prévisionnel sur 3 ans"))
-    add(("p", "Le compte de résultat consolide les éléments des sections précédentes : produits (section 2.2), coûts variables par joueur (section 2.1), charges d'exploitation (section 1.3) et dotations aux amortissements (section 1.4). Il fait apparaître la marge sur coûts variables, l'excédent brut d'exploitation, le résultat avant impôt, puis le résultat net après impôt sur les sociétés au taux gabonais standard de 30 %."))
-    add(("p", f"Lecture : la première saison est positive dès l'exploitation courante ({F(A1['ebe_courant'])} FCFA d'excédent brut avant charges de démarrage) et reste bénéficiaire après les charges de lancement et l'amortissement complet de la plateforme. Le levier opérationnel joue ensuite à plein : les charges fixes croissent beaucoup moins vite que l'effectif, et la marge nette passe de {pct(A1['net'], P1['total'])} en année 1 à {pct(A3['net'], P3['total'])} en année 3."))
-    rows = [
-        ["Cotisations nettes d'impayés", F(P1["cot_brut"] - P1["impayes"]), F(P2["cot_brut"] - P2["impayes"]), F(P3["cot_brut"] - P3["impayes"])],
-        ["Frais d'inscription, stages et partenariats", F(P1["inscriptions"] + P1["stages"] + P1["partenariats"]), F(P2["inscriptions"] + P2["stages"] + P2["partenariats"]), F(P3["inscriptions"] + P3["stages"] + P3["partenariats"])],
-        ["TOTAL DES PRODUITS", F(P1["total"]), F(P2["total"]), F(P3["total"])],
-        ["Pochettes de bienvenue des nouveaux joueurs", F(-A1["cv"]["pochettes"]), F(-A2["cv"]["pochettes"]), F(-A3["cv"]["pochettes"])],
-        ["Coûts directs des stages de vacances", F(-A1["cv"]["stages"]), F(-A2["cv"]["stages"]), F(-A3["cv"]["stages"])],
-        ["MARGE SUR COÛTS VARIABLES", F(A1["marge"]), F(A2["marge"]), F(A3["marge"])],
-        ["Taux de marge sur coûts variables", pct(A1["marge"], P1["total"]), pct(A2["marge"], P2["total"]), pct(A3["marge"], P3["total"])],
-    ]
-    for n, v in A1["charges"]:
-        rows.append([n, F(-v), F(-dict(A2["charges"])[n]), F(-dict(A3["charges"])[n])])
-    rows.append(["TOTAL CHARGES D'EXPLOITATION", F(-A1["total_charges"]), F(-A2["total_charges"]), F(-A3["total_charges"])])
-    rows.append(["Charges de démarrage non récurrentes (postes C, F, G des investissements)", F(-A1["demarrage"]), "0", "0"])
-    rows.append(["EXCÉDENT BRUT D'EXPLOITATION", F(A1["ebe"]), F(A2["ebe"]), F(A3["ebe"])])
-    rows.append(["Dotations aux amortissements (section 1.4)", F(-A1["dotation"]), F(-A2["dotation"]), F(-A3["dotation"])])
-    rows.append(["RÉSULTAT AVANT IMPÔT", F(A1["rai"]), F(A2["rai"]), F(A3["rai"])])
-    rows.append(["Impôt sur les sociétés (30 %)", F(-A1["impot"]), F(-A2["impot"]), F(-A3["impot"])])
-    rows.append(["RÉSULTAT NET DE L'EXERCICE", F(A1["net"]), F(A2["net"]), F(A3["net"])])
-    rows.append(["Marge nette (résultat net divisé par les produits)", pct(A1["net"], P1["total"]), pct(A2["net"], P2["total"]), pct(A3["net"], P3["total"])])
-    n = len(rows)
-    add(t(["Indicateur (FCFA)", "Année 1", "Année 2", "Année 3"], rows, larg=[52, 16, 16, 16], totaux=[2, 5, n - 8, n - 6, n - 4, n - 2]))
-    add(("h3", "2.4  Plan de trésorerie mensuel sur 12 mois"))
-    add(("p", f"Le plan de trésorerie de la première saison retrace mois par mois, de septembre à août, les encaissements et les décaissements de l'académie, à partir d'une trésorerie initiale égale à la réserve de {F(RESERVE)} FCFA (le capital en numéraire après les investissements et dépenses de démarrage). Les chiffres sont en milliers de FCFA."))
-    add(("p", "Les encaissements proviennent des cotisations mensuelles (nettes d'impayés), des frais d'inscription des nouveaux joueurs et des stages de vacances (Toussaint, Pâques, été). Les décaissements comprennent les charges d'exploitation courantes (salaires et charges sociales, loyer, répétiteur, médecin, consommables, transport, communication, plateforme, téléphonie, eau et électricité), l'assurance réglée par trimestre, les honoraires du comptable en fin d'exercice et les coûts variables (pochettes au-delà du stock initial, stages)."))
-    k = lambda v: F(round(v / 1000))
-    L = TR["lignes"]
-    add(t(["En k FCFA"] + [l["mois"] for l in L], [
-        ["Effectif payant"] + [str(l["effectif"]) if l["effectif"] else "—" for l in L],
-        ["Encaissements"] + [k(l["enc"]) for l in L],
-        ["Décaissements"] + [k(-l["dec"]) for l in L],
-        ["Flux net du mois"] + [k(l["flux"]) for l in L],
-        ["Trésorerie fin de mois"] + [k(l["solde"]) for l in L],
-    ], larg=[16] + [7] * 12, totaux=[4]))
-    add(("p", f"Lecture : la trésorerie part de {F(RESERVE)} FCFA, ne descend jamais sous {F(TR['min'])} FCFA et termine la saison à {F(TR['fin'])} FCFA. Les mois de juillet et d'août, sans cotisations, sont couverts par l'encaissement du stage d'été et par la trésorerie accumulée au printemps : c'est précisément le rôle de la réserve, et elle n'est jamais entamée. La discipline d'encaisser les cotisations en début de mois, avec l'échéancier et les relances de la plateforme, est la clé de cette régularité."))
-    add(("h3", "2.5  Seuil de rentabilité et marges"))
-    add(("p", "Le seuil de rentabilité est le nombre de joueurs, en moyenne sur la saison, à partir duquel l'académie couvre l'intégralité de ses charges fixes d'exploitation et de ses amortissements. Le calcul repose sur la contribution moyenne par joueur (cotisations nettes sur dix mois au mix Sport-Études / Loisirs de l'année, plus les produits annexes nets de leurs coûts) et sur les charges fixes de l'année, hors charges de démarrage non récurrentes."))
-    add(t(["Indicateur du seuil de rentabilité", "Année 1", "Année 2", "Calcul / explication"], [
-        ["Charges fixes annuelles (exploitation + amortissements)", F(SEUIL1["fixes"]), F(SEUIL2["fixes"]), "Total des charges d'exploitation de la section 1.3, dotations incluses"],
-        ["Cotisation mensuelle moyenne au mix de l'année", F(SEUIL1["tarif_moyen"]), F(SEUIL2["tarif_moyen"]), "36 % puis 40 % de Sport-Études"],
-        ["Contribution annuelle par joueur", F(SEUIL1["contrib"]), F(SEUIL2["contrib"]), "Cotisations nettes sur dix mois + inscription et stages nets de leurs coûts"],
-        ["Effectif moyen au point mort", f"{SEUIL1['joueurs']} joueurs", f"{SEUIL2['joueurs']} joueurs", "Charges fixes divisées par la contribution par joueur, arrondi au joueur supérieur"],
-        ["Effectif moyen prévu", f"{str(SEUIL1['eff_moyen']).replace('.', ',')} joueurs", f"{str(SEUIL2['eff_moyen']).replace('.', ',')} joueurs", "Moyenne de septembre à juin"],
-        ["Marge de sécurité", f"{str(SEUIL1['marge_securite']).replace('.', ',')} joueurs", f"{str(SEUIL2['marge_securite']).replace('.', ',')} joueurs", "Effectif prévu au-delà du point mort"],
-        ["Capacité du terrain", f"{M.CAPACITE[1]} joueurs", f"{M.CAPACITE[2]} joueurs", "Le point mort représente moins des deux tiers de la capacité"],
-    ], larg=[30, 15, 15, 40]))
-    SENS = M.sensibilite(1)
-    cash = lambda i: SENS[i]["rai"] + A1["dotation"]
-    add(("p", f"Le tableau de sensibilité ci-dessous mesure la résistance du modèle à une rentrée plus faible que prévu en année 1, toutes charges fixes et de démarrage maintenues. La perte comptable comprend {F(A1['dotation'])} FCFA d'amortissements sans décaissement : l'effet réel sur la trésorerie est donc plus faible. À 85 % de l'effectif prévu, le besoin de trésorerie de la saison ({F(-cash(1))} FCFA) est très largement couvert par la réserve de {F(RESERVE)} FCFA. À 70 %, il atteint {F(-cash(0))} FCFA, soit l'ordre de grandeur de la réserve : ce scénario déclenche le plan d'action décrit ci-dessous, qui ramène les charges au niveau de l'effectif réel."))
-    add(t(["Scénario (année 1)", "Effectif moyen", "Résultat avant impôt (FCFA)", "Lecture"], [
-        ["Rentrée difficile : 70 % de la prévision", str(SENS[0]["eff"]).replace(".", ","), F(SENS[0]["rai"]), f"Besoin de trésorerie d'environ {F(-cash(0))} FCFA sur la saison ; plan d'action : second éducateur à temps partiel jusqu'à 50 joueurs, seconde détection en janvier, report du stage de Pâques, pas de recrutement administratif"],
-        ["Rentrée prudente : 85 % de la prévision", str(SENS[1]["eff"]).replace(".", ","), F(SENS[1]["rai"]), f"Besoin de trésorerie d'environ {F(-cash(1))} FCFA, couvert par la réserve ; aucune mesure structurelle"],
-        ["Prévision du dossier : 100 %", str(SENS[2]["eff"]).replace(".", ","), F(SENS[2]["rai"]), "Scénario retenu dans le compte de résultat"],
-        ["Rentrée forte : 110 % de la prévision", str(SENS[3]["eff"]).replace(".", ","), F(SENS[3]["rai"]), "Capacité du terrain atteinte dès le printemps ; liste d'attente"],
-    ], larg=[30, 14, 20, 36], totaux=[2]))
-    add(("p", f"Synthèse : avec un effectif moyen de {str(P1['eff_moyen']).replace('.', ',')} joueurs en année 1, l'académie dépasse son point mort de {str(SEUIL1['marge_securite']).replace('.', ',')} joueurs, et le point mort reste nettement en dessous de la capacité du terrain. En cas de rentrée plus lente, chaque joueur manquant par rapport à la prévision coûte environ {F(SEUIL1['contrib'])} FCFA de contribution sur la saison : la réserve de trésorerie couvre un écart de huit joueurs sur toute la saison sans mettre l'académie en difficulté."))
-    add(("h3", "2.6  Bilan prévisionnel de fin d'année 1"))
-    add(("p", "Le bilan prévisionnel ci-dessous présente la situation patrimoniale de l'académie à la clôture de la première saison. À l'actif figurent les immobilisations nettes d'amortissement (équipement, aménagement, informatique, plateforme), la caution du terrain, les retards de cotisations encore recouvrables et la trésorerie ; au passif, le capital social, le résultat de l'exercice et les dettes à court terme (charges sociales du dernier mois, fournisseurs, impôt sur les sociétés)."))
-    actif_rows = [["ACTIF IMMOBILISÉ", ""]] + [[n, F(v)] for n, v in BIL["immo"]] + [["Caution du terrain (non amortissable)", F(BIL["caution"])], ["ACTIF CIRCULANT", ""], ["Créances sur les familles (retards recouvrables)", F(BIL["creances"])], ["Trésorerie disponible (banque et caisse)", F(BIL["tresor"])], ["TOTAL ACTIF", F(BIL["actif"])]]
-    passif_rows = [["CAPITAUX PROPRES", ""], ["Capital social", F(BIL["capital"])], ["Résultat net de l'exercice 1", F(BIL["resultat"])], ["Total des capitaux propres", F(BIL["capital"] + BIL["resultat"])], ["DETTES À COURT TERME", ""], ["Dettes sociales (charges du dernier mois)", F(BIL["dettes_sociales"])], ["Dettes fournisseurs", F(BIL["fournisseurs"])], ["Impôt sur les sociétés à payer", F(BIL["impot"])], ["Produits constatés d'avance et dettes diverses", F(BIL["ecart"])], ["TOTAL PASSIF", F(BIL["actif"])]]
-    n = max(len(actif_rows), len(passif_rows))
-    actif_rows += [["", ""]] * (n - len(actif_rows)); passif_rows += [["", ""]] * (n - len(passif_rows))
-    rows = [a + p for a, p in zip(actif_rows, passif_rows)]
-    sec = [i for i, r in enumerate(rows) if r[0] in ("ACTIF IMMOBILISÉ", "ACTIF CIRCULANT")]
-    add(t(["ACTIF", "Montant (FCFA)", "PASSIF", "Montant (FCFA)"], rows, larg=[34, 16, 34, 16], totaux=[n - 1], sections=sec))
-    add(("p", f"Note : le bilan est équilibré à {F(BIL['actif'])} FCFA. La plateforme numérique apportée en nature figure à l'actif pour sa valeur nette après une année d'amortissement. La trésorerie de clôture, {F(BIL['tresor'])} FCFA, est supérieure à la réserve de départ : la première saison a renforcé la structure financière de l'académie sans aucun endettement."))
+    B.extend(partie3.blocs())
 
     # ------------------------------------------------------------------ CONCLUSION
     add(("h1", "CONCLUSION"))
@@ -406,7 +264,7 @@ SOMMAIRE = [
     ("1.  Étude du marché de la formation footballistique des jeunes au Gabon", 1), ("1.1  Besoins et tendances du marché", 2), ("1.2  Acteurs institutionnels et privés", 2), ("1.3  Reconnaissance officielle et partenariats", 2), ("1.4  Mode de prospection et acquisition des familles", 2),
     ("2.  Analyse de la concurrence", 1), ("2.1  Structures concurrentes (directes et indirectes)", 2), ("2.2  Analyse SWOT et PESTEL", 2), ("2.3  Stratégie de différenciation", 2), ("2.4  Comparaison des prix et des modèles", 2),
     ("3.  Stratégie commerciale et marketing", 1), ("3.1  Segmentation", 2), ("3.2  Plan marketing mix (4P)", 2), ("3.3  Politique tarifaire", 2), ("3.4  Expérience des familles et fidélisation", 2),
-    ("III.  ANALYSE FINANCIÈRE", 0),
+    ("III.  ANALYSE FINANCIÈRE", 0), ("Hypothèses générales du modèle", 1),
     ("1.  Prévisions économiques et investissements", 1), ("1.1  Capital social et apports", 2), ("1.2  Investissements initiaux détaillés", 2), ("1.3  Prévision de dépenses annuelles sur 3 ans", 2), ("1.4  Plan d'amortissement", 2),
     ("2.  Analyse financière détaillée", 1), ("2.1  Produits et coûts par joueur", 2), ("2.2  Projection des produits sur 3 ans", 2), ("2.3  Compte de résultat prévisionnel sur 3 ans", 2), ("2.4  Plan de trésorerie mensuel sur 12 mois", 2), ("2.5  Seuil de rentabilité et marges", 2), ("2.6  Bilan prévisionnel de fin d'année 1", 2),
     ("CONCLUSION", 0), ("ANNEXES", 0),
