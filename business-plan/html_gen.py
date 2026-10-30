@@ -76,16 +76,16 @@ def page():
 html, body {{ margin: 0; padding: 0; }}
 body {{ font-family: "Manrope", Calibri, sans-serif; font-size: 10.5pt; line-height: 1.5; color: var(--nuit); }}
 .couv {{ position: relative; height: 257mm; margin: -20mm -18mm 0; padding: 22mm 20mm; background: #050807; color: var(--creme); overflow: hidden; page-break-after: always; }}
-.couv__halo {{ position: absolute; left: 50%; top: 36%; width: 122mm; height: 122mm; margin: -61mm 0 0 -61mm; border-radius: 50%; background: #050807; box-shadow: 0 0 0 1.5mm rgba(246,243,236,.9), 0 0 18mm 6mm rgba(214,190,110,.55), 0 0 60mm 20mm rgba(31,138,76,.35); }}
+.couv__halo {{ position: absolute; left: 50%; top: 40%; width: 150mm; height: 150mm; margin: -75mm 0 0 -75mm; border-radius: 50%; background: #050807; box-shadow: 0 0 0 1.5mm rgba(246,243,236,.9), 0 0 18mm 6mm rgba(214,190,110,.55), 0 0 60mm 20mm rgba(31,138,76,.35); }}
 .couv__halo::after {{ content: ""; position: absolute; inset: 0; border-radius: 50%; background: #050807; }}
 .couv__logos {{ position: relative; display: flex; justify-content: space-between; align-items: center; }}
 .couv__elite {{ width: 30mm; height: 30mm; border-radius: 50%; background: #fff; padding: 1mm; }}
 .couv__ecl {{ width: 44mm; background: #fff; padding: 2mm; border-radius: 2mm; }}
-.couv__sur {{ position: relative; margin: 26mm 0 4mm; font-family: "Sora", sans-serif; font-weight: 700; font-size: 10pt; letter-spacing: .3em; text-transform: uppercase; color: #d4af37; text-align: center; }}
+.couv__sur {{ position: relative; margin: 22mm 0 4mm; font-family: "Sora", sans-serif; font-weight: 700; font-size: 10pt; letter-spacing: .3em; text-transform: uppercase; color: #d4af37; text-align: center; }}
 .couv__titre {{ position: relative; margin: 0; font-family: "Sora", sans-serif; font-weight: 800; font-size: 44pt; letter-spacing: .14em; line-height: 1; text-align: center; color: #fff; }}
 .couv__titre span {{ display: block; font-size: 16pt; letter-spacing: .32em; font-weight: 600; color: rgba(246,243,236,.72); margin-top: 3mm; text-transform: uppercase; }}
 .couv__sous {{ position: relative; text-align: center; margin: 8mm 0 2mm; font-size: 11pt; color: rgba(246,243,236,.85); }}
-.couv__slogan {{ position: relative; text-align: center; margin: 0 0 36mm; font-family: "Sora", sans-serif; font-weight: 600; font-size: 13pt; color: #d4af37; }}
+.couv__slogan {{ position: relative; text-align: center; margin: 0 0 56mm; font-family: "Sora", sans-serif; font-weight: 600; font-size: 13pt; color: #d4af37; }}
 .couv__bloc {{ position: relative; display: grid; justify-items: center; gap: 1.2mm; text-align: center; }}
 .couv__bloc small {{ font-family: "Sora", sans-serif; font-size: 8pt; letter-spacing: .26em; text-transform: uppercase; color: rgba(246,243,236,.6); }}
 .couv__bloc b {{ font-family: "Sora", sans-serif; font-size: 16pt; font-weight: 700; color: #fff; margin-bottom: 2mm; }}
