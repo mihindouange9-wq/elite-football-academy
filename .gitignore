@@ -9,3 +9,7 @@ livrables/**/*.mp4
 video/.rendu/
 video/rendu*.log
 video/voix/
+livrables/*.pdf
+livrables/*.docx
+business-plan/_*
+business-plan/business-plan.html

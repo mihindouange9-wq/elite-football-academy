@@ -119,13 +119,24 @@ détections, réglages) sont importés dans la base.
   (voir RAPPORT-REFONTE.md). Les MP4 ne sont pas versionnés.
 
 -----------------------------------------------
-7) MISE EN LIGNE
+7) BUSINESS PLAN (dossier investisseurs)
+-----------------------------------------------
+  business-plan/modele.py ..... toutes les hypothèses financières
+  business-plan/contenu.py .... le texte et les tableaux (chiffres
+                                calculés par le modèle, jamais saisis)
+  python business-plan/docx_gen.py  → livrables/Elite_Football_BusinessPlan_v1.docx
+  python business-plan/html_gen.py puis node business-plan/pdf.mjs
+                                    → livrables/Elite_Football_BusinessPlan_v1.pdf
+  (lancer depuis le dossier business-plan/)
+
+-----------------------------------------------
+8) MISE EN LIGNE
 -----------------------------------------------
 Voir DEPLOIEMENT-RENDER.txt (service, mot de passe, et surtout le
 disque persistant sans lequel la base est effacée par Render).
 
 -----------------------------------------------
-8) STRUCTURE
+9) STRUCTURE
 -----------------------------------------------
   server.js ............ serveur HTTP + API (Node natif)
   lib/db.js ............ schéma SQLite, reprise v1, export/import
