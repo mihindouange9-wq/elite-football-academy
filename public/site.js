@@ -247,7 +247,7 @@
     document.querySelectorAll(".rev-lignes").forEach((t) => gsap.fromTo(t.querySelectorAll(".ligne > span"), { yPercent: 110 }, { yPercent: 0, duration: 1.1, ease: "expo.out", stagger: .09, scrollTrigger: { trigger: t, start: "top 85%", once: true } }));
     gsap.fromTo(".pied__grand .ligne > span", { yPercent: 110 }, { yPercent: 0, duration: 1.2, ease: "expo.out", stagger: .1, scrollTrigger: { trigger: ".pied__grand", start: "top 88%", once: true } });
     revelations();
-    document.querySelectorAll(".masque--portrait, .masque--large").forEach((m) => {
+    document.querySelectorAll(".masque--portrait, .masque--paysage, .masque--large").forEach((m) => {
       gsap.fromTo(m, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.4, ease: "expo.inOut", scrollTrigger: { trigger: m, start: "top 80%", once: true } });
       gsap.fromTo(m.querySelector("img"), { scale: 1.18, yPercent: -4 }, { scale: 1.02, yPercent: 4, ease: "none", scrollTrigger: { trigger: m, start: "top bottom", end: "bottom top", scrub: .8 } });
     });

@@ -89,7 +89,7 @@ main, .pied { position: relative; z-index: 2; }
 .ecran.courant .ecran__cadre img { transform: scale(1); }
 .ecran__titre { position: relative; z-index: 2; font-family: var(--titre); font-weight: 800; font-size: clamp(2rem, 1.4rem + 3.4vw, 5rem); letter-spacing: -.03em; line-height: .98; text-align: center; color: #fff; text-shadow: 0 2px 40px rgba(0, 0, 0, .6); text-wrap: balance; }
 .ecran--graphique .ecran__cadre { display: grid; place-items: center; padding-bottom: 34%; background: radial-gradient(90% 90% at 50% 40%, var(--noir-3), var(--noir-2)); }
-.ecran__cadre--radar .pentagone { height: min(21vw, 19rem); width: auto; opacity: .92; }
+.ecran__cadre--radar .pentagone { height: min(21vw, 19rem); width: auto; max-width: 92%; overflow: visible; opacity: .92; }
 .pentagone__niveaux polygon { fill: none; stroke: rgba(246, 243, 236, .16); stroke-width: 1; }
 .pentagone__axes line { stroke: rgba(246, 243, 236, .16); stroke-width: 1; }
 .pentagone__trace { fill: rgba(212, 175, 55, .16); stroke: var(--or); stroke-width: 3; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
@@ -130,6 +130,7 @@ main, .pied { position: relative; z-index: 2; }
 .masque { position: relative; overflow: hidden; border-radius: 6px; clip-path: inset(0 0 0 0); background: var(--noir-3); }
 .masque img { width: 100%; height: 100%; object-fit: cover; will-change: transform; }
 .masque--portrait { aspect-ratio: 4 / 5; }
+.masque--paysage { aspect-ratio: 3 / 2; }
 .masque--large { aspect-ratio: 16 / 11; }
 
 /* académie */
