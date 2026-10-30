@@ -279,6 +279,11 @@ main, .pied { position: relative; z-index: 2; }
 .pied__col p { display: flex; align-items: center; gap: .5rem; font-size: var(--t-sm); margin-bottom: .55rem; color: rgba(246, 243, 236, .66); }
 .pied__col a { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.2rem; color: var(--creme); }
 .pied__col a:hover { color: var(--or); }
+.pied__partenaire { display: grid; justify-items: center; gap: 1rem; padding: 2.4rem 0 1.6rem; border-bottom: 1px solid var(--voile); text-align: center; }
+.pied__partenaire-libelle { font-family: "Sora", sans-serif; font-weight: 700; font-size: var(--t-xs); letter-spacing: .2em; text-transform: uppercase; color: var(--or); }
+.pied__partenaire img { width: min(60vw, 15rem); height: auto; opacity: .92; transition: opacity .4s var(--ease), transform .5s var(--ease); }
+.pied__partenaire a:hover img { opacity: 1; transform: translateY(-2px); }
+.pied__partenaire-note { font-size: var(--t-sm); color: rgba(246, 243, 236, .6); }
 .pied__bas { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .8rem 1.5rem; padding: 1.4rem 0 2rem; font-size: var(--t-xs); color: rgba(246, 243, 236, .5); }
 .pied__bas nav { display: flex; gap: 1.2rem; }
 .pied__bas a { text-decoration: underline; text-underline-offset: .2em; }
