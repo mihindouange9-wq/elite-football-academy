@@ -85,7 +85,7 @@ body {{ font-family: "Manrope", Calibri, sans-serif; font-size: 10.5pt; line-hei
 .couv__titre {{ position: relative; margin: 0; font-family: "Sora", sans-serif; font-weight: 800; font-size: 44pt; letter-spacing: .14em; line-height: 1; text-align: center; color: #fff; }}
 .couv__titre span {{ display: block; font-size: 16pt; letter-spacing: .32em; font-weight: 600; color: rgba(246,243,236,.72); margin-top: 3mm; text-transform: uppercase; }}
 .couv__sous {{ position: relative; text-align: center; margin: 8mm 0 2mm; font-size: 11pt; color: rgba(246,243,236,.85); }}
-.couv__slogan {{ position: relative; text-align: center; margin: 0 0 56mm; font-family: "Sora", sans-serif; font-weight: 600; font-size: 13pt; color: #d4af37; }}
+.couv__slogan {{ position: relative; text-align: center; margin: 0 0 49mm; font-family: "Sora", sans-serif; font-weight: 600; font-size: 13pt; color: #d4af37; }}
 .couv__bloc {{ position: relative; display: grid; justify-items: center; gap: 1.2mm; text-align: center; }}
 .couv__bloc small {{ font-family: "Sora", sans-serif; font-size: 8pt; letter-spacing: .26em; text-transform: uppercase; color: rgba(246,243,236,.6); }}
 .couv__bloc b {{ font-family: "Sora", sans-serif; font-size: 16pt; font-weight: 700; color: #fff; margin-bottom: 2mm; }}
