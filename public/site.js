@@ -249,7 +249,7 @@
     revelations();
     document.querySelectorAll(".masque--portrait, .masque--paysage, .masque--large").forEach((m) => {
       gsap.fromTo(m, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.4, ease: "expo.inOut", scrollTrigger: { trigger: m, start: "top 80%", once: true } });
-      gsap.fromTo(m.querySelector("img"), { scale: 1.18, yPercent: -4 }, { scale: 1.02, yPercent: 4, ease: "none", scrollTrigger: { trigger: m, start: "top bottom", end: "bottom top", scrub: .8 } });
+      gsap.fromTo(m.querySelector("img"), { scale: 1.07, yPercent: -2 }, { scale: 1, yPercent: 2, ease: "none", scrollTrigger: { trigger: m, start: "top bottom", end: "bottom top", scrub: .8 } });
     });
     gsap.to(".pentagone__trace", { strokeDashoffset: 0, duration: 1.8, ease: "power2.inOut", scrollTrigger: { trigger: ".galerie-wrap", start: "top 60%", once: true } });
     gsap.to(".pentagone__points circle", { opacity: 1, duration: .4, stagger: .12, delay: 1.2, scrollTrigger: { trigger: ".galerie-wrap", start: "top 60%", once: true } });
