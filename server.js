@@ -39,7 +39,7 @@ function serveStatic(req, res) {
   const fp = path.join(PUBLIC_DIR, path.normalize(u).replace(/^([/\\])+/, ""));
   if (!fp.startsWith(PUBLIC_DIR)) { res.writeHead(403, SECURITY); return res.end("Forbidden"); }
   fs.readFile(fp, (e, c) => {
-    if (e) { res.writeHead(404, { "Content-Type": "text/html; charset=utf-8", ...SECURITY }); return res.end(`<!doctype html><meta charset="utf-8"><title>Page introuvable</title><body style="font-family:sans-serif;padding:3rem"><h1>Page introuvable</h1><p><a href="/">Retour à l'accueil</a></p>`); }
+    if (e) { res.writeHead(404, { "Content-Type": "text/html; charset=utf-8", ...SECURITY }); return res.end(`<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Page introuvable — Elite Football Academy</title><meta name="robots" content="noindex"><link rel="icon" href="/assets/logo_elite.png"><link rel="stylesheet" href="/design.css"><link rel="stylesheet" href="/espaces.css"></head><body><main class="page-texte"><h1 class="titre titre--md">Page introuvable</h1><p class="corps">Cette adresse ne correspond à aucune page du site.</p><p><a href="/" class="btn btn--sm">Retour à l'accueil</a></p></main></body></html>`); }
     const ext = path.extname(fp).toLowerCase();
     const cache = /\.(woff2|png|jpg|jpeg|webp|svg|ico)$/.test(ext) || fp.includes(`${path.sep}vendor${path.sep}`) ? "public, max-age=604800" : "no-cache";
     res.writeHead(200, { "Content-Type": MIME[ext] || "application/octet-stream", "Cache-Control": cache, ...SECURITY }); res.end(c);

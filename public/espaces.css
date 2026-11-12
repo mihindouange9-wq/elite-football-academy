@@ -164,7 +164,7 @@ span.actions { display: inline-flex; align-items: center; gap: .4rem; }
 .formulaire__statut { min-height: 1.4rem; font-size: var(--t-sm); font-weight: 700; }
 .formulaire__statut.erreur { color: var(--erreur); }
 .page-texte { width: min(100% - 2 * var(--gouttiere), 46rem); margin: 0 auto; padding: 5rem 0 4rem; display: grid; gap: 1rem; position: relative; }
-.page-texte .connexion__retour { color: var(--vert); }
+.page-texte .connexion__retour { color: var(--vert); left: 0; }
 .page-texte h2 { margin-top: 1.2rem; }
 .page-texte .corps { max-width: none; }
 

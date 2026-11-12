@@ -227,7 +227,12 @@
     });
     /* galerie : défilement vertical converti en voyage horizontal entre les écrans */
     /* arrivée des écrans : la piste monte depuis les dunes pendant que la galerie entre */
-    ScrollTrigger.create({ trigger: ".galerie-wrap", start: "top bottom", end: "top top", scrub: true, onUpdate: (st) => { if (!large()) return; const p = st.progress; gsap.set(".galerie__piste", { y: (1 - p) * window.innerHeight * .42, autoAlpha: gsap.utils.clamp(0, 1, (p - .3) / .5) }); gsap.set(".galerie__ui, .galerie__points", { autoAlpha: gsap.utils.clamp(0, 1, (p - .7) / .3) }); } });
+    ScrollTrigger.create({ trigger: ".galerie-wrap", start: "top bottom", end: "top top", scrub: true, onUpdate: (st) => { if (!large()) return; const p = st.progress; gsap.set(".galerie__piste", { y: (1 - p) * window.innerHeight * .42, autoAlpha: gsap.utils.clamp(0, 1, (p - .3) / .5) }); gsap.set(".galerie__points", { autoAlpha: gsap.utils.clamp(0, 1, (p - .7) / .3) }); } });
+    /* Précédent / Explorer / Suivant : sortis de la galerie et posés en calque fixe, sinon la toile des dunes (devant le contenu) les recouvre */
+    const galWrap = document.querySelector(".galerie-wrap"), galUi = document.querySelector(".galerie__ui");
+    document.body.appendChild(galUi); galUi.classList.add("galerie__ui--fixe");
+    const majGalUi = () => { const r = galWrap.getBoundingClientRect(), vh = window.innerHeight; const entree = gsap.utils.clamp(0, 1, ((vh - r.top) / vh - .7) / .3), sortie = gsap.utils.clamp(0, 1, (vh - r.bottom) / (vh * .2)); gsap.set(galUi, { autoAlpha: large() ? entree * (1 - sortie) : 0 }); };
+    ScrollTrigger.create({ trigger: galWrap, start: "top bottom", end: "bottom 75%", onUpdate: majGalUi, onRefresh: majGalUi, onLeave: majGalUi, onLeaveBack: majGalUi });
     const trigGalerie = ScrollTrigger.create({
       trigger: ".galerie-wrap", start: "top top", end: "bottom bottom", scrub: true,
       snap: large() ? { snapTo: 1 / (ecrans.length - 1), duration: { min: .25, max: .7 }, delay: .08, ease: "power2.inOut", directional: false } : false,
@@ -264,8 +269,9 @@
     if (scene) scene.set({ open: 0, pulse: 0 });
     introTexte.style.position = "static"; introTexte.style.transform = "none"; introTexte.style.opacity = "1"; introTexte.style.marginTop = "1.5rem";
     document.querySelector(".intro").style.gridTemplateRows = "auto auto";
-    if (large()) { placerEcrans(0); majGalerie(0); if (dunes) { dunes.set({ alpha: 1, actif: true }); dunes.canvas.style.opacity = "1"; } }
-    document.querySelector(".galerie-wrap").style.height = "auto"; document.querySelector(".galerie").style.position = "static";
+    if (large()) { placerEcrans(0); majGalerie(0); }
+    document.querySelector(".intro-wrap").style.height = "auto";
+    document.querySelector(".galerie-wrap").style.height = "auto"; document.querySelector(".galerie-wrap").style.marginTop = "0"; document.querySelector(".galerie").style.position = "static";
   }
   charger();
   /* le site reflète les modifications faites dans l'espace direction : relecture périodique et au retour sur l'onglet */

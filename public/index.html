@@ -15,7 +15,7 @@
 <link rel="preload" as="font" type="font/woff2" href="/fonts/sora-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope-latin-wght-normal.woff2" crossorigin>
 <link rel="stylesheet" href="/design.css">
-<link rel="stylesheet" href="/site.css?v=5">
+<link rel="stylesheet" href="/site.css?v=6">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SportsOrganization","name":"Elite Football Academy","sport":"Football","address":{"@type":"PostalAddress","addressLocality":"Akanda","addressRegion":"Libreville","addressCountry":"GA"},"url":"/"}</script>
 </head>
 <body class="site">
@@ -49,7 +49,7 @@
     </div>
   </div>
 </header>
-<div class="menu" id="menuMobile" aria-hidden="true">
+<div class="menu" id="menuMobile" aria-hidden="true" data-lenis-prevent>
   <div class="menu__tete"><span class="marque"><img src="/assets/logo_elite.png" alt="" width="40" height="40"><span class="marque__mot">ELITE</span></span><button class="menu__fermer" id="menuFermer" aria-label="Fermer le menu"><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-fermer"/></svg></button></div>
   <nav class="menu__liens" aria-label="Menu mobile">
     <a href="#academie">L'académie</a><a href="#axes">Les 5 axes</a><a href="#parcours">Parcours</a><a href="#sport-etudes">Sport-Études</a><a href="#detection">Détection</a><a href="#equipe">Équipe</a><a href="#inscription">Inscription</a><a href="#contact">Contact</a>
@@ -252,7 +252,7 @@
       <h2 id="inscription-titre" class="titre titre--lg rev-lignes"><span class="ligne"><span>Inscrivez</span></span><span class="ligne"><span>votre enfant.</span></span></h2>
       <p class="chapeau rev">Remplissez ce formulaire : l'académie vous recontacte pour la journée de détection et la visite du terrain. L'inscription n'est définitive qu'après la détection et la visite médicale d'aptitude.</p>
       <ul class="inscription__points rev">
-        <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-groupe"/></svg>Garçons et filles <span data-ages>de 8 à 18 ans</span></li>
+        <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-groupe"/></svg><span>Garçons et filles <span data-ages>de 8 à 18 ans</span></span></li>
         <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-lieu"/></svg><span id="lieuTexte">Terrain à Akanda, proche du stade de l'Amitié</span></li>
         <li><svg class="ico" aria-hidden="true"><use href="/icons.svg#i-whatsapp"/></svg><a id="waInsc" href="#" target="_blank" rel="noopener">Une question ? Écrivez-nous sur WhatsApp</a></li>
       </ul>
@@ -343,6 +343,6 @@
 <script src="/ui.js" defer></script>
 <script src="/scene.js?v=3" defer></script>
 <script src="/dunes.js?v=3" defer></script>
-<script src="/site.js?v=5" defer></script>
+<script src="/site.js?v=6" defer></script>
 </body>
 </html>
